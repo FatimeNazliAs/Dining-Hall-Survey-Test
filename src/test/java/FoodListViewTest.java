@@ -17,11 +17,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class FoodListViewTest {
 
 
-    void downloadFileToLaptop(File file) {
-        if (file.exists()) {
-            System.out.println("File is downloaded");
-        }}
-
 
     @Nested
     @TestInstance(TestInstance.Lifecycle.PER_CLASS)
@@ -35,6 +30,7 @@ public class FoodListViewTest {
 
         @BeforeAll
         void setUp() {
+
             this.desktopPath = System.getProperty("user.home") + "\\Desktop\\";
         }
 
@@ -60,7 +56,7 @@ public class FoodListViewTest {
 
             this.excelFilePath = desktopPath + "sample.xlsx";
             this.file = new File(excelFilePath);
-            downloadFileToLaptop(file);
+            assertTrue(this.file.exists());
 
 
 //            FileInputStream stream = new FileInputStream(this.file);
@@ -150,24 +146,30 @@ public class FoodListViewTest {
     }
 
 
-
-
     @Nested
+    @TestInstance(TestInstance.Lifecycle.PER_CLASS)
     class ExportExcelFile {
+
+        private String desktopPath;
 
 
         Map<String, SortMeta> sortMap;
         Map<String, FilterMeta> filterMetaMap;
 
+        @BeforeAll
+        void setUp() {
+
+            this.desktopPath = System.getProperty("user.home") + "\\Desktop\\";
+        }
+
         @Test
         void whenPushDisariAktarButtonYemeklerTemplateWillBeExported() {
 
-            List<FoodVW> list = new ArrayList<>();
-
-            list = new LazyService().
+            List<FoodVW>  list = new LazyService().
                     FilterOperation
                             (null, new FoodVW(), 0,
-                                    1000, sortMap, filterMetaMap, "");
+                                    1000, sortMap, filterMetaMap,
+                                    "");
 
             List<FoodTemplate> exportList = new ArrayList<>();
 
@@ -184,10 +186,18 @@ public class FoodListViewTest {
             if (exportList.size() == 0) {
                 exportList.add(new FoodTemplate());
             }
-            System.out.println(exportList.size());
-            for (var ex : exportList) {
-                System.out.println(ex);
+
+            try {
+                int resultTest = new ExcelFood().export(exportList);
+
+            } catch (Exception e) {
+
             }
+            String excelFilePath = this.desktopPath + "sample.xlsx";
+            File file = new File(excelFilePath);
+            System.out.println(file);
+            assertTrue(file.exists());
+            assertTrue(file.length()>=0);
 
 
         }

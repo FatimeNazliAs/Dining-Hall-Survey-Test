@@ -1,0 +1,105 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/admin_template.xhtml">
+
+    <ui:define name="title">Paket Dil Listesi</ui:define>
+
+    <ui:define name="content">
+    <h:form id="form">
+        <p:growl id="msgs" showDetail="true"/>
+        <div class="card">
+            <p:commandButton update=":dialogs:manage-package-content"
+                             process="@this" action="#{languageItemView.openNew()}" oncomplete="PF('newPackageDialog').show()" value="addNewPackageLanguage"/>
+
+            <p:dataTable
+                    paginator="true" rows="20" id="languageDW" widgetVar="languageDW"
+                    paginatorPosition="both" editable="true"
+                    paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown} {Exporters}"
+                    lazy="true"
+                    var="language" value="#{languageItemView.items}">
+                <p:column   filterBy="#{language.itemId}" filterMatchMode="contains"  headerText="Paket Id">
+                    <h:outputText value="#{language.itemId}" />
+                </p:column>
+                <p:column headerText="Dil Numarası">
+                    <h:outputText value="#{languageItemView.mapValueToKey(languageItemView.languageList,language.languageId)}" />
+                </p:column>
+
+                <p:column   filterBy="#{language.propertyName}" filterMatchMode="contains"  headerText="Özel Erişim Adı">
+                    <h:outputText value="#{language.propertyName}" />
+                </p:column>
+
+                <p:column  filterBy="#{language.propertyValue}" filterMatchMode="contains"  headerText="Değer">
+                    <h:outputText value="#{language.propertyValue}" />
+                </p:column>
+<p:column headerText="#">
+    <p:commandButton icon="pi pi-pencil" update=":dialogs:manage-package-content"
+                     oncomplete="PF('newPackageDialog').show()"
+                     styleClass="edit-button rounded-button ui-button-success" process="@this">
+        <f:setPropertyActionListener value="#{language}" target="#{languageItemView.languageItem}" />
+        <p:resetInput target=":dialogs:manage-package-content" />
+    </p:commandButton>
+</p:column>
+
+            </p:dataTable>
+
+
+        </div>
+    </h:form>
+    <h:form id="dialogs">
+        <p:dialog header="New String" showEffect="fade" modal="true" widgetVar="newPackageDialog"
+                  responsive="true">
+            <p:outputPanel id="manage-package-content" class="ui-fluid">
+                <p:outputPanel>
+                    <div class="field">
+                        <p:selectOneMenu id="languages" value="#{languageItemView.languageItem.languageId}" style="width:150px">
+                            <p:ajax listener="#{languageItemView.onLanguageChange}" update="manage-package-content"/>
+                            <f:selectItem itemLabel="Select Language" itemValue="" noSelectionOption="true"/>
+                            <f:selectItems value="#{languageItemView.languageList}"/>
+                        </p:selectOneMenu>
+
+                    </div>
+                    <div class="field">
+                        <p:selectOneMenu id="packageId" value="#{languageItemView.languageItem.itemId}" style="width:150px">
+                            <p:ajax listener="#{languageItemView.onLanguageChange()}" update="manage-package-content"/>
+                            <f:selectItem itemLabel="Select Package" itemValue="" noSelectionOption="true"/>
+                            <f:selectItems value="#{languageItemView.packageMap}"/>
+                        </p:selectOneMenu>
+
+                    </div>
+                    <div class="field">
+                        <p:selectOneMenu id="itemS" value="#{languageItemView.languageItem.propertyName}" style="width:150px">
+                            <p:ajax listener="#{languageItemView.onLanguageChange()}" update="manage-package-content"/>
+                            <f:selectItem itemLabel="Select Item" itemValue="" noSelectionOption="true"/>
+                            <f:selectItems value="#{languageItemView.itemMap}"/>
+                        </p:selectOneMenu>
+
+                    </div>
+                    <div class="formgrid grid">
+                        <ui:remove>
+                            <div class="field col">
+                                <p:outputLabel for="price">#{languageItemView.languageItem.propertyName}</p:outputLabel>
+                                <p:inputText id="price" value="#"/>
+                            </div>
+                        </ui:remove>
+                        <div class="field col">
+                            <p:outputLabel for="quantity">Dil Çevirisi</p:outputLabel>
+                            <p:inputText id="quantity" value="#{languageItemView.languageItem.propertyValue}"/>
+                        </div>
+                    </div>
+
+
+                </p:outputPanel></p:outputPanel>
+            <f:facet name="footer">
+                <p:commandButton value="Save" icon="pi pi-check" action="#{languageItemView.SavePackageLanguage()}"
+                                 update="manage-package-content form" process="manage-package-content @this"/>
+                <p:commandButton value="Cancel" icon="pi pi-times" onclick="PF('newPackageDialog').hide()"
+                                 class="ui-button-secondary" type="button"/>
+            </f:facet></p:dialog>
+    </h:form>
+
+    </ui:define>
+
+</ui:composition>

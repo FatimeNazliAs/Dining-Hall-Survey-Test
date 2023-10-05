@@ -1,0 +1,181 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:c="http://java.sun.com/jsp/jstl/core"
+                template="/WEB-INF/admin_template.xhtml">
+
+    <ui:define name="title">Günlük Yemek Listesi</ui:define>
+    <ui:define name="content">
+    <div class="card">
+        <h:form >
+            <p:toolbar>
+
+                <p:toolbarGroup align="left">
+
+
+
+
+
+
+
+                    <p:commandButton value="Dışa Aktar"  style="margin-left: .5rem" type="submit" ajax="false" onclick="form.target='_blank'"
+                                     action="#{scheduleJava8View.export}"></p:commandButton>
+
+                </p:toolbarGroup>
+                <p:toolbarGroup align="right">
+
+                    <p:fileUpload id="te" listener="#{scheduleJava8View.handleFileUpload}"
+                                  dragDropSupport="true"
+                                  ode="simple" skinSimple="true" label="İçeri Aktar"
+                                  chooseIcon="pi pi-download" class="info-button"
+                                  update="formSchedule:messages" sizeLimit="1000000" allowTypes="/(\.|\/)(xlsx)$/"/>
+
+                    <p:outputPanel style="white-space: pre-wrap; word-wrap: break-word;" styleClass="mb-3;wr">
+                        <p:autoUpdate />
+
+                        <p:outputLabel style="color: orange">
+                            #{scheduleJava8View.outputs.outputUpdate}
+                        </p:outputLabel>
+                        <p:outputLabel style="color: dodgerblue">
+                            #{scheduleJava8View.outputs.outputAdd}
+                        </p:outputLabel>
+                    </p:outputPanel>
+
+                </p:toolbarGroup>
+
+            </p:toolbar>
+        </h:form>
+        <h:form id="formSchedule">
+            <p:growl id="messages" showDetail="true"/>
+
+
+            <p:schedule locale="tr" id="schedule" value="#{scheduleJava8View.eventModel}" widgetVar="myschedule"
+                        timeZone="#{scheduleJava8View.serverTimeZone}"
+                        clientTimeZone="#{scheduleJava8View.serverTimeZone}">
+                <p:ajax event="dateSelect" listener="#{scheduleJava8View.onDateSelect}" update="eventDetails"
+                        oncomplete="PF('eventDialog').show();"/>
+                <p:ajax event="eventSelect" listener="#{scheduleJava8View.onEventSelect}" update="eventDetails"
+                        oncomplete="PF('eventDialog').show();"/>
+                <p:ajax event="eventMove" listener="#{scheduleJava8View.onEventMove}" update="messages"/>
+                <p:ajax event="eventResize" listener="#{scheduleJava8View.onEventResize}" update="messages"/>
+            </p:schedule>
+
+            <p:dialog widgetVar="eventDialog" header="Event Details" id="aaa" showEffect="fade" hideEffect="fade">
+                <h:panelGrid id="eventDetails" columns="2" cellpadding="7">
+                    <p:outputLabel value="Öğün Tipi"/>
+
+                    <p:selectOneButton value="#{scheduleJava8View.autoComplate.categoryId}" required="true"
+                                       requiredMessage="zorunlu ">
+                        <f:selectItems value="#{scheduleJava8View.autoComplate.categoryList}" var="opt"
+                                       itemLabel="#{opt.categoryName}" itemValue="#{opt.categoryId}"/>
+
+                    </p:selectOneButton>
+                    <h:outputStylesheet>
+                        .itemstyleS {
+                            background: #e3f2fd;
+                            color: #495057;
+                        }
+
+                        .ui-autocomplete-itemtip {
+                            background: #e3f2fd;
+                            color: #495057;
+                        }
+                    </h:outputStylesheet>
+                    <c:forEach items="#{scheduleJava8View.autoComplate.optionMenuList}" var="item">
+
+                        <p:selectOneMenu id="#{item.UIkey}_option" value="#{item.dofmType}"
+                                         valueChangeListener="#{scheduleJava8View.autoComplate.changeOption(item)}">
+                            <p:ajax listener="#{scheduleJava8View.autoComplate.changeOption(item)}"
+                                    update="formSchedule:#{item.UIkey}"/>
+
+                            <f:selectItem itemLabel="Tür Seç" itemValue="-1"/>
+                            <f:selectItems value="#{item.typeList}"/>
+
+                            <f:facet name="footer">
+                                <p:divider styleClass="mt-0"/>
+                                <h:outputText value="#{item.typeList.size()} Tür" style="font-weight:bold;"/>
+                            </f:facet>
+                        </p:selectOneMenu>
+
+
+                        <p:autoComplete id="#{item.UIkey}" value="#{item.selectedFood}" dropdown="true"
+                                        completeMethod="#{scheduleJava8View.autoComplate.complateAutoDOMW}"
+                                        var="dayof" itemLabel="#{dayof.title}" itemValue="#{dayof}"
+                                        converter="genericConverter" scrollHeight="250">
+                            <f:attribute value="#{item}" name="#{item.UIkey}"/>
+
+                            <f:facet name="itemtip">
+                                <h:panelGrid columns="2" cellpadding="5">
+                                    <f:facet name="header">
+                                        <span class="flag flag-#{dayof.title}" style="width: 70px; height: 30px"/>
+                                    </f:facet>
+
+                                    <h:outputText value="Başlık"/>
+                                    <h:outputText value="#{dayof.title}"/>
+
+
+                                    <h:outputText value="Kalori"/>
+                                    <h:outputText value="#{dayof.calori}"/>
+
+
+                                    <h:commandButton styleClass="ui-button" value="X"
+                                                     onclick="removeComp('#{item.UIkey}')"/>
+
+
+                                </h:panelGrid>
+
+                            </f:facet>
+                        </p:autoComplete>
+
+                    </c:forEach>
+                    <div></div>
+                    <p:commandButton style="float: right" value="Yeni"
+                                     action="#{scheduleJava8View.autoComplate.getNewA}"
+                                     update="formSchedule:eventDetails"
+                                     styleClass="font-bold ui-button-outlined"/>
+
+
+                </h:panelGrid>
+
+                <div class="flex justify-content-between mt-3">
+
+                    <p:commandButton value="Reset" action="#{scheduleJava8View.autoComplate.action}"
+                                     styleClass="font-bold ui-button-outlined"/>
+                    <p:commandButton id="addButton" value="Save" action="#{scheduleJava8View.addEvent}"
+                                     oncomplete="PF('myschedule').update();PF('eventDialog').hide();"/>
+                    <p:commandButton id="cancelButton" value="Cancel" oncomplete="PF('eventDialog').hide();"
+                                     update="formSchedule"/>
+                </div>
+
+            </p:dialog>
+
+        </h:form>
+    </div>
+
+    <script>
+        function removeComp(index) {
+            var elements = document.querySelectorAll('#formSchedule\\:' + index + '_itemtip'); // id seçici ile aynı id'ye sahip tüm elementleri seçin
+            var find = false;
+            for (var i = 0; elements.length > i; i++) {
+                if (!find) {
+                    find = true;
+
+                    continue;
+                }
+                elements[i].remove(); // her elementi silin
+            }
+            // alert(index+"");
+            //   document.getElementById("formSchedule:itemTip"+index+"_itemtip").remove();
+            document.getElementById("formSchedule:" + index + "_itemtip").style.display = "none";
+        }
+
+        setTimeout(() => {
+                document.getElementById("formSchedule:itemTip2_itemtip").remove();
+            }
+            , 1000);
+    </script>
+
+    </ui:define>
+</ui:composition>

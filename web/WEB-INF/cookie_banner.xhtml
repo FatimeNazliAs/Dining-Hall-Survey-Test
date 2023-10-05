@@ -1,0 +1,21 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.org/ui">
+
+
+    <!-- COOKIE BANNER -->
+    <!-- component -->
+    <div class="fixed bottom-4 right-1 lg:right-4 p-4 bg-white border-t-4 shadow-lg">
+        <h2 class="text-lg lg:text-xl mb-4 block font-bold leading-tight text-gray-600">#{d1.getTextDb("cookie.cookiepolicy")}</h2>
+        <div class="lg:flex lg:space-x-5">
+            <p class="mb-5 font-medium text-gray-600">
+                #{d1.getTextDb("cookie.cookiepolicydesc")}
+            </p>
+            <a href="#{request.contextPath}/privacy-policy"
+               class="lg:w-48 px-3 py-1 btn bg-purple-500 rounded text-gray-700 mr-2 mb-5 uppercase tracking-widest text-xs font-bold">
+                #{d1.getTextDb("cookie.iagree")}
+            </a>
+        </div>
+    </div>
+
+</ui:composition>

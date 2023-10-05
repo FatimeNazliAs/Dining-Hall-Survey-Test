@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:f="http://java.sun.com/jsf/core">
+
+
+<h:head>
+
+    <title>#{d1.getTextDb('user.notifications')} - YEMEKHANE</title>
+
+    <meta charset="utf-8"/>
+    <meta http-equiv="content-language" content="tr"/>
+    <meta property="title" content="YEMEKHANE | Home"/>
+    <meta name="Description"
+          content="YEMEKHANE Home Page"/>
+    <meta name="keywords"
+          content="YEMEKHANE Ana Sayfası,Ana Sayfa,YEMEKHANE,Ürün Kategorileri"/>
+    <meta name="robots" content="index,follow"/>
+    <meta name="author" content="YEMEKHANE, info@keas.com.tr"/>
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+
+    <!-- Icon -->
+    <link rel="stylesheet" type="text/css" href="#{request.contextPath}/resources/assets/css/LineIcons.2.0.css" />
+
+    <!-- Animate -->
+    <link rel="stylesheet" type="text/css" href="#{request.contextPath}/resources/assets/css/animate.css" />
+
+    <!-- Tiny Slider  -->
+    <link rel="stylesheet" type="text/css" href="#{request.contextPath}/resources/assets/css/tiny-slider.css" />
+
+    <!-- Tailwind css -->
+    <link rel="stylesheet" type="text/css" href="#{request.contextPath}/resources/assets/css/tailwind.css" />
+
+
+    <link rel="icon" href="#{request.contextPath}/resources/images/favicon2.png"/>
+
+    <link rel="canonical" href="https://www.keas.com.tr"/>
+
+    <!-- google font -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@400;500;700&amp;display=swap"
+          rel="stylesheet"/>
+
+
+
+</h:head>
+
+<h:body >
+
+    <ui:include src="/WEB-INF/landing_topbar.xhtml"/>
+
+    <!-- Hero Area Start -->
+    <section id="hero-area" class="py-10 bg-gradient-to-r from-purple-900 to-purple-800 opacity-90 " style="height: 10px" >
+        <div >
+            <div class="flex justify-between">
+                <!--  <div class="w-full text-center">
+
+                      <h2 class="text-4xl font-bold leading-snug text-white mb-10 wow fadeInUp" data-wow-delay="1s">| Kullanıcı Sayfası
+                          <br class="hidden lg:block" />   <span data-toggle="typed"
+                                                                 data-options='{"strings": ["Şifremi Değiştirmek İstiyorum", "Siparişlerim"]}'></span></h2>
+
+
+                  </div>-->
+            </div>
+        </div>
+    </section>
+    <!-- Hero Area End -->
+
+
+    <!-- Subscribe Section Start -->
+    <section id="Subscribes" class="py-2 bg-white-100 items-center">
+        <div style="alignment-baseline: auto">
+            <div >
+                <h:form id="orderForm" >
+                    <p:growl id="msgs" showDetail="true"/>
+
+                    <div class="card bg-purple-100"
+                         style="padding: 21px;margin: auto; width: 75%; ">
+                        <div class="card" style="margin: auto; width: 95%; padding: 10px;">
+                            <h:form>
+                                <p:growl id="messages"/>
+
+                                <p:menubar >
+                                    <p:submenu label="#{d1.getTextDb('user.profile')}" icon="pi pi-fw pi-user"  >
+                                        <p:menuitem value="#{d1.getTextDb('user.notifications')}" icon="pi pi-fw pi-inbox"
+                                                    onclick=' window.location.href="#{request.contextPath}/user-notification";'/>
+                                        <p:divider />
+                                        <p:menuitem value="#{d1.getTextDb('user.sifredegisikligi')}" icon="pi pi-fw pi-pencil"
+                                                    onclick=' window.location.href="#{request.contextPath}/user-reset-password";'/>
+                                        <p:divider />
+                                        <p:menuitem value="#{d1.getTextDb('user.address')}" icon="pi pi-fw pi-home"
+                                                    onclick=' window.location.href="#{request.contextPath}/user-address";'/>
+                                    </p:submenu>
+                                    <p:menuitem value="#{d1.getTextDb('user.account')}" icon="pi pi-fw pi-list"
+                                                onclick=' window.location.href="#{request.contextPath}/user-profile";'/>
+
+                                    <p:menuitem value="#{d1.getTextDb('user.packages')}" icon="pi pi-fw pi-list "
+                                                onclick=' window.location.href="#{request.contextPath}/user-package";'/>
+                                    <p:menuitem value="#{userSatelliteView.lng.getTextDb('user.satellitedesc')}"
+                                                icon="pi pi-fw pi-list "
+                                                onclick=' window.location.href="#{request.contextPath}/user-satellite";'/>
+
+                                    <p:menuitem value="#{d1.getTextDb('user.user-order')}" icon="pi pi-table"
+                                                onclick=' window.location.href="#{request.contextPath}/user-order";'/>
+
+
+
+                                    <p:menuitem value="#{d1.getTextDb('user.favorite')}" icon="pi pi-thumbs-up"
+                                                onclick=' window.location.href="#{request.contextPath}/user-favourite";'/>
+
+
+                                    <p:menuitem value="#{d1.getTextDb('user.coupon')}" icon="pi pi-fw pi-money-bill"
+                                                onclick=' window.location.href="#{request.contextPath}/user-coupon";'/>
+
+
+
+                                    <f:facet name="options">
+                                        <!-- <div class="ui-input-icon-left mr-2">
+                                             <i class="pi pi-fw pi-search" />
+                                             <p:inputText placeholder="Search"/>
+                                         </div>-->
+                                        <p:button value="#{d1.getTextDb('user.logout')}" icon="pi pi-fw pi-sign-out" styleClass="ui-button-info bg-purple-500 hover:opacity-75"
+                                                  href="#{request.contextPath}/j_spring_security_logout"/>
+                                    </f:facet>
+                                </p:menubar>
+                                <script type="text/javascript">
+                                    $(function(){
+                                        $(".profil a:first").attr('href', "#{request.contextPath}/");
+                                        $(".user-favourite a:first").attr('href', "#{request.contextPath}/cats");
+                                        $(".cat1Link").click(function(){
+                                            window.location.href="#{request.contextPath}/cats/cat1";
+                                        }).css('cursor','pointer');
+                                    });
+                                </script>
+                            </h:form>
+                        </div>
+                        <br/>
+                        <p:divider layout="horizontal"/>
+                        <h1 class="sm:text-3xl text-2xl font-medium title-font mb-4 text-gray-900">#{d1.getTextDb('user.notifications')}</h1>
+                        <p class="lg:w-2/3 mx-auto leading-relaxed text-base">#{d1.getTextDb('user.notificationsdesc')}</p>
+                        <br/>
+                        <div class="min-h-screen flex flex-row bg-white ">
+                            <h:form id="userInfoForm">
+
+                                <div class="card">
+                                    <p:growl id="growlContact" showDetail="false" life="5000"/>
+                                </div>
+
+                                <div class="flex flex-col text-center w-full mb-12">
+                                    <br/>
+                                    <p class="lg:w-2/3 mx-auto leading-relaxed text-base">#{d1.getTextDb('user.notificationsnone')}</p>
+                                </div>
+
+
+
+                            </h:form>
+
+                        </div>
+                    </div>
+                </h:form>
+            </div>
+        </div>
+    </section>
+    <!-- Subscribe Section End -->
+
+
+    <!-- Footer Section Start -->
+    <ui:include src="/WEB-INF/landing_footer.xhtml"/>
+    <!-- Footer Section End -->
+
+
+    <!-- All js Here -->
+    <script src="#{request.contextPath}/resources/assets/js/wow.js"></script>
+    <script src="#{request.contextPath}/resources/assets/js/tiny-slider.js"></script>
+    <script src="#{request.contextPath}/resources/assets/js/contact-form.js"></script>
+    <script src="#{request.contextPath}/resources/assets/js/main.js"></script>
+
+    <script src="#{request.contextPath}/resources/src/vendors/typed.js/lib/typed.min.js"></script>
+    <script src="#{request.contextPath}/resources/src/js/theme.js"></script>
+
+</h:body>
+
+
+</html>

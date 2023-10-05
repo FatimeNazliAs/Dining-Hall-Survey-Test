@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en"
+      xml:lang="fr"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+
+    <h:head>
+
+        <meta charset="utf-8" />
+        <title>#{d1.getTextDb('faq.browsertitle')} - YEMEKHANE</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="description" content="Premium Tailwindcss Landing Page Template, Tailwindcss v3.0" />
+        <meta name="keywords" content="Tailwindcss v3.0, premium, marketing, multipurpose" />
+        <meta content="Themesdesign" name="author" />
+        <!-- App favicon -->
+        <link rel="shortcut icon" href="#{request.contextPath}/resources/images/favicon2.png"/>
+
+        <!-- Tailwind Css-->
+        <link href="#{request.contextPath}/resources/dorsin/assets/css/tailwind.css" rel="stylesheet" type="text/css" />
+        <link href="#{request.contextPath}/resources/css/tailwind/tailwind.min.css" rel="stylesheet" type="text/css" />
+
+        <!-- Icons Css -->
+        <link href="#{request.contextPath}/resources/dorsin/assets/css/icons.css" rel="stylesheet" type="text/css" />
+
+        <!-- Google tag (gtag.js) -->
+        <script async="async" src="https://www.googletagmanager.com/gtag/js?id=G-W5JHCTGPFC"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+
+            gtag('config', 'G-W5JHCTGPFC');
+        </script>
+
+
+    </h:head>
+
+    <h:body>
+        <!-- Navbar Start -->
+        <ui:include src="WEB-INF/landing_topbar.xhtml"/>
+
+
+        <!-- Navbar End -->
+
+        <!-- Home Start -->
+        <section class="lg:pt-56 py-32" id="home">
+            <div class="overflow-hidden">
+                <img class="absolute inset-0 h-full w-full object-cover" src="#{request.contextPath}/resources/dorsin/assets/images/bg-home.jpg"
+                    alt="build your website image"/>
+                <div class="absolute inset-0 w-full h-full bg-gradient-to-r from-purple-900 to-purple-800 opacity-90"></div>
+            </div>
+            <div class="container">
+                <div class="flex justify-center">
+                    <div class="lg:w-2/3 text-center relative">
+                        <div class="space-y-6 mb-10">
+                            <!-- Home Page Title -->
+                            <h2 class="text-white md:text-[32px] lg:text-[46px] leading-[64px] capitalize">
+                                #{d1.getTextDb('faq.frequentlyaskedquestions')}
+                            </h2>
+                            <p class="text-gray-300">#{d1.getTextDb('faq.frequentlyaskedquestionsdesc')}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="absolute bottom-0 left-0 right-0">
+                <img src="#{request.contextPath}/resources/dorsin/assets/images/bg-pattern.png" alt="bg-pattern"/>
+            </div>
+        </section>
+        <!-- Home Start -->
+        <!-- Service Start -->
+        <!--<section id="services">
+            <div class="container">
+                    <div class="flex justify-center relative space-y-9">
+                        <p:dataTable reflow="true" scrollable="true" var="faqVW" value="#{faqView.lazyFaqDataModel}" rows="20" lazy="true" >
+                            <p:column colspan="2" headerText="Sıkça Sorulan Sorular" style="text-align: center;">
+                                <div class="faq-ans">
+                                    <h3 class="text-base"><i class="mdi mdi-help-circle"></i><h:outputText value="#{faqVW.question}"/></h3>
+                                    <p style="alignment: left;text-align: left" class="faq-sub-title text-gray-400 pt-2"><h:outputText value="#{faqVW.answer}"/></p>
+                                </div>
+                            </p:column>
+
+                        </p:dataTable>
+                    </div>
+                </div>
+        </section>-->
+        <!-- Service End -->
+        <!-- Service Start -->
+        <section id="services">
+            <div class="container">
+                <div class="flex justify-center relative space-y-9">
+                    <p:column colspan="2" headerText="Sıkça Sorulan Sorular" style="text-align: center;">
+                            <div class="faq-ans">
+                                <h3 class="text-base"><i class="mdi mdi-help-circle"></i><h:outputText value="#{d1.getTextDb('faq.question1')}"/></h3>
+                                <p style="alignment: left;text-align: left" class="faq-sub-title text-gray-400 pt-2">
+                                    <h:outputText value='#{d1.getTextDb("faq.answer1")}'/></p>
+                                <br/>
+                                <h3 class="text-base"><i class="mdi mdi-help-circle"></i><h:outputText value="#{d1.getTextDb('faq.question2')}"/></h3>
+
+                                <p style="alignment: left;text-align: left" class="faq-sub-title text-gray-400 pt-2">
+
+                                    <a class="bg-green-500 text-white" href="https://apps.apple.com/us/app/digiturk-play-yurt-d%C4%B1%C5%9F%C4%B1/id434813948">- IOS -</a>
+                                    <a class="bg-green-500 text-white" href="https://play.google.com/store/apps/details?id=com.digiturkwebtv.mobil&amp;hl=tr&amp;gl=US">- ANDROID -</a>
+                                    <a class="bg-green-500 text-white" href="https://apps.microsoft.com/store/detail/digiturk-play-yurtd%C4%B1%C5%9F%C4%B1/9WZDNCRDPPSM?hl=tr-tr&amp;gl=tr">- WINDOWS -</a>
+
+                                    <h:outputText value='#{d1.getTextDb("faq.answer2")}'/>
+                                </p>
+                                <br/>
+                                <h3 class="text-base"><i class="mdi mdi-help-circle"></i><h:outputText value="#{d1.getTextDb('faq.question3')}"/></h3>
+                                <p style="alignment: left;text-align: left" class="faq-sub-title text-gray-400 pt-2">
+                                    <h:outputText value='#{d1.getTextDb("faq.answer3")}'/></p>
+
+                                <br/>
+                                <h3 class="text-base"><i class="mdi mdi-help-circle"></i><h:outputText value="#{d1.getTextDb('faq.question4')}"/></h3>
+                                <p style="alignment: left;text-align: left" class="faq-sub-title text-gray-400 pt-2">
+                                    <h:outputText value='#{d1.getTextDb("faq.answer4")}'/></p>
+                                <br/>
+                                <h3 class="text-base"><i class="mdi mdi-help-circle"></i><h:outputText value="#{d1.getTextDb('faq.question5')}"/></h3>
+                                <p style="alignment: left;text-align: left" class="faq-sub-title text-gray-400 pt-2">
+                                    <h:outputText value='#{d1.getTextDb("faq.answer5")}'/></p>
+                                <br/>
+                                <h3 class="text-base"><i class="mdi mdi-help-circle"></i><h:outputText value="#{d1.getTextDb('faq.question6')}"/></h3>
+                                <p style="alignment: left;text-align: left" class="faq-sub-title text-gray-400 pt-2">
+                                    <h:outputText value='#{d1.getTextDb("faq.answer6")}'/></p>
+                                <br/>
+                                <h3 class="text-base"><i class="mdi mdi-help-circle"></i><h:outputText value="#{d1.getTextDb('faq.question7')}"/></h3>
+                                <p style="alignment: left;text-align: left" class="faq-sub-title text-gray-400 pt-2">
+                                    <h:outputText value='#{d1.getTextDb("faq.answer7")}'/></p>
+                                <br/>
+                                <h3 class="text-base"><i class="mdi mdi-help-circle"></i><h:outputText value="#{d1.getTextDb('faq.question8')}"/></h3>
+                                <p style="alignment: left;text-align: left" class="faq-sub-title text-gray-400 pt-2">
+                                    <h:outputText value='#{d1.getTextDb("faq.answer8")}'/></p>
+                                <br/>
+                                <h3 class="text-base"><i class="mdi mdi-help-circle"></i><h:outputText value="#{d1.getTextDb('faq.question9')}"/></h3>
+                                <p style="alignment: left;text-align: left" class="faq-sub-title text-gray-400 pt-2">
+                                    <h:outputText value='#{d1.getTextDb("faq.answer9")}'/></p>
+                                <br/>
+                                <h3 class="text-base"><i class="mdi mdi-help-circle"></i><h:outputText value="#{d1.getTextDb('faq.question10')}"/></h3>
+                                <p style="alignment: left;text-align: left" class="faq-sub-title text-gray-400 pt-2">
+                                    <h:outputText value='#{d1.getTextDb("faq.answer10")}'/></p>
+                                <br/>
+                                <h3 class="text-base"><i class="mdi mdi-help-circle"></i><h:outputText value="#{d1.getTextDb('faq.question11')}"/></h3>
+                                <p style="alignment: left;text-align: left" class="faq-sub-title text-gray-400 pt-2">
+                                    <h:outputText value='#{d1.getTextDb("faq.answer11")}'/></p>
+                            </div>
+                    </p:column>
+                </div>
+            </div>
+        </section>
+        <!-- Service End -->
+
+        <!-- Contact us Start -->
+        <section class="bg-gray-100 py-6">
+            <div class="container">
+                <div class="grid lg:grid-cols-3 items-center gap-6">
+                    <!-- Social Account Link -->
+                    <div class="space-x-3">
+                        <a href="https://www.facebook.com/Digiturk.UK"
+                           class="border-2 border-gray-400 w-12 h-12 text-xl rounded-full inline-flex text-center items-center text-gray-400 hover:text-red-500">
+                            <i class="mdi mdi-facebook m-auto"></i>
+                        </a>
+                        <a href="https://www.facebook.com/Digiturk.UK"
+                           class="border-2 border-gray-400 w-12 h-12 text-xl rounded-full inline-flex text-center items-center text-gray-400 hover:text-red-500">
+                            <i class="mdi mdi-twitter m-auto"></i>
+                        </a>
+                        <a href="https://www.facebook.com/Digiturk.UK"
+                           class="border-2 border-gray-400 w-12 h-12 text-xl rounded-full inline-flex text-center items-center text-gray-400 hover:text-red-500">
+                            <i class="mdi mdi-linkedin m-auto"></i>
+                        </a>
+                        <a href="https://www.facebook.com/Digiturk.UK"
+                           class="border-2 border-gray-400 w-12 h-12 text-xl rounded-full inline-flex text-center items-center text-gray-400 hover:text-red-500">
+                            <i class="mdi mdi-google-plus m-auto"></i>
+                        </a>
+                    </div>
+
+                    <!-- Contect Number -->
+                    <div class="lg:text-center">
+                        <h1 class="text-lg">
+                            <a href="tel:+44 207 923 4298 "><i
+                                    class="pe-7s-call text-black align-middle text-[22px] mr-2"></i>
+                                +44 207 923 4298 </a>
+                        </h1>
+                    </div>
+
+                    <!-- Contect Mail -->
+                    <div class="lg:text-right">
+                        <h1 class="text-lg">
+                            <a href="mailto:abc@example.com"><i
+                                    class="pe-7s-mail-open text-black align-middle text-[22px] mr-2"></i>info@keas.com.tr</a>
+                        </h1>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- Contact us Start -->
+
+
+
+        <ui:include src="WEB-INF/landing_footer.xhtml"/>
+        <!-- Smooth-Scroll Javascript -->
+        <script src="#{request.contextPath}/resources/dorsin/assets/js/smooth-scroll.polyfills.min.js"></script>
+
+        <script src="#{request.contextPath}/resources/dorsin/assets/js/gumshoe.polyfills.min.js"></script>
+
+        <!-- Modal Javascript -->
+        <script src="#{request.contextPath}/resources/dorsin/assets/js/modal.js"></script>
+
+        <!-- Custom Javascript -->
+        <script src="#{request.contextPath}/resources/dorsin/assets/js/app.js"></script>
+
+    </h:body>
+
+</html>

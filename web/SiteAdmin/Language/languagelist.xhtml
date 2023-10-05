@@ -1,0 +1,211 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/admin_template.xhtml">
+
+    <ui:define name="title">Dil Listesi</ui:define>
+
+    <ui:define name="content">
+
+        <div class="p-grid">
+            <div class="p-col-12">
+                <div class="card">
+                    <h4>Dil Listesi</h4>
+
+
+                    <h:form id="form">
+
+                        <p:growl id="msgs" showDetail="true"/>
+
+                        <p:toolbar>
+
+                            <p:toolbarGroup align="left">
+                                <p:commandButton value="Yeni Dil Ekle" icon="pi pi-plus"
+                                                 actionListener="#{d.openNewLanguage}"
+                                                 update=":dialogsLanguage:manage-language-content"
+                                                 oncomplete="PF('manageLanguageDialog').show()"
+                                                 styleClass="ui-button-help"
+                                                 style="margin-right: .5rem"></p:commandButton>
+
+                                <p:commandButton value="Yeni çevrim ekle" icon="pi pi-plus"
+                                                 actionListener="#{d.openNew}"
+                                                 update=":dialogs:manage-product-content"
+                                                 oncomplete="PF('manageProductDialog').show()"
+                                                 styleClass="ui-button-success"
+                                                 style="margin-right: .5rem"></p:commandButton>
+
+
+
+                            </p:toolbarGroup>
+
+
+
+                        </p:toolbar>
+
+                        <p:dataTable id="items" widgetVar="items" var="item" value="#{d.items}"
+                                     selectionMode="single" paginator="true" rows="10" dynamic="true" reflow="true"
+                                     styleClass="items-table"
+                                     paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+                                     rowsPerPageTemplate="5,10,15" paginatorPosition="bottom"
+                                     selection="#{d.languageString}"
+                                     rowKey="#{item.id}"
+
+                                     editable="true">
+
+
+                            <p:ajax event="rowEdit" listener="#{d.onRowEdit}" update=":form:msgs"/>
+                            <p:ajax event="rowEditCancel" listener="#{d.onRowCancel}" update=":form:msgs"/>
+
+                            <p:column headerText="Id" sortBy="#{item.id}" filterBy="#{item.id}">
+                                <p:cellEditor>
+                                    <f:facet name="output"><h:outputText value="#{item.id}"/></f:facet>
+                                    <f:facet name="input"><p:inputText id="modelInput" value="#{item.id}"
+                                                                       style="width:100%"/></f:facet>
+                                </p:cellEditor>
+                            </p:column>
+
+                            <p:column headerText="Kaynak Adı" filterMatchMode="contains"
+                                      filterBy="#{item.resourceName}">
+                                <p:cellEditor>
+                                    <f:facet name="output"><h:outputText value="#{item.resourceName}"/></f:facet>
+                                    <f:facet name="input"><p:inputText value="#{item.resourceName}" style="width:100%"
+                                                                       label="Name"/></f:facet>
+                                </p:cellEditor>
+                            </p:column>
+                            <p:column headerText="Dil" filter=""  filterBy="#{item.languageId}"
+                                      filterMatchMode="equals">
+                                <f:facet name="filter">
+                                    <p:selectCheckboxMenu onchange="PF('items').filter()" label="Dil Seç"
+                                                          styleClass="ui-custom-filter" style="width: 150px">
+
+                                        <f:selectItems value="#{d.selectedLanguages}"/>
+                                    </p:selectCheckboxMenu>
+                                </f:facet>
+                                <p:cellEditor>
+
+                                    <f:facet name="output"><h:outputText
+                                            value="#{d.getLanguageName(item.languageId)}"/></f:facet>
+                                    <f:facet name="input"><p:inputText value="#{item.languageId}" style="width:100%"
+                                                                       label="Name"/></f:facet>
+                                </p:cellEditor>
+                            </p:column>
+
+
+                            <p:column headerText="Kaynak Değer" filterBy="#{item.resourceValue}">
+                                <p:cellEditor>
+                                    <f:facet name="output"><h:outputText value="#{item.resourceValue}"/></f:facet>
+                                    <f:facet name="input"><p:inputText value="#{item.resourceValue}" style="width:100%"
+                                    /></f:facet>
+                                </p:cellEditor>
+                            </p:column>
+
+
+                            <p:column style="width:6rem">
+                                <p:rowEditor/>
+                            </p:column>
+
+                        </p:dataTable>
+
+
+                        <p:contextMenu for="items">
+                            <p:menuitem value="Delete" update="msgs" icon="pi pi-times"
+                                        action="#{d.delete()}"/>
+                        </p:contextMenu>
+
+                    </h:form>
+
+
+                    <h:form id="dialogs">
+                        <p:dialog header="Yeni Çevrim Ekle" showEffect="fade" modal="true" widgetVar="manageProductDialog"
+                                  responsive="true">
+                            <p:outputPanel id="manage-product-content" class="ui-fluid">
+                                <p:outputPanel>
+                                    <div class="field">
+                                        <p:outputLabel for="name">Kaynak Dil</p:outputLabel>
+
+                                        <p:selectOneMenu  requiredMessage="Dil Seçimi Zorunludur" id="country"  required="true" value="#{d.newLanguage.languageId}"
+                                        >
+                                            <f:selectItem itemLabel="Dil Seç" itemValue=""
+                                                          noSelectionOption="true"/>
+                                            <f:selectItems value="#{d.allLanguages}"/>
+                                        </p:selectOneMenu>
+                                    </div>
+                                    <div class="field">
+                                        <p:outputLabel for="name">Kaynak Kelime</p:outputLabel>
+                                        <p:inputText requiredMessage="Kaynak Kelime Zorunludur" id="name" value="#{d.newLanguage.resourceName}" required="true"/>
+                                    </div>
+                                    <div class="field">
+                                        <p:outputLabel for="description">Kaynak Değer</p:outputLabel>
+                                        <p:inputTextarea id="description" requiredMessage="Kaynak Değer Zorunludur" value="#{d.newLanguage.resourceValue}"/>
+                                    </div>
+
+
+                                </p:outputPanel>
+                            </p:outputPanel>
+
+                            <f:facet name="footer">
+                                <p:commandButton value="Save" icon="pi pi-check"
+                                                 actionListener="#{d.saveLanguageString()}"
+                                                 update=":form:msgs"
+                                                 oncomplete="PF('manageProductDialog').hide()"
+                                                 process="manage-product-content @this"/>
+                                <p:commandButton value="Cancel" icon="pi pi-times"
+                                                 onclick="PF('manageProductDialog').hide()"
+                                                 class="ui-button-secondary" type="button"/>
+                            </f:facet>
+                        </p:dialog>
+
+
+                    </h:form>
+
+
+                    <h:form id="dialogsLanguage">
+                        <p:dialog header="Yeni Dil Ekle" showEffect="fade" modal="true" widgetVar="manageLanguageDialog"
+                                  responsive="true">
+                            <p:outputPanel id="manage-language-content" class="ui-fluid">
+                                <p:outputPanel>
+
+                                    <div class="field">
+                                        <p:outputLabel for="nameLanguage">Dil Adı</p:outputLabel>
+                                        <p:inputText requiredMessage="Dil Adı Zorunludur" id="nameLanguage" value="#{d.language.name}" required="true"/>
+                                    </div>
+                                    <br/>
+                                    <p:selectOneMenu id="countryDropdown" value="#" style="width:150px">
+                                        <p:ajax listener="#{d.onCountryChange()}" />
+                                        <f:selectItem itemLabel="Ülke Seç" itemValue="" noSelectionOption="true"/>
+                                        <f:selectItems value="#{d.countries}"/>
+                                    </p:selectOneMenu>
+                                    <div class="field">
+                                        <p:outputLabel for="descriptionLanguage">Dil Kodu(Örn TR,EN)</p:outputLabel>
+                                        <p:inputTextarea  requiredMessage="Dil Kodu Zorunludur" id="descriptionLanguage" value="#{d.language.uniqueSeoCode}"/>
+                                    </div>
+
+
+                                </p:outputPanel>
+                            </p:outputPanel>
+
+                            <f:facet name="footer">
+                                <p:commandButton value="Save" icon="pi pi-check" actionListener="#{d.saveLanguage()}"
+                                                 update="manage-language-content"
+                                                 oncomplete="PF('manageLanguageDialog').hide()"
+                                                 process="manage-language-content @this"/>
+                                <p:commandButton value="Cancel" icon="pi pi-times"
+                                                 onclick="PF('manageLanguageDialog').hide()"
+                                                 class="ui-button-secondary" type="button"/>
+                            </f:facet>
+                        </p:dialog>
+
+
+                    </h:form>
+
+
+                </div>
+            </div>
+        </div>
+
+
+    </ui:define>
+
+</ui:composition>

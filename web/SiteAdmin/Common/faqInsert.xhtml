@@ -1,0 +1,66 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/admin_template.xhtml">
+
+    <ui:define name="head">
+
+    </ui:define>
+
+    <ui:define name="title">SSS Ekleme</ui:define>
+
+    <ui:define name="content">
+
+
+        <h:form id="form">
+
+            <p:growl id="msgs" showDetail="false"/>
+
+
+            <div class="p-grid">
+                <div class="p-col-12">
+                    <div class="card">
+                        <h5>SSS Ekleme</h5>
+                        <div class="ui-fluid p-formgrid p-grid">
+
+                            <div class="p-field p-col-12 p-md-6">
+                                <p:outputLabel value="Soru"/>
+
+                                <p:inputText placeholder="Soruyu giriniz..."
+                                             value="#{faqInsertView.newFaq.question}"
+                                             required="true" requiredMessage="Lütfen soruyu giriniz.">
+                                </p:inputText>
+                            </div>
+
+
+                            <div class="p-field p-col-12 p-md-6">
+                                <p:outputLabel value="Cevap"/>
+
+                                <p:inputTextarea placeholder="Soruyu giriniz..."
+                                             value="#{faqInsertView.newFaq.answer}"
+                                             required="true" requiredMessage="Lütfen soruyu giriniz.">
+                                </p:inputTextarea>
+                            </div>
+
+                            <div class="p-field p-col-12 p-md-6">
+                                <p:commandButton value="Kaydet" action="#{faqInsertView.insertFaq}"
+                                                 update="msgs"/>
+                            </div>
+
+                            <div class="p-field p-col-12 p-md-6">
+                                <p:commandButton type="reset" value="Temizle" styleClass="info-btn"/>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </h:form>
+
+
+    </ui:define>
+
+</ui:composition>

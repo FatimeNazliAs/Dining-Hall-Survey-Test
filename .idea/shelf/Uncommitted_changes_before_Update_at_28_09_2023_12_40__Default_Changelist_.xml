@@ -1,0 +1,29 @@
+<changelist name="Uncommitted_changes_before_Update_at_28_09_2023_12_40_[Default_Changelist]" date="1695894024479" recycled="true" deleted="true">
+  <option name="PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_28_09_2023_12_40_[Default_Changelist]/shelved.patch" />
+  <option name="DESCRIPTION" value="Uncommitted changes before Update at 28.09.2023 12:40 [Default Changelist]" />
+  <binary>
+    <option name="BEFORE_PATH" value=".idea/dataSources/747aaa57-7cd0-4651-b9b1-b793e93e6f4e/storage_v2/_staging_/database/elmedina.90G2DA.meta" />
+    <option name="AFTER_PATH" />
+    <option name="SHELVED_PATH" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" />
+    <option name="AFTER_PATH" value="chromedriver.exe" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_28_09_2023_12_40_[Default_Changelist]/chromedriver.exe" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value=".idea/dataSources/747aaa57-7cd0-4651-b9b1-b793e93e6f4e/storage_v2/_staging_/database/elmedina.90G2DA/schema/elmedina_schema.6RyCLA/view/test.kkQ2AA.meta" />
+    <option name="AFTER_PATH" />
+    <option name="SHELVED_PATH" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value=".idea/dataSources/747aaa57-7cd0-4651-b9b1-b793e93e6f4e/storage_v2/_staging_/database/elmedina.90G2DA/schema/elmedina_schema.6RyCLA/view/order_view_2.KXOXQg.meta" />
+    <option name="AFTER_PATH" />
+    <option name="SHELVED_PATH" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value=".idea/dataSources/747aaa57-7cd0-4651-b9b1-b793e93e6f4e/storage_v2/_staging_/database/elmedina.90G2DA/schema/elmedina_schema.6RyCLA.meta" />
+    <option name="AFTER_PATH" />
+    <option name="SHELVED_PATH" />
+  </binary>
+</changelist>

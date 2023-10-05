@@ -1,0 +1,90 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/admin_template.xhtml">
+
+    <ui:define name="head">
+        <style type="text/css">
+            .ui-outputlabel {
+                display: block;
+                margin: 1em 0
+            }
+
+            .ui-selectonemenu,
+            .ui-autocomplete {
+                margin-bottom: 1em;
+            }
+
+            .ui-slider {
+                margin-bottom: 2em;
+            }
+        </style>
+    </ui:define>
+
+    <ui:define name="title">HDeskImpact Add</ui:define>
+    <ui:define name="content">
+        <h:form>
+            <div class="p-grid ui-fluid">
+                <div class="p-col-12">
+                    <div class="card">
+                        <p:breadCrumb>
+                            <p:menuitem value="Home" url="#{request.contextPath}/index"/>
+                            <p:menuitem value="Dashboard" url="#{request.contextPath}/AsstAdmin/dashboard.xhtml"/>
+                            <p:menuitem value="Impact List"
+                                        url="#{request.contextPath}/AsstAdmin/HelpDesk/hDeskImpactList.xhtml"/>
+                            <p:menuitem value="Impact Insert" styleClass="ui-selectonemenu"
+                                        url="#{request.contextPath}/AsstAdmin/HelpDesk/hDeskImpactInsert.xhtml"/>
+                        </p:breadCrumb>
+                    </div>
+                </div>
+            </div>
+        </h:form>
+
+        <h:form id="form">
+            <div class="p-col-12">
+                <div class="card card-w-title">
+                    <h1>Impact Information</h1>
+                    <div class="p-grid ui-fluid">
+
+                      <p:growl id="msgs" showDetail="true"/>
+
+                      <div class="p-col-12 p-md-6">
+                            <div class="ui-inputgroup">
+                                <span class="ui-inputgroup-addon  p-md-2">
+                                    Name
+                                </span>
+                                <p:inputText required="true" requiredMessage="Impact Name cannot be empty." placeholder="Type Impact Name..."
+                                             value="#{hDeskImpactInsertView.impact}"/>
+                            </div>
+                        </div>
+
+                        <div class="p-col-12">
+                            <div class="card card-w-title">
+                                <h1>Description</h1>
+                                <p:inputTextarea rows="3" placeholder="Type Description..." autoResize="false"/>
+                            </div>
+                        </div>
+
+                        <div class="p-col-12 p-md-4" style="text-align:center">
+                            <p:commandButton value="Save" style="margin-bottom:10px;" action="#{hDeskImpactInsertView.insertHDeskImpact}" update="msgs"/>
+                        </div>
+
+                        <div class="p-col-12 p-md-4" style="text-align:center">
+
+                            <p:commandButton type="reset" value="Reset" styleClass="info-btn"
+                                             style="margin-bottom:10px;"/>
+
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+        </h:form>
+
+
+    </ui:define>
+
+</ui:composition>

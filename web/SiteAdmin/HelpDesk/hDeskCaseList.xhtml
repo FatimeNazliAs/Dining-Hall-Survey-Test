@@ -1,0 +1,362 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/admin_template.xhtml">
+
+    <ui:define name="title">Case List</ui:define>
+
+    <ui:define name="content">
+        <h:form>
+            <div class="p-grid ui-fluid">
+                <div class="p-col-12">
+                    <div class="card">
+                        <p:breadCrumb>
+                            <p:menuitem value="Home" url="#{request.contextPath}/index"/>
+                            <p:menuitem value="Dashboard" url="#{request.contextPath}/AsstAdmin/dashboard.xhtml"/>
+                            <p:menuitem value="Case List" styleClass="ui-selectonemenu" url="#{request.contextPath}/AsstAdmin/HelpDesk/hDeskCaseList.xhtml"/>
+                            <p:menuitem value="Case Insert" url="#{request.contextPath}/AsstAdmin/HelpDesk/hDeskCaseInsert.xhtml"/>
+                        </p:breadCrumb>
+                    </div>
+                </div>
+            </div>
+        </h:form>
+
+        <div class="p-col-12 p-lg-12">
+            <div class="card inventory">
+                <h:form id="form">
+                    <p:growl id="msgs" showDetail="true"/>
+                    <p:dataTable var="hDeskCaseVW" value="#{hDeskCaseListView.lazyHDeskCaseVWDataModel}"
+                                 paginatorPosition="both" editable="true"
+                                 styleClass="ui-datatable-borderless" rowKey="#{hDeskCaseVW.caseId}"
+                                 paginator="true" rows="20" widgetVar="caseTable" id="caseTable"
+                                 lazy="true">
+
+                        <p:ajax event="rowEditInit" listener="#{hDeskCaseListView.rowEditInit}"/>
+                        <p:ajax event="rowEdit" listener="#{hDeskCaseListView.onRowEdit}" update=":form:msgs"/>
+                        <p:ajax event="rowEditCancel" listener="#{hDeskCaseListView.onRowCancel}" update=":form:msgs"/>
+                        <p:ajax event="rowSelect" listener="#{hDeskCaseListView.onRowSelect}" update=":form:msgs"/>
+
+                        <f:facet name="header">
+                            <h1>Case List</h1>
+                        </f:facet>
+
+                        <p:column headerText="Category" sortBy="#{hDeskCaseVW.category}"
+                                  filterBy="#{hDeskCaseVW.category}">
+                            <p:cellEditor>
+                                <f:facet name="output">
+                                    <div class="card timeline" style="background-color: #ffffff">
+                                        <div class="timeline-content">
+                                            <div class="timeline-content-header">
+                                                <span style="color: #c73434">#{hDeskCaseVW.category}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </f:facet>
+                                <f:facet name="input">
+                                    <p:selectOneMenu id="category" value="#{hDeskCaseVW.catId}" required="true"
+                                                     requiredMessage="Category required">
+                                        <p:ajax event="change" update=":form:caseTable:subCategory"
+                                                listener="#{hDeskCaseListView.categorySelectionChanged}"/>
+                                        <f:selectItems value="#{hDeskCaseListView.categoryItemList}"/>
+                                    </p:selectOneMenu>
+                                </f:facet>
+                            </p:cellEditor>
+                        </p:column>
+
+                        <p:column headerText="SubCategory" sortBy="#{hDeskCaseVW.subCategory}"
+                                  filterBy="#{hDeskCaseVW.subCategory}">
+                            <p:cellEditor>
+                                <f:facet name="output">
+                                    <div class="card timeline" style="background-color: #ffffff">
+                                        <div class="timeline-content">
+                                            <div class="timeline-content-header">
+                                                <span style="color: #c73434">#{hDeskCaseVW.subCategory}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </f:facet>
+                                <f:facet name="input">
+                                    <p:selectOneMenu id="subCategory" value="#{hDeskCaseVW.subCatId}" required="true"
+                                                     requiredMessage="SubCategory required">
+                                        <f:selectItems
+                                                value="#{hDeskCaseListView.initSubCategoryItemList(hDeskCaseVW.catId)}"/>
+                                    </p:selectOneMenu>
+                                </f:facet>
+                            </p:cellEditor>
+                        </p:column>
+
+                        <p:column headerText="Creator" sortBy="#{hDeskCaseVW.creatorUser}"
+                                  filterBy="#{hDeskCaseVW.creatorUser}">
+                            <f:facet name="filter">
+                                <p:selectOneMenu onchange="PF('caseTable').filter()" styleClass="custom-filter">
+                                    <f:selectItems value="#{hDeskCaseListView.creatorUserItemListStr}"/>
+                                </p:selectOneMenu>
+                            </f:facet>
+                            <div class="card timeline" style="background-color: #0c54b8">
+                                <div class="timeline-content">
+                                    <div class="timeline-content-header">
+                                        <span style="color: #ffffff">#{hDeskCaseVW.creatorUser}</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </p:column>
+
+                        <p:column headerText="Subject" sortBy="#{hDeskCaseVW.subject}"
+                                  filterBy="#{hDeskCaseVW.subject}">
+                            <p:cellEditor>
+                                <f:facet name="output">
+                                    <h:outputText value="#{hDeskCaseVW.subject}"/>
+                                </f:facet>
+                                <f:facet name="input">
+                                    <p:inputText id="subject" value="#{hDeskCaseVW.subject}"
+                                                 style="width:100%"/>
+                                </f:facet>
+                            </p:cellEditor>
+                        </p:column>
+
+                        <p:column headerText="Description" sortBy="#{hDeskCaseVW.description}"
+                                  filterBy="#{hDeskCaseVW.description}">
+                            <p:cellEditor>
+                                <f:facet name="output"><h:outputText value="#{hDeskCaseVW.description}"/></f:facet>
+                                <f:facet name="input"><p:inputTextarea rows="10" id="barcode"
+                                                                       value="#{hDeskCaseVW.description}"
+                                                                       style="width:100%"/></f:facet>
+                            </p:cellEditor>
+                        </p:column>
+
+
+                        <p:column headerText="Assigned" sortBy="#{hDeskCaseVW.assignedUser}"
+                                  filterBy="#{hDeskCaseVW.assignedUser}">
+                            <f:facet name="filter">
+                                <p:selectOneMenu onchange="PF('caseTable').filter()" styleClass="custom-filter">
+                                    <f:selectItems value="#{hDeskCaseListView.assignedUserItemListStr}"/>
+                                </p:selectOneMenu>
+                            </f:facet>
+                            <p:cellEditor>
+                                <f:facet name="output">
+                                    <div class="card timeline" style="background-color: #a8281e">
+                                        <div class="timeline-content">
+                                            <div class="timeline-content-header">
+                                                <span style="color: #ffffff">#{hDeskCaseVW.assignedUser}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </f:facet>
+                                <f:facet name="input">
+                                    <p:selectOneMenu id="assignedUser" value="#{hDeskCaseVW.assignedUserId}">
+                                        <f:selectItems value="#{hDeskCaseListView.assignedUserItemList}"/>
+                                    </p:selectOneMenu>
+                                </f:facet>
+                            </p:cellEditor>
+                        </p:column>
+
+                        <p:column headerText="Created" sortBy="#{hDeskCaseVW.createdTimeStr}"
+                                  filterBy="#{hDeskCaseVW.createdTimeStr}">
+                            <h:outputText value="#{hDeskCaseVW.createdTimeStr}"/>
+                        </p:column>
+
+                        <p:column headerText="Priority" sortBy="#{hDeskCaseVW.priority}"
+                                  filterBy="#{hDeskCaseVW.priority}">
+                            <f:facet name="filter">
+                                <p:selectOneMenu onchange="PF('caseTable').filter()" styleClass="custom-filter">
+                                    <f:selectItems value="#{hDeskCaseListView.priorityItemListStr}"/>
+                                </p:selectOneMenu>
+                            </f:facet>
+                            <p:cellEditor>
+                                <f:facet name="output">
+                                    <div class="card timeline" style="background-color: #ffffff">
+                                        <div class="timeline-content">
+                                            <div class="timeline-content-header">
+                                                <span style="color: #1d1111">#{hDeskCaseVW.priority}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </f:facet>
+                                <f:facet name="input">
+                                    <p:selectOneMenu id="priority" value="#{hDeskCaseVW.priorityId}">
+                                        <f:selectItems value="#{hDeskCaseListView.priorityItemList}"/>
+                                    </p:selectOneMenu>
+                                </f:facet>
+                            </p:cellEditor>
+                        </p:column>
+
+                        <p:column headerText="Impact" sortBy="#{hDeskCaseVW.impact}"
+                                  filterBy="#{hDeskCaseVW.impact}">
+                            <f:facet name="filter">
+                                <p:selectOneMenu onchange="PF('caseTable').filter()" styleClass="custom-filter">
+                                    <f:selectItems value="#{hDeskCaseListView.impactItemListStr}"/>
+                                </p:selectOneMenu>
+                            </f:facet>
+                            <p:cellEditor>
+                                <f:facet name="output">
+                                    <div class="card timeline" style="background-color: #ffffff">
+                                        <div class="timeline-content">
+                                            <div class="timeline-content-header">
+                                                <span style="color: #1d1111">#{hDeskCaseVW.impact}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </f:facet>
+                                <f:facet name="input">
+                                    <p:selectOneMenu id="impact" value="#{hDeskCaseVW.impactId}">
+                                        <f:selectItems value="#{hDeskCaseListView.impactItemList}"/>
+                                    </p:selectOneMenu>
+                                </f:facet>
+                            </p:cellEditor>
+                        </p:column>
+
+                        <p:column headerText="ReportedVia" sortBy="#{hDeskCaseVW.reportedVia}"
+                                  filterBy="#{hDeskCaseVW.reportedVia}">
+                            <f:facet name="filter">
+                                <p:selectOneMenu onchange="PF('caseTable').filter()" styleClass="custom-filter">
+                                    <f:selectItems value="#{hDeskCaseListView.reportedViaItemListStr}"/>
+                                </p:selectOneMenu>
+                            </f:facet>
+                            <p:cellEditor>
+                                <f:facet name="output">
+                                    <div class="card timeline" style="background-color: #ffffff">
+                                        <div class="timeline-content">
+                                            <div class="timeline-content-header">
+                                                <span style="color: #1d1111">#{hDeskCaseVW.reportedVia}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </f:facet>
+                                <f:facet name="input">
+                                    <p:selectOneMenu id="reportedVia" value="#{hDeskCaseVW.reportedViaId}">
+                                        <f:selectItems value="#{hDeskCaseListView.reportedViaItemList}"/>
+                                    </p:selectOneMenu>
+                                </f:facet>
+                            </p:cellEditor>
+                        </p:column>
+
+                        <p:column filterBy="#{hDeskCaseVW.status}" headerText="Status" sortBy="#{hDeskCaseVW.status}"
+                                  filterMatchMode="exact" styleClass="p-col-1">
+                            <f:facet name="filter">
+                                <p:selectOneMenu onchange="PF('caseTable').filter()" styleClass="custom-filter">
+                                    <f:selectItems value="#{hDeskCaseListView.statusItemListStr}"/>
+                                </p:selectOneMenu>
+                            </f:facet>
+                            <p:cellEditor>
+                                <f:facet name="output">
+
+                                    <h:panelGroup id="statusNotClosed" rendered="#{hDeskCaseVW.status != 'CLOSED'}">
+                                        <div class="card timeline" style="background-color: #0a9890">
+                                            <div class="timeline-content">
+                                                <div class="timeline-content-header">
+                                                     <span style="color: #ffffff">
+                                                            <h:outputText value="#{hDeskCaseVW.status}"/>
+                                                     </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </h:panelGroup>
+
+                                    <h:panelGroup id="statusClosed" rendered="#{hDeskCaseVW.status == 'CLOSED'}">
+                                        <div class="card timeline" style="background-color: #5a5e5d">
+                                            <div class="timeline-content">
+                                                <div class="timeline-content-header">
+                                                         <span style="color: #ffffff">
+                                                                <h:outputText value="#{hDeskCaseVW.status}"/>
+                                                         </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </h:panelGroup>
+
+
+                                </f:facet>
+                                <f:facet name="input">
+                                    <p:selectOneMenu id="status" value="#{hDeskCaseVW.statusId}">
+                                        <f:selectItems value="#{hDeskCaseListView.statusItemList}"/>
+                                    </p:selectOneMenu>
+                                    <p>
+                                        Çözüm:
+                                        <p:inputTextarea value="#{hDeskCaseVW.resolution}" rows="10"
+                                                         id="resolution"></p:inputTextarea>
+                                    </p>
+                                    <p>Score:
+                                        <p:selectOneMenu id="score" value="#{hDeskCaseVW.scoreId}">
+                                            <f:selectItems value="#{hDeskCaseListView.scoreItemList}"/>
+                                        </p:selectOneMenu>
+                                    </p>
+                                </f:facet>
+                            </p:cellEditor>
+                        </p:column>
+
+                        <p:column style="width:5px" exportable="false">
+                            <p:rowEditor rendered="#{hDeskCaseVW.status != 'CLOSED'}"/>
+                        </p:column>
+                        <p:column style="width: 8em" exportable="false">
+                            <div class="p-grid">
+                                <div class="p-col-4 ">
+                                    <p:commandButton icon="fa fa-info" rendered="#{hDeskCaseVW.status == 'CLOSED'}"
+                                                     actionListener="#{hDeskCaseListView.updateInfo(hDeskCaseVW.caseId)}"
+                                                     oncomplete="PF('dlg').show()"
+                                                     update=":form:dlg"/>
+                                </div>
+                                <div class="p-col-4">
+                                    <p:commandButton icon="fa fa-trash" styleClass="ui-button-warning"
+                                                     action="#{hDeskCaseListView.deleteCase(hDeskCaseVW.caseId)}"
+                                                     update="form:caseTable form:msgs">
+                                        <p:confirm escape="false" header="Confirmation"
+                                                   message="&lt;br/&gt; Are you sure? &lt;br/&gt; &lt;br/&gt; #{hDeskCaseVW.subject}"
+                                                   icon="fa fa-warning"/>
+                                    </p:commandButton>
+                                </div>
+                            </div>
+                        </p:column>
+
+
+                    </p:dataTable>
+
+                    <p:confirmDialog global="true" showEffect="fade" hideEffect="fade" width="300">
+                        <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes"
+                                         icon="fa fa-check"/>
+                        <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="fa fa-close"/>
+                    </p:confirmDialog>
+
+                    <p:dialog header="Resolution" id="dlg" widgetVar="dlg" modal="true" responsive="true" width="600"
+                              showEffect="fade" hideEffect="fade">
+                        <div>
+
+                            <p>
+                                #{hDeskCaseListView.selectedHDeskCaseVW.resolution}
+                            </p>
+
+                            <p>
+                                <p:rating value="1"
+                                          rendered="#{hDeskCaseListView.selectedHDeskCaseVW.score == 'VERY LOW'}"
+                                          disabled="true"/>
+                                <p:rating value="2" rendered="#{hDeskCaseListView.selectedHDeskCaseVW.score == 'LOW'}"
+                                          disabled="true"/>
+                                <p:rating value="3"
+                                          rendered="#{hDeskCaseListView.selectedHDeskCaseVW.score == 'NORMAL'}"
+                                          disabled="true"/>
+                                <p:rating value="4" rendered="#{hDeskCaseListView.selectedHDeskCaseVW.score == 'GOOD'}"
+                                          disabled="true"/>
+                                <p:rating value="5"
+                                          rendered="#{hDeskCaseListView.selectedHDeskCaseVW.score == 'VERY GOOD'}"
+                                          disabled="true"/>
+                            </p>
+                        </div>
+                        <f:facet name="footer">
+
+                            <p:commandButton value="Close" type="button" styleClass="secondary-button"
+                                             icon="fa fa-close"
+                                             onclick="PF('dlg').hide()"/>
+                        </f:facet>
+                    </p:dialog>
+
+                </h:form>
+
+
+            </div>
+        </div>
+
+    </ui:define>
+
+</ui:composition>

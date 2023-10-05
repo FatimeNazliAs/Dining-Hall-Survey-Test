@@ -1,0 +1,124 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/admin_template.xhtml">
+
+    <ui:define name="title">Parametre Listesi</ui:define>
+
+    <ui:define name="content">
+
+        <div class="p-grid table-demo">
+            <div class="p-col-12">
+                <div class="card">
+                    <h4>Parametre Listesi</h4>
+
+
+                    <h:form id="form">
+
+                        <p:growl id="msgs" showDetail="false"/>
+
+                        <p:dataTable var="paramsVW" value="#{paramsListView.lazyParamsDataModel}"
+                                     paginatorPosition="both" rowIndexVar="status"
+                                     styleClass="ui-datatable-borderless" id="paramsVWTable"
+                                     paginator="true" rows="10" widgetVar="paramsVWTable"
+                                     lazy="true" editable="true">
+
+                            <p:ajax event="rowEdit" listener="#{paramsListView.onRowEdit}" update=":form:msgs"/>
+                            <p:ajax event="rowEditCancel" listener="#{paramsListView.onRowCancel}"
+                                    update=":form:msgs"/>
+
+                            <f:facet name="header">
+                                <div class="customers-table-header">
+                                    <span style="font-weight: bold">Liste</span>
+
+                                    <span class="ui-input-icon-left filter-container">
+                                        <i class="pi pi-search"></i>
+
+                                        <p:inputText id="globalFilter" onkeypress="PF('paramsVWTable').filter();if (event.keyCode == 13) { return false; }" placeholder="Arama" />
+                                    </span>
+                                </div>
+                            </f:facet>
+
+
+                            <p:column headerText="Id" styleClass="p-col-1">
+                                <h:outputText value="#{status + 1}"/>
+                            </p:column>
+
+                            <p:column headerText="Parametre Adı"
+                                      filterBy="#{paramsVW.paramName}">
+                                <p:cellEditor>
+                                    <f:facet name="output"><h:outputText value="#{paramsVW.paramName}"/></f:facet>
+                                    <f:facet name="input">
+                                        <p:inputText id="paramName" value="#{paramsVW.paramName}"
+                                                     style="width:100%">
+                                        </p:inputText>
+                                    </f:facet>
+                                </p:cellEditor>
+                            </p:column>
+
+                            <p:column headerText="Parametre Değeri"
+                                      filterBy="#{paramsVW.paramValue}">
+                                <p:cellEditor>
+                                    <f:facet name="output"><h:outputText value="#{paramsVW.paramValue}"/></f:facet>
+                                    <f:facet name="input">
+                                        <p:inputText id="paramValue" value="#{paramsVW.paramValue}"
+                                                     style="width:100%">
+                                        </p:inputText>
+                                    </f:facet>
+                                </p:cellEditor>
+                            </p:column>
+
+                            <p:column headerText="Parametre Açıklaması"
+                                      filterBy="#{paramsVW.paramDesc}">
+                                <p:cellEditor>
+                                    <f:facet name="output"><h:outputText value="#{paramsVW.paramDesc}"/></f:facet>
+                                    <f:facet name="input">
+                                        <p:inputTextarea id="paramDesc" value="#{paramsVW.paramDesc}"
+                                                         style="width:100%">
+                                        </p:inputTextarea>
+                                    </f:facet>
+                                </p:cellEditor>
+                            </p:column>
+
+
+                            <p:column style="width:25px">
+                                <p:rowEditor/>
+                            </p:column>
+
+                            <p:column style="width: 8em" exportable="false">
+                                <div class="p-grid">
+                                    <div class="p-col-4">
+                                        <p:commandButton icon="pi pi-trash" styleClass="ui-button-warning"
+                                                         action="#{paramsListView.deleteParams(paramsVW.paramsId)}"
+                                                         update="form">
+
+                                            <p:confirm escape="false" header="Onay"
+                                                       message="&lt;br/&gt; Emin misiniz? &lt;br/&gt; &lt;br/&gt; #{paramsVW.paramName}"
+                                                       icon="fa fa-warning"/>
+                                        </p:commandButton>
+                                    </div>
+                                </div>
+                            </p:column>
+
+                        </p:dataTable>
+
+                        <p:confirmDialog global="true" showEffect="fade" hideEffect="fade" width="300">
+                            <p:commandButton value="Evet" type="button" styleClass="ui-confirmdialog-yes"
+                                             icon="fa fa-check"/>
+                            <p:commandButton value="Hayır" type="button" styleClass="ui-confirmdialog-no"
+                                             icon="fa fa-close"/>
+                        </p:confirmDialog>
+
+
+                    </h:form>
+
+
+                </div>
+            </div>
+        </div>
+
+    </ui:define>
+
+</ui:composition>

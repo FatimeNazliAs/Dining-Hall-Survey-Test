@@ -1,0 +1,98 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/admin_template.xhtml">
+
+    <ui:define name="title">HDeskStatus List</ui:define>
+
+    <ui:define name="content">
+        <h:form>
+            <div class="p-grid ui-fluid">
+                <div class="p-col-12">
+                    <div class="card">
+                        <p:breadCrumb>
+                            <p:menuitem value="Home" url="#{request.contextPath}/index"/>
+                            <p:menuitem value="Dashboard" url="#{request.contextPath}/AsstAdmin/dashboard.xhtml"/>
+                            <p:menuitem value="Status List" styleClass="ui-selectonemenu"
+                                        url="#{request.contextPath}/AsstAdmin/HelpDesk/hDeskStatusList.xhtml"/>
+                            <p:menuitem value="Status Insert"
+                                        url="#{request.contextPath}/AsstAdmin/HelpDesk/hDeskStatusInsert.xhtml"/>
+                        </p:breadCrumb>
+                    </div>
+                </div>
+            </div>
+        </h:form>
+
+        <div class="p-col-12 p-lg-12">
+            <div class="card inventory">
+                <h:form id="form">
+                    <p:growl id="msgs" showDetail="true"/>
+                    <p:dataTable var="hDeskStatus" value="#{hDeskStatusListView.HDeskStatusList}" selectionMode="single" reflow="true" editable="true"
+                                 paginatorPosition="bottom" selection="#{hDeskStatusListView.selectedHDeskStatus}"
+                                 rowKey="#{hDeskStatus.status}" styleClass="ui-datatable-borderless"
+                                 paginator="true" rows="5" widgetVar="hDeskStatusTable" filteredValue="#{hDeskStatusListView.filteredHDeskStatusList}">
+
+                        <p:ajax event="rowEdit" listener="#{hDeskStatusListView.onRowEdit}" update=":form:msgs" />
+                        <p:ajax event="rowEditCancel" listener="#{hDeskStatusListView.onRowCancel}" update=":form:msgs" />
+
+                        <f:facet name="header">
+                            <h1>Inventory</h1>
+                            <p:outputPanel>
+                                <h:outputText value="Search all fields:" />
+                                <p:inputText id="globalFilter" onkeypress="PF('hDeskStatusTable').filter();if (event.keyCode == 13) { return false; }" placeholder="Arama" />
+                            </p:outputPanel>
+                        </f:facet>
+
+
+                        <p:column headerText="Status Id" sortBy="#{hDeskStatus.statusId}" filterBy="#{hDeskStatus.statusId}">
+                            <h:outputText value="#{hDeskStatus.statusId}" />
+                        </p:column>
+
+                        <p:column headerText="Status" sortBy="#{hDeskStatus.status}" filterBy="#{hDeskStatus.status}">
+                            <p:cellEditor>
+                                <f:facet name="output"><h:outputText value="#{hDeskStatus.status}" /></f:facet>
+                                <f:facet name="input"><p:inputText id="status" value="#{hDeskStatus.status}" style="width:100%"/></f:facet>
+                            </p:cellEditor>
+                        </p:column>
+
+                        <p:column headerText="Description" sortBy="#{hDeskStatus.description}" filterBy="#{hDeskStatus.description}">
+                            <p:cellEditor>
+                                <f:facet name="output"><h:outputText value="#{hDeskStatus.description}" /></f:facet>
+                                <f:facet name="input"><p:inputText id="description" value="#{hDeskStatus.description}" style="width:100%"/></f:facet>
+                            </p:cellEditor>
+                        </p:column>
+
+                        <p:column style="width:5px">
+                            <p:rowEditor />
+                        </p:column>
+
+                        <p:column style="width: 8em">
+                            <div class="p-grid">
+                                <div class="p-col-4">
+                                    <p:commandButton icon="pi pi-trash" styleClass="ui-button-warning" action="#{hDeskStatusListView.deleteHDeskStatus(hDeskStatus.statusId)}" update="form">
+                                        <p:confirm escape="false" header="Confirmation" message="&lt;br/&gt; Are you sure? &lt;br/&gt; &lt;br/&gt; #{hDeskStatus.status}"
+                                                   icon="fa fa-warning"  />
+                                    </p:commandButton>
+                                </div>
+                            </div>
+                        </p:column>
+
+
+                    </p:dataTable>
+
+                    <p:confirmDialog global="true" showEffect="fade" hideEffect="fade" width="300">
+                        <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="fa fa-check" />
+                        <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="fa fa-close" />
+                    </p:confirmDialog>
+
+                </h:form>
+
+
+            </div>
+        </div>
+
+    </ui:define>
+
+</ui:composition>

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebContextManager">
+    <option name="state">
+      <map>
+        <entry key="file://$PROJECT_DIR$/web/AsstAdmin/Info/companyList.xhtml" value="file://$PROJECT_DIR$/web/AsstAdmin/Info" />
+        <entry key="file://$PROJECT_DIR$/web/AsstAdmin/News/newsArticleUpdate.xhtml" value="file://$PROJECT_DIR$/web/AsstAdmin/News" />
+        <entry key="file://$PROJECT_DIR$/web/DorsinTest/index.xhtml" value="file://$PROJECT_DIR$/web/DorsinTest" />
+        <entry key="file://$PROJECT_DIR$/web/DorsinTest/landing_topbar.xhtml" value="file://$PROJECT_DIR$/web/DorsinTest" />
+        <entry key="file://$PROJECT_DIR$/web/DorsinTest/page-blog-details.xhtml" value="file://$PROJECT_DIR$/web/DorsinTest" />
+        <entry key="file://$PROJECT_DIR$/web/DorsinTest/signup.xhtml" value="file://$PROJECT_DIR$/web/DorsinTest" />
+        <entry key="file://$PROJECT_DIR$/web/SiteAdmin/HelpDesk/hDeskCaseList.xhtml" value="file://$PROJECT_DIR$/web/SiteAdmin/HelpDesk" />
+        <entry key="file://$PROJECT_DIR$/web/SiteAdmin/News/newsArticleUpdate.xhtml" value="file://$PROJECT_DIR$/web/SiteAdmin/News" />
+        <entry key="file://$PROJECT_DIR$/web/SiteAdmin/Order/whopayagain.xhtml" value="file://$PROJECT_DIR$/web/SiteAdmin/Order" />
+        <entry key="file://$PROJECT_DIR$/web/User/useraddress.xhtml" value="file://$PROJECT_DIR$/web/User" />
+        <entry key="file://$PROJECT_DIR$/web/User/userpackage.xhtml" value="file://$PROJECT_DIR$/web/User" />
+        <entry key="file://$PROJECT_DIR$/web/User/userprofile.xhtml" value="file://$PROJECT_DIR$/web/User" />
+        <entry key="file://$PROJECT_DIR$/web/WEB-INF/emailverification.xhtml" value="file://$PROJECT_DIR$/web/WEB-INF" />
+        <entry key="file://$PROJECT_DIR$/web/WEB-INF/landing_body.xhtml" value="file://$PROJECT_DIR$/web/WEB-INF" />
+        <entry key="file://$PROJECT_DIR$/web/WEB-INF/landing_contact.xhtml" value="file://$PROJECT_DIR$/web/WEB-INF" />
+        <entry key="file://$PROJECT_DIR$/web/WEB-INF/landing_products_slider.xhtml" value="file://$PROJECT_DIR$/web/WEB-INF" />
+        <entry key="file://$PROJECT_DIR$/web/WEB-INF/landing_topbar.xhtml" value="file://$PROJECT_DIR$/web/WEB-INF" />
+        <entry key="file://$PROJECT_DIR$/web/about.xhtml" value="file://$PROJECT_DIR$/web" />
+        <entry key="file://$PROJECT_DIR$/web/checkout.xhtml" value="file://$PROJECT_DIR$/web" />
+        <entry key="file://$PROJECT_DIR$/web/drugDetail.xhtml" value="file://$PROJECT_DIR$/web" />
+        <entry key="file://$PROJECT_DIR$/web/index.html" value="file://$PROJECT_DIR$/web" />
+        <entry key="file://$PROJECT_DIR$/web/index.xhtml" value="file://$PROJECT_DIR$/web" />
+        <entry key="file://$PROJECT_DIR$/web/notfound.xhtml" value="file://$PROJECT_DIR$/web" />
+        <entry key="file://$PROJECT_DIR$/web/paypal_sepetim_odeme.xhtml" value="file://$PROJECT_DIR$/web" />
+        <entry key="file://$PROJECT_DIR$/web/productdetail.xhtml" value="file://$PROJECT_DIR$/web" />
+        <entry key="file://$PROJECT_DIR$/web/productlist.xhtml" value="file://$PROJECT_DIR$/web" />
+        <entry key="file://$PROJECT_DIR$/web/raporlama.xhtml" value="file://$PROJECT_DIR$/web" />
+        <entry key="file://$PROJECT_DIR$/web/raporlamachart.xhtml" value="file://$PROJECT_DIR$/web" />
+        <entry key="file://$PROJECT_DIR$/web/satellite_list.xhtml" value="file://$PROJECT_DIR$/web" />
+        <entry key="file://$PROJECT_DIR$/web/shoppingcart.xhtml" value="file://$PROJECT_DIR$/web" />
+        <entry key="file://$PROJECT_DIR$/web/shoppingpackagecart.xhtml" value="file://$PROJECT_DIR$/web" />
+        <entry key="file://$PROJECT_DIR$/web/test.xhtml" value="file://$PROJECT_DIR$/web" />
+      </map>
+    </option>
+  </component>
+</project>

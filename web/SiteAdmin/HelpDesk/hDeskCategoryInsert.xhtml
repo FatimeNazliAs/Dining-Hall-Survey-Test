@@ -1,0 +1,128 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/admin_template.xhtml">
+
+    <ui:define name="head">
+        <style type="text/css">
+            .ui-outputlabel {
+                display: block;
+                margin: 1em 0
+            }
+
+            .ui-selectonemenu,
+            .ui-autocomplete {
+                margin-bottom: 1em;
+            }
+
+            .ui-slider {
+                margin-bottom: 2em;
+            }
+
+
+            @media (max-width:640px) {
+                .cars-datalist .text-column {
+                    text-align: center;
+                }
+
+                .ui-tree {
+                    width: 100%;
+                }
+            }
+        </style>
+
+
+    </ui:define>
+
+    <ui:define name="title">HDeskCategory Add</ui:define>
+    <ui:define name="content">
+        <h:form>
+            <div class="p-grid ui-fluid">
+                <div class="p-col-12">
+                    <div class="card">
+                        <p:breadCrumb>
+                            <p:menuitem value="Home" url="#{request.contextPath}/index"/>
+                            <p:menuitem value="Dashboard" url="#{request.contextPath}/AsstAdmin/dashboard.xhtml"/>
+                            <p:menuitem value="HDeskCategory List" url="#{request.contextPath}/AsstAdmin/HelpDesk/hDeskCategoryList.xhtml"/>
+                            <p:menuitem value="HDeskCategory Insert" styleClass="ui-selectonemenu"  url="#{request.contextPath}/AsstAdmin/HelpDesk/hDeskCategoryInsert.xhtml"/>
+                        </p:breadCrumb>
+                    </div>
+                </div>
+            </div>
+        </h:form>
+
+        <h:form id="form">
+            <div class="p-col-12">
+                <div class="card card-w-title">
+                    <h1>HDeskCategory Information</h1>
+                    <div class="p-grid ui-fluid">
+
+                        <p:growl id="msgs" showDetail="true"/>
+
+                        <div class="p-col-12 p-md-6">
+                            <div class="ui-inputgroup">
+                                <span class="ui-inputgroup-addon  p-md-2">
+                                    Category Name
+                                </span>
+                                <p:inputText placeholder="Type Name..." value="#{hDeskCategoryInsertView.name}" required="true" requiredMessage="Category Name is required."/>
+                            </div>
+                        </div>
+
+
+                        <div class="p-col-12 p-md-6">
+                            <div class="ui-inputgroup">
+                                <span class="ui-inputgroup-addon  p-md-2">Parent Cat Id</span>
+                                <p:inputText id="parentCatId" placeholder="Type Parent Cat Id..." disabled="true"
+                                             value="#{hDeskCategoryInsertView.parentCatId}"/>
+                            </div>
+                        </div>
+
+                        <div class="p-col-12 p-md-6">
+                            <div class="ui-inputgroup">
+                                <span class="ui-inputgroup-addon  p-md-2">
+                                    Description
+                                </span>
+                                <p:inputText placeholder="Type Description..." value="#{hDeskCategoryInsertView.description}"/>
+                            </div>
+                        </div>
+
+                        <div class="p-col-12 p-md-6">
+                            <div class="ui-inputgroup">
+
+                            </div>
+                        </div>
+
+                        <div class="p-col-12 p-md-4" style="text-align:center">
+                            <p:commandButton value="Save" style="margin-bottom:10px;"
+                                             action="#{hDeskCategoryInsertView.insertHDeskCategory}" update=":form"/>
+                        </div>
+
+                        <div class="p-col-12 p-md-4" style="text-align:center">
+                            <p:commandButton value="Reset" styleClass="info-btn" process="@this"
+                                             style="margin-bottom:10px;" action="#{hDeskCategoryInsertView.resetForm}" update=":form"/>
+                        </div>
+
+                        <div class="p-col-12">
+                            <div class="card card-w-title">
+                                <h1>Parent Category</h1>
+                                <p:tree id="tree" value="#{hDeskCategoryInsertView.rootNode}" var="node" selectionMode="single" selection="#{hDeskCategoryInsertView.selectedNode}">
+                                    <p:ajax event="select" update=":form:tree :form:parentCatId" listener="#{hDeskCategoryInsertView.onNodeSelect}" />
+                                    <p:treeNode expandedIcon="fa fa-fw fa-folder-open" collapsedIcon="fa fa-fw fa-folder">
+                                        <h:outputText value="#{node}"/>
+                                    </p:treeNode>
+                                </p:tree>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+        </h:form>
+
+
+    </ui:define>
+
+</ui:composition>

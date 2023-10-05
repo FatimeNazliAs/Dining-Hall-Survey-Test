@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+>
+<h:head>
+   <h:outputStylesheet>
+       .divbody {
+           background-color: #444;
+           color: #fff;
+           text-align: center;
+           font-family: Arial, sans-serif;
+           font-size: 20px;
+           margin-top: 50px;
+       }
+
+       .countdown {
+           padding: 30px;
+           background-color: #333;
+           border-radius: 10px;
+           float: right;
+           margin: 50px;
+       }
+
+   </h:outputStylesheet>
+
+</h:head>
+
+<h:body>
+    <p:outputLabel style="display:block;font-size: x-large;text-align: center;">KEAS<span
+            style="color:deepskyblue">Gebze</span></p:outputLabel>
+    <div class="card">
+        <h:form id="sc">
+            <p:growl id="messages" showDetail="true"/>
+
+
+
+
+            <div class="countdown" style="text-align: center;color: white">
+                <h1 style="text-align: center">Oy Verildi</h1>
+                <h1 id="timer">10</h1>
+              <div style="margin: 20px;">
+                  <p:commandButton onclick="countPlus()" value="Ek Süre (+10)"/></div>
+                <div>
+                    <p:commandButton onclick="goSurveyPage()" style="min-width: 100px;" value="Oy Ekranına Dön"/>
+                </div>
+
+            </div>
+
+
+
+            <div class="card" style="margin: 20px;">
+
+                <p:panelGrid columns="2">
+                    <p:dataTable var="item" touchable="true"
+                                 value="#{surveyView.nextDayList()}" emptyMessage="Yarının Menüsü Boş">
+                        <f:facet name="header">
+                        <p:outputPanel style="text-align: center">
+                          <p:outputLabel value="Yarının Menüsü" style="font-size: xx-large"/>
+                        </p:outputPanel>
+                        </f:facet>
+
+                        <p:column headerText="Öğün" groupRow="true">
+                            <h:outputText style="vertical-align: middle; margin-left: .5rem"
+                                          value="#{item.categoryName}"/>
+                        </p:column>
+                        <p:column headerText="Yemek">
+                            <h:outputText value="#{item.title}"/>
+                        </p:column>
+                        <p:column headerText="Kalori">
+                            <span class="flag flag-#{item.calori}" style="width: 30px; height: 20px"/>
+                            <h:outputText style="vertical-align: middle; margin-left: .5rem" value="#{item.calori}"/>
+                        </p:column>
+                    </p:dataTable>
+                </p:panelGrid>
+            </div>
+
+        </h:form>
+    </div>
+
+
+</h:body>
+<script>
+
+
+var flag=false;
+    var count = 10;
+    var timer = setInterval(function() {
+        count--;
+        document.getElementById("timer").innerHTML = count;
+        if(count == 0) {
+            clearInterval(timer);
+            goSurveyPage();
+        }
+    }, 1000);
+
+    function countPlus(){
+        if(!flag){
+            count+=10;
+            flag=true;
+        }
+
+    }
+
+    function goSurveyPage() {
+        window.location.href="meal_survey.xhtml";
+    }
+</script>
+
+</html>

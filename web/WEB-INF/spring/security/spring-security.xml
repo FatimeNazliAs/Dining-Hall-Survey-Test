@@ -1,0 +1,144 @@
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+             xmlns:beans="http://www.springframework.org/schema/beans"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-4.1.xsd
+	http://www.springframework.org/schema/security
+	http://www.springframework.org/schema/security/spring-security-3.2.xsd">
+
+
+    <http use-expressions="true" auto-config="false" entry-point-ref="loginUrlAuthenticationEntryPointWithWarning">
+
+
+        <intercept-url pattern="/javax.faces.resource/**" access="permitAll"/>
+        <intercept-url pattern="/product-list/**" access="permitAll" />
+
+        <intercept-url pattern="/WEB-INF/**" access="hasRole('ROLE_ADMIN')"/>
+        <intercept-url pattern="/SiteAdmin/**" access="hasAnyRole('ROLE_ADMIN','ROLE_SUPER')"/>
+        <intercept-url pattern="/dashboard" access="hasAnyRole('ROLE_ADMIN','ROLE_SUPER')"/>
+
+
+        <intercept-url pattern="/User/**" access="hasAnyRole('ROLE_SUPER', 'ROLE_ADMIN','ROLE_USER')"/>
+        <intercept-url pattern="/user-profile" access="hasAnyRole('ROLE_SUPER', 'ROLE_ADMIN','ROLE_USER')"/>
+        <intercept-url pattern="/user-package" access="hasAnyRole('ROLE_SUPER', 'ROLE_ADMIN','ROLE_USER')"/>
+        <intercept-url pattern="/user-order" access="hasAnyRole('ROLE_SUPER', 'ROLE_ADMIN','ROLE_USER')"/>
+        <intercept-url pattern="/user-address" access="hasAnyRole('ROLE_SUPER', 'ROLE_ADMIN','ROLE_USER')"/>
+        <intercept-url pattern="/user-favourite" access="hasAnyRole('ROLE_SUPER', 'ROLE_ADMIN','ROLE_USER')"/>
+        <intercept-url pattern="/user-coupon" access="hasAnyRole('ROLE_SUPER', 'ROLE_ADMIN','ROLE_USER')"/>
+        <intercept-url pattern="/user-reset-password" access="hasAnyRole('ROLE_SUPER', 'ROLE_ADMIN','ROLE_USER')"/>
+        <intercept-url pattern="/user-notification" access="hasAnyRole('ROLE_SUPER', 'ROLE_ADMIN','ROLE_USER')"/>
+
+
+
+        <logout
+                delete-cookies="JSESSIONID"
+                success-handler-ref="customLogoutSuccessHandler"/>
+
+
+        <custom-filter position="CONCURRENT_SESSION_FILTER" ref="concurrencyFilter"/>
+        <custom-filter position="FORM_LOGIN_FILTER" ref="myAuthFilter"/>
+
+        <session-management session-authentication-strategy-ref="sas"/>
+
+        <!-- enable remember me -->
+        <remember-me
+                token-validity-seconds="1209600"
+                remember-me-parameter="remember-me"
+                data-source-ref="dataSource"/>
+
+    </http>
+
+
+    <beans:bean id="concurrencyFilter"
+                class="org.springframework.security.web.session.ConcurrentSessionFilter">
+        <beans:property name="sessionRegistry" ref="sessionRegistry"/>
+        <beans:property name="expiredUrl" value="/login"/>
+    </beans:bean>
+
+    <beans:bean id="myAuthFilter" class=
+            "org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter">
+        <beans:property name="sessionAuthenticationStrategy" ref="sas"/>
+        <beans:property name="authenticationManager" ref="authenticationManager"/>
+        <beans:property name="authenticationFailureHandler" ref="failureHandler"/>
+        <beans:property name="authenticationSuccessHandler" ref="simpleUrlAuthenticationSuccessHandler"/>
+        <beans:property name="passwordParameter" value="password"/>
+        <beans:property name="usernameParameter" value="username"/>
+    </beans:bean>
+
+    <beans:bean id="sas"
+                class="org.springframework.security.web.authentication.session.CompositeSessionAuthenticationStrategy">
+        <beans:constructor-arg>
+            <beans:list>
+                <beans:bean
+                        class="org.springframework.security.web.authentication.session.ConcurrentSessionControlAuthenticationStrategy">
+                    <beans:constructor-arg ref="sessionRegistry"/>
+                    <beans:property name="maximumSessions" value="10"/>
+                    <beans:property name="exceptionIfMaximumExceeded" value="true"/>
+                </beans:bean>
+                <beans:bean
+                        class="org.springframework.security.web.authentication.session.SessionFixationProtectionStrategy">
+                </beans:bean>
+                <beans:bean
+                        class="org.springframework.security.web.authentication.session.RegisterSessionAuthenticationStrategy">
+                    <beans:constructor-arg ref="sessionRegistry"/>
+                </beans:bean>
+            </beans:list>
+        </beans:constructor-arg>
+    </beans:bean>
+
+    <beans:bean id="sessionRegistry"
+                class="org.springframework.security.core.session.SessionRegistryImpl"/>
+
+    <beans:bean id="loginUrlAuthenticationEntryPointWithWarning"
+                class="org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint">
+        <beans:constructor-arg name="loginFormUrl" value="/login"/>
+    </beans:bean>
+
+    <beans:bean id="successHandler"
+                class="org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler">
+        <beans:property name="defaultTargetUrl" value="/"/>
+    </beans:bean>
+
+    <beans:bean id="failureHandler"
+                class="org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler">
+        <beans:property name="defaultFailureUrl" value="/login?login_error=true"/>
+    </beans:bean>
+
+    <beans:bean id="customLogoutSuccessHandler" class="dininghall.spring.CustomLogoutSuccessHandler"/>
+
+
+    <beans:bean id="simpleUrlAuthenticationSuccessHandler"
+                class="dininghall.spring.SimpleUrlAuthenticationSuccessHandler"/>
+
+    <!-- Inject authentication Manager to our LoginBean -->
+    <beans:bean id="userDetailsServiceImpl" class="dininghall.spring.UserDetailsServiceImpl">
+    </beans:bean>
+
+    <beans:bean id="loginAttemptService" class="dininghall.spring.LoginAttemptService">
+    </beans:bean>
+
+    <beans:bean id="authenticationSuccessEventListener" class="dininghall.spring.AuthenticationSuccessEventListener">
+    </beans:bean>
+
+    <beans:bean id="authenticationFailureEventListener" class="dininghall.spring.AuthenticationFailureEventListener">
+    </beans:bean>
+
+    <!-- Select users and user_roles from database -->
+    <authentication-manager alias="authenticationManager">
+        <authentication-provider user-service-ref="userDetailsServiceImpl">
+            <password-encoder hash="bcrypt"/>
+        </authentication-provider>
+    </authentication-manager>
+
+    <beans:bean id="encoder"
+                class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder">
+        <beans:constructor-arg name="strength" value="11"/>
+    </beans:bean>
+
+
+    <!-- Inject authentication Manager to our LoginBean -->
+    <beans:bean id="loginView" name="loginView" class="dininghall.view.landing.LoginView" scope="prototype">
+    </beans:bean>
+
+
+</beans:beans>

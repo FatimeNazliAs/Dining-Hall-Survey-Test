@@ -1,0 +1,132 @@
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/admin_template.xhtml">
+
+<ui:define name="title">İletişim </ui:define>
+
+<ui:define name="content">
+
+    <div class="p-grid table-demo">
+        <div class="p-col-12">
+            <div class="card">
+                <h4>Kullanıcı Mesajları Listesi</h4>
+
+                <h:form id="form">
+
+                    <p:growl id="msgs" showDetail="false"/>
+
+                    <p:dataTable var="contactMessageVW" value="#{contactMessageListView.lazyContactMessageDataModel}"
+                                 paginatorPosition="both" rowIndexVar="status"
+                                 styleClass="ui-datatable-borderless"
+                                 paginator="true" rows="10" widgetVar="contactMessageVWTable"
+                                 lazy="true" editable="true">
+
+
+                        <f:facet name="header">
+                            <div class="customers-table-header">
+                                <span style="font-weight: bold">İçerik</span>
+
+                                <span class="ui-input-icon-left filter-container">
+                                        <i class="pi pi-search"></i>
+                                     <p:inputText id="globalFilter" onkeypress="PF('contactMessageVWTable').filter();if (event.keyCode == 13) { return false; }" placeholder="Arama" />
+
+                                    </span>
+                            </div>
+                        </f:facet>
+
+                        <p:column headerText="Id" styleClass="p-col-1">
+                            <h:outputText value="#{status + 1}"/>
+                        </p:column>
+
+
+
+
+                        <p:column headerText="Gönderen Kişi" sortBy="#{contactMessageVW.fullName}"
+                                  filterBy="#{contactMessageVW.fullName}">
+                            <p:cellEditor>
+                                <f:facet name="output"><h:outputText value="#{contactMessageVW.fullName}"/></f:facet>
+                                <f:facet name="input"><p:inputText id="fullName" value="#{contactMessageVW.fullName}"
+                                                                   style="width:100%"/></f:facet>
+                            </p:cellEditor>
+                        </p:column>
+
+                        <p:column headerText="Eposta Adresi" sortBy="#{contactMessageVW.email}"
+                                  filterBy="#{contactMessageVW.email}">
+                            <p:cellEditor>
+                                <f:facet name="output"><h:outputText value="#{contactMessageVW.email}"/></f:facet>
+                                <f:facet name="input"><p:inputText id="email" value="#{contactMessageVW.email}"
+                                                                   style="width:100%"/></f:facet>
+                            </p:cellEditor>
+                        </p:column>
+
+                        <p:column headerText="Mesaj İçeriği" sortBy="#{contactMessageVW.messageBody}"
+                                  filterBy="#{contactMessageVW.messageBody}">
+                            <p:cellEditor>
+                                <f:facet name="output"><h:outputText value="#{contactMessageVW.messageBody}"/></f:facet>
+                                <f:facet name="input"><p:inputText id="messageBody"
+                                                                   value="#{contactMessageVW.messageBody}"
+                                                                   style="width:100%"/></f:facet>
+                            </p:cellEditor>
+                        </p:column>
+
+                        <p:column headerText="Oluşturma Tarihi" sortBy="#{contactMessageVW.createdDate}"
+                                  filterBy="#{contactMessageVW.createdDate}">
+                            <p:cellEditor>
+                                <f:facet name="output"><h:outputText
+                                        value="#{contactMessageVW.createdDateStr}"/></f:facet>
+                                <f:facet name="input"><p:inputText id="createdDate"
+                                                                   value="#{contactMessageVW.createdDate}"
+                                                                   style="width:100%"/></f:facet>
+                            </p:cellEditor>
+                        </p:column>
+
+                        <p:column headerText="Silinecek Tarih" sortBy="#{contactMessageVW.expiryDate}"
+                                  filterBy="#{contactMessageVW.expiryDate}">
+                            <p:cellEditor>
+                                <f:facet name="output"><h:outputText
+                                        value="#{contactMessageVW.expiryDateStr}"/></f:facet>
+                                <f:facet name="input"><p:inputText id="expiryDate"
+                                                                   value="#{contactMessageVW.expiryDate}"
+                                                                   style="width:100%"/></f:facet>
+                            </p:cellEditor>
+                        </p:column>
+
+
+                        <p:column style="width: 8em" exportable="false">
+                            <div class="p-grid">
+
+                                <div class="p-col-4">
+                                    <p:commandButton icon="pi pi-trash" styleClass="ui-button-warning"
+                                                     action="#{contactMessageListView.deleteContactMessage(contactMessageVW.contactMessageId)}"
+                                                     update="form">
+                                        <p:confirm escape="false" header="Onay"
+                                                   message="&lt;br/&gt; Emin misiniz? &lt;br/&gt; &lt;br/&gt; #{contactMessageVW.email}"
+                                                   icon="fa fa-warning"/>
+                                    </p:commandButton>
+                                </div>
+                            </div>
+                        </p:column>
+
+
+                    </p:dataTable>
+
+                    <p:confirmDialog global="true" showEffect="fade" hideEffect="fade" width="300">
+                        <p:commandButton value="Evet" type="button" styleClass="ui-confirmdialog-yes"
+                                         icon="fa fa-check"/>
+                        <p:commandButton value="Hayır" type="button" styleClass="ui-confirmdialog-no" icon="fa fa-close"/>
+                    </p:confirmDialog>
+
+                </h:form>
+
+
+            </div>
+        </div>
+    </div>
+
+</ui:define>
+
+</ui:composition>

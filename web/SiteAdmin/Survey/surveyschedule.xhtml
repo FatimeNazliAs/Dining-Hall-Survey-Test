@@ -1,0 +1,370 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:c="http://java.sun.com/jsp/jstl/core"
+                template="/WEB-INF/admin_template.xhtml">
+
+    <ui:define name="title">Günlük Yemek Listesi</ui:define>
+    <ui:define name="content">
+        <style>
+            a.fc-daygrid-event {
+                min-height: 40px;
+            }
+
+            /* Sabah */
+            /* Sabah */
+            .breakFastStyle {
+                background-color: #f3f7ff!important; /* Arka plan rengi */
+                color: #004085!important; /* Metin rengi */
+                border: 2px solid #004085!important; /* Sınır rengi ve kalınlığı */
+                transition: background-color 0.3s, border-color 0.3s; /* Süreç geçiş efekti */
+            }
+
+            .breakFastStyle:hover {
+                background-color: #004085!important; /* Arka plan rengi */
+                color: #f3f7ff!important; /* Metin rengi */
+                border: 2px solid #f3f7ff!important; /* Sınır rengi ve kalınlığı */
+            }
+            .breakFastStyle .fc-event-title.fc-sticky {
+                color: #f00!important; /* Sadece Öğle-4 metni için yeni metin rengi */
+                font-weight: bold;
+            }
+            .breakFastStyle .fc-event-time {
+                color: black!important; /* Sadece Öğle-4 metni için yeni metin rengi */
+                font-weight: bold;
+            }
+            .breakFastStyle:hover {
+                background-color: #856404!important; /* Arka plan rengi */
+                color: #fff3cd!important; /* Metin rengi */
+                border: 2px solid #fff3cd!important; /* Sınır rengi ve kalınlığı */
+            }
+            /* Öğle */
+            .lunchStyle {
+                background-color: #fff3cd!important; /* Arka plan rengi */
+                color: #856404!important; /* Metin rengi */
+                border: 2px solid #856404!important; /* Sınır rengi ve kalınlığı */
+                transition: background-color 0.3s, border-color 0.3s; /* Süreç geçiş efekti */
+            }
+
+            .lunchStyle:hover {
+                background-color: #856404!important; /* Arka plan rengi */
+                color: #fff3cd!important; /* Metin rengi */
+                border: 2px solid #fff3cd!important; /* Sınır rengi ve kalınlığı */
+            }
+            .lunchStyle:hover .fc-event-title.fc-sticky {
+                color: whitesmoke!important; /* Sadece Öğle-4 metni için yeni metin rengi */
+                font-weight: bold;
+            }  .lunchStyle .fc-event-title.fc-sticky {
+                   color: #f00!important; /* Sadece Öğle-4 metni için yeni metin rengi */
+                   font-weight: bold;
+               }  .lunchStyle .fc-event-time {
+                      color: black!important; /* Sadece Öğle-4 metni için yeni metin rengi */
+                      font-weight: bold;
+                  }
+
+
+            /* Akşam */
+            .dinnerStyle {
+                background-color: #f8d7da!important; /* Arka plan rengi */
+                color: #721c24!important; /* Metin rengi */
+                border: 2px solid #721c24!important; /* Sınır rengi ve kalınlığı */
+                transition: background-color 0.3s, border-color 0.3s; /* Süreç geçiş efekti */
+            }
+
+            .dinnerStyle:hover {
+                background-color: #721c24!important; /* Arka plan rengi */
+                color: #f8d7da!important; /* Metin rengi */
+                border: 2px solid #f8d7da!important; /* Sınır rengi ve kalınlığı */
+            }
+
+            .dinnerStyle .fc-event-title.fc-sticky {
+                color: #f00!important; /* Sadece Öğle-4 metni için yeni metin rengi */
+            font-weight: bold;
+            }
+            .dinnerStyle .fc-event-time {
+                color: black!important; /* Sadece Öğle-4 metni için yeni metin rengi */
+            font-weight: bold;
+            }
+            .dinnerStyle:hover {
+                background-color: #856404!important; /* Arka plan rengi */
+                color: #721c24!important; /* Metin rengi */
+                border: 2px solid #fff3cd!important; /* Sınır rengi ve kalınlığı */
+            }
+            .menuitemremove{
+                background: linear-gradient(45deg, indigo, brown)!important;
+                border-color: transparent!important;
+                transition: background-color 0.3s, border-color 0.3s!important;
+                border:none!important;
+            }
+            .menuitemremove:hover {
+                background: white !important;
+                color: #793b3b !important;
+            }
+        </style>
+        <div class="card">
+            <h:form>
+
+                <p:outputPanel align="center" style="
+    display: flex;
+    text-align: center;
+    flex-direction: column;
+    align-items: center;
+    height: 72px;
+">
+                    <p:outputLabel style="
+    margin-bottom: 10px;width: -webkit-fill-available;" value="Şablonu Dışarıya Aktarma Bölümü"/>
+
+                    <p:commandButton value="Şablon'u İndir" style="margin-left: .5rem" submit="true" ajax="false"
+                                     onclick="form.target='_blank'" icon="pi pi-arrow-down"
+                                     action="#{scheduleJava8View.sablonExport}"></p:commandButton>
+                    <div>
+
+                        <p:selectOneButton value="#{scheduleJava8View.selectedImport}">
+
+                            <p:ajax event="change" update="@this" process="@this"/>
+
+                            <f:selectItem itemLabel="Sabah" itemValue="1" noSelectionOption="true"/>
+                            <f:selectItem itemLabel="Öğle" itemValue="2"/>
+                            <f:selectItem itemLabel="Akşam" itemValue="3"/>
+                        </p:selectOneButton>
+                    </div>
+                </p:outputPanel>
+
+                <p:toolbar style="height: 250px;
+    display: flex;
+    align-items: stretch;">
+
+                    <p:toolbarGroup style="align-items: normal!important;">
+                        <div>
+                            <div>
+                                <p:outputLabel style="width: -webkit-fill-available;"
+                                               value="Tarihe göre Dışarıya Aktarma Bölümü"/>
+                                <div class="field col-12 md:col-4">
+                                    <p:outputLabel for="multi" value="Tarih Aralığı"/>
+                                    <p:datePicker id="multi" value="#{scheduleJava8View.range}" numberOfMonths="5"
+                                                  monthNavigator="true" yearNavigator="true" locale="tr"
+                                                  readonlyInput="true"
+                                                  selectionMode="range"/>
+                                </div>
+
+
+                            </div>
+                            <div>
+
+
+                                <p:commandButton value="Dışarı Aktar" style="margin-left: .5rem" submit="true"
+                                                 ajax="false" onclick="form.target='_blank'"
+                                                 action="#{scheduleJava8View.export}"></p:commandButton>
+                            </div>
+                        </div>
+                    </p:toolbarGroup>
+
+                    <p:toolbarGroup>
+                        <div>
+                            <p:outputLabel style="text-align: center; width: -webkit-fill-available;"
+                                           value="Şablonu İçeriye Aktarma Bölümü"/>
+                            <div><p:fileUpload id="te" listener="#{scheduleJava8View.handleFileUpload}"
+                                               dragDropSupport="true"
+                                               cancelLabel="İptal"
+                                               uploadLabel="Yükle"
+                                               ode="simple" skinSimple="true" label="İçeri Aktar"
+                                               chooseIcon="pi pi-download" class="info-button"
+                                               update="formSchedule:messages formSchedule:schedule" sizeLimit="1000000"
+
+                                               allowTypes="/(\.|\/)(xlsx)$/"/>
+
+                                <p:outputPanel style="white-space: pre-wrap; word-wrap: break-word;"
+                                               styleClass="mb-3;wr">
+                                    <p:autoUpdate/>
+
+                                    <p:outputLabel style="color: orange">
+                                        #{scheduleJava8View.outputs.outputUpdate}
+                                    </p:outputLabel>
+                                    <p:outputLabel style="color: dodgerblue">
+                                        #{scheduleJava8View.outputs.outputAdd}
+                                    </p:outputLabel>
+                                </p:outputPanel>
+                            </div>
+                        </div>
+                    </p:toolbarGroup>
+
+                </p:toolbar>
+
+            </h:form>
+            <h:form id="formSchedule">
+                <p:growl id="messages" showDetail="true"/>
+
+
+                <p:schedule locale="tr" id="schedule" value="#{scheduleJava8View.eventModel}" widgetVar="myschedule"
+                            timeZone="#{scheduleJava8View.serverTimeZone}"
+                            clientTimeZone="#{scheduleJava8View.serverTimeZone}">
+                    <p:ajax event="dateSelect" listener="#{scheduleJava8View.onDateSelect}" update="eventDetails"
+                            oncomplete="PF('eventDialog').show();"/>
+                    <p:ajax event="eventSelect" listener="#{scheduleJava8View.onEventSelect}" update="eventDetails"
+                            oncomplete="PF('eventDialog').show();"/>
+                    <p:ajax event="eventMove" listener="#{scheduleJava8View.onEventMove}" update="messages"/>
+                    <p:ajax event="eventResize" listener="#{scheduleJava8View.onEventResize}" update="messages"/>
+                </p:schedule>
+
+                <p:dialog widgetVar="eventDialog" header="Öğün İşlem Paneli" id="aaa" showEffect="fade" closable="false"
+                          hideEffect="fade">
+                    <h:panelGrid id="eventDetails" columns="3" cellpadding="7">
+                        <p:outputLabel  value=""/>
+                        <p:outputLabel value="Öğün Tipi"/>
+
+                        <p:selectOneButton value="#{scheduleJava8View.autoComplate.categoryId}" required="true"
+                                           requiredMessage="zorunlu ">
+                            <f:selectItems value="#{scheduleJava8View.autoComplate.categoryList}" var="opt"
+                                           itemLabel="#{opt.categoryName}" itemValue="#{opt.categoryId}"/>
+
+                        </p:selectOneButton>
+                        <h:outputStylesheet>
+                            .itemstyleS {
+                                background: #e3f2fd;
+                                color: #495057;
+                            }
+
+                            .ui-autocomplete-itemtip {
+                                background: #e3f2fd;
+                                color: #495057;
+                            }
+                        </h:outputStylesheet>
+                        <c:forEach items="#{scheduleJava8View.autoComplate.optionMenuList}" var="item">
+
+    <p:commandButton type="submit" icon="pi pi-times" action="#{scheduleJava8View.removeItem(item)}" styleClass="rounded-button ui-button-danger menuitemremove" >
+        <p:confirm header="Emin Misiniz?" message="Öğeyi Silmek Mi İstiyorsunuz?" icon="pi pi-exclamation-triangle"/>
+
+    </p:commandButton>
+
+    <p:selectOneMenu id="#{item.UIkey}_option" value="#{item.dofmType}"
+                                             valueChangeListener="#{scheduleJava8View.autoComplate.changeOption(item)}">
+                                <p:ajax listener="#{scheduleJava8View.autoComplate.changeOption(item)}"
+                                        update="formSchedule:#{item.UIkey}"/>
+
+                                <f:selectItem itemLabel="Tür Seç" itemValue="-1"/>
+                                <f:selectItems value="#{item.typeList}"/>
+
+                                <f:facet name="footer">
+                                    <p:divider styleClass="mt-0"/>
+                                    <h:outputText value="#{item.typeList.size()} Tür" style="font-weight:bold;"/>
+                                </f:facet>
+                            </p:selectOneMenu>
+
+
+                            <p:autoComplete id="#{item.UIkey}" value="#{item.selectedFood}" dropdown="true"
+                                            completeMethod="#{scheduleJava8View.autoComplate.complateAutoDOMW}"
+                                            var="dayof" itemLabel="#{dayof.title}" itemValue="#{dayof}"
+                                            converter="genericConverter" scrollHeight="250">
+                                <f:attribute value="#{item}" name="#{item.UIkey}"/>
+
+                                <f:facet name="itemtip">
+                                    <h:panelGrid columns="2" cellpadding="5">
+                                        <f:facet name="header">
+                                            <span class="flag flag-#{dayof.title}" style="width: 70px; height: 30px"/>
+                                        </f:facet>
+
+                                        <h:outputText value="Başlık"/>
+                                        <h:outputText value="#{dayof.title}"/>
+
+
+                                        <h:outputText value="Kalori"/>
+                                        <h:outputText value="#{dayof.calori}"/>
+
+
+                                        <h:commandButton styleClass="ui-button" value="X"
+                                                         onclick="removeComp('#{item.UIkey}')"/>
+
+
+                                    </h:panelGrid>
+
+                                </f:facet>
+                            </p:autoComplete>
+
+                        </c:forEach>
+                        <div></div>
+                        <p:outputLabel value=""/>
+                        <p:commandButton style="float: right" value="Yeni"
+                                         action="#{scheduleJava8View.autoComplate.getNewA}"
+                                         update="formSchedule:eventDetails"
+                                         styleClass="font-bold ui-button-outlined"/>
+                        <p:commandButton value="Sıfırla" action="#{scheduleJava8View.autoComplate.action}"
+                                         styleClass="font-bold ui-button-outlined"/>
+                        <p:commandButton id="addButton" value="Kaydet" action="#{scheduleJava8View.addEvent}"
+                                         oncomplete="PF('myschedule').update();PF('eventDialog').hide();"/>
+                        <p:commandButton id="cancelButton" value="İptal Et" oncomplete="PF('myschedule').update();PF('eventDialog').hide();"
+                        />
+
+                    </h:panelGrid>
+
+                    <div class="flex justify-content-between mt-3">
+
+
+                    </div>
+
+                </p:dialog>
+
+            </h:form>
+            <form id="dialogForms">
+
+                <p:confirmDialog global="true" showEffect="fade" hideEffect="fade" responsive="true" width="350">
+                    <p:commandButton value="Hayır" type="button" styleClass="ui-confirmdialog-no ui-button-flat"/>
+                    <p:commandButton value="Evet" type="button" styleClass="ui-confirmdialog-yes" />
+                </p:confirmDialog>
+            </form>
+        </div>
+
+        <script>
+            function removeComp(index) {
+                var elements = document.querySelectorAll('#formSchedule\\:' + index + '_itemtip'); // id seçici ile aynı id'ye sahip tüm elementleri seçin
+                var find = false;
+                for (var i = 0; elements.length > i; i++) {
+                    if (!find) {
+                        find = true;
+
+                        continue;
+                    }
+                    elements[i].remove(); // her elementi silin
+                }
+                // alert(index+"");
+                //   document.getElementById("formSchedule:itemTip"+index+"_itemtip").remove();
+                document.getElementById("formSchedule:" + index + "_itemtip").style.display = "none";
+            }
+
+            setTimeout(() => {
+                    document.getElementById("formSchedule:itemTip2_itemtip").remove();
+                }
+                , 1000);
+        </script>
+        <script>
+            PrimeFaces.locales ['tr'] = {
+                closeText: 'Kapat',
+                prevText: 'Önceki',
+                nextText: 'Sonraki',
+                monthNames: ['Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs', 'Haziran', 'Temmuz', 'Ağustos', 'Eylül', 'Ekim', 'Kasım', 'Aralık'],
+                monthNamesShort: ['Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs', 'Haziran', 'Temmuz', 'Ağus', 'Eylül', 'Ekim', 'Kasım', 'Aralık'],
+                dayNames: ['Pazar', 'Pazartesi', 'Salı', 'Çarşamba', 'Perşembe', 'Cuma', 'Cmt'],
+                dayNamesShort: ['Paz', 'Pzt', 'Salı', 'Çrş', 'Prş', 'Cuma', 'C'],
+                dayNamesMin: ['P', 'P', 'S', 'Ç ', 'P', 'C ', 'CT'],
+                weekHeader: 'Hafta(KEAS)',
+                firstDay: 1,
+                timeOnlyTitle: 'Sadece Zaman',
+                timeText: 'Zaman',
+                hourText: 'Saat',
+                minuteText: 'Dakika',
+                secondText: 'Saniye',
+                currentText: 'Bugün\'e Dön',
+                ampm: false,
+                year: 'Yıllık',
+                month: 'Aylık',
+                week: 'Haftalık',
+                day: 'Günlük',
+                allDayText: 'Tüm Gün',
+                moreLinkText: 'Daha Fazla. ..',
+                noEventsText: 'Etkinlik Yok',
+                list: 'Randevular'
+            };
+        </script>
+    </ui:define>
+</ui:composition>

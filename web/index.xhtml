@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+>
+<h:head>
+
+    <title>anasayfa</title>
+
+    <meta charset="utf-8"/>
+    <meta http-equiv="content-language" content="en"/>
+
+
+</h:head>
+
+<h:body>
+    <h:form>
+
+    <p:outputPanel style="text-align: center">
+
+
+    </p:outputPanel>
+
+    <p:outputPanel>
+        <p:toolbar style="float: right">
+            <p:toolbarGroup>
+                <p:commandButton value="Yemek Listesi"/>
+            </p:toolbarGroup>
+            <p:toolbarGroup>
+                <p:commandButton value="Yarının Menüsü"/>
+            </p:toolbarGroup>
+        </p:toolbar>
+    </p:outputPanel>
+
+    <p:divider/>
+
+        <h:outputStylesheet>
+        .ratingDiv {
+
+        }
+
+        .ratePanelOut {
+
+        }
+
+        body .ui-rating .ui-rating-star-on a {
+            font-size: 40px;
+            color: red;
+            margin-right: 70px;
+        }
+
+        body .ui-rating .ui-rating-star a {
+            font-size: 40px;
+            color: red;
+            margin-right: 70px;
+        }
+    </h:outputStylesheet>
+
+    <table class="ui-panelgrid ui-widget" style="margin: auto;margin-top:40px;">
+
+        <p:repeat value="#{surveyView.modelList}" var="item">
+            <tr class="ui-widget-content">
+                <td class="ui-panelgrid-cell"><p:outputLabel value="#{item.model.title}"/></td>
+                <td class="ui-panelgrid-cell"><p:rating value="#{item.rate}" stars="5" cancel="false"
+                                                        styleClass="oyRating"/></td>
+            </tr>
+
+
+        </p:repeat>
+    </table>
+<div style="text-align: center;margin-top: 40px;">
+    <p:commandButton value="Oy Kullan" action="#{surveyView.save}" oncomplete="window.location.href = 'succesPage.xhtml';"  />
+
+</div>
+    </h:form>
+</h:body>
+
+
+</html>

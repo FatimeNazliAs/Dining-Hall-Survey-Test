@@ -1,0 +1,112 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/admin_template.xhtml">
+
+    <ui:define name="title">Günlük Yemek Listesi</ui:define>
+    <ui:define name="content">
+
+    <h:form id="form">
+        <p:growl id="msgs" showDetail="true"/>
+        <div class="card">
+
+            <p:toolbar>
+
+                <p:toolbarGroup style="float: left">
+                    <p:commandButton update=":dialogs:manage-dayofmenu-content" icon="pi pi-file" styleClass="mr-2"
+                                     process="@this" action="#{foodListView.newFood()}" oncomplete="PF('newDayOfMenuDialog').show()" value="Yeni Yemek Ekle"/>
+
+                </p:toolbarGroup>
+                <p:toolbarGroup style="float: right">
+
+                <p:commandButton type="button" title="Save" icon="pi pi-save" styleClass="ui-button-help mr-2" />
+                <p:commandButton type="button" title="Print" icon="pi pi-print" styleClass="ui-button-warning mr-2"/>
+                <p:commandButton type="button" title="Delete" icon="pi pi-trash" styleClass="ui-button-danger"/>
+            </p:toolbarGroup>
+            </p:toolbar>
+
+        <p:dataTable
+                paginator="true" rows="20" id="dayofmenuDW" widgetVar="dayofmenuDW"
+                paginatorPosition="both" editable="true"
+                paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown} {Exporters}"
+                lazy="true"
+                var="dayofmenuVW" value="#{dayOfMenuView.dayOfMenuLazyDataModel}">
+
+
+            <p:column   filterBy="#{dayofmenuVW.dayOfMenuId}" filterMatchMode="contains"  headerText="Yemek Id">
+                <h:outputText value="#{dayofmenuVW.dayOfMenuId}" />
+            </p:column>
+            <p:column   filterBy="#{dayofmenuVW.menuDate}" filterMatchMode="contains"  headerText="menuDate">
+                <h:outputText value="#{dayofmenuVW.menuDate}" />
+            </p:column>
+            <p:column   filterBy="#{dayofmenuVW.title}" filterMatchMode="contains"  headerText="Kalori">
+                <h:outputText value="#{dayofmenuVW.title}" />
+            </p:column>
+            <p:column   filterBy="#{dayofmenuVW.foodCategoryName}" filterMatchMode="contains"  headerText="foodCategoryName &amp; Z.YAĞLI">
+                <h:outputText value="#{dayofmenuVW.foodCategoryName}" />
+            </p:column>
+            <p:column   filterBy="#{dayofmenuVW.categoryName}" filterMatchMode="contains"  headerText="categoryName">
+                <h:outputText value="#{dayofmenuVW.categoryName}" />
+            </p:column>
+            <p:column   filterBy="#{dayofmenuVW.calori}" filterMatchMode="contains"  headerText="calori ">
+                <h:outputText value="#{dayofmenuVW.calori}" />
+            </p:column>
+
+            <p:column headerText="#">
+                <p:commandButton icon="pi pi-pencil" update=":dialogs:manage-dayofmenu-content"
+                                 oncomplete="PF('newDayOfMenuDialog').show()"
+                                 styleClass="edit-button rounded-button ui-button-success" process="@this">
+                    <f:setPropertyActionListener value="#{dayofmenuVW}" target="#{dayOfMenuView.selectedDayOfMenuVW}" />
+                    <p:resetInput target=":dialogs:manage-dayofmenu-content" />
+                </p:commandButton>
+            </p:column>
+
+        </p:dataTable>
+        </div>
+        </h:form>
+        <h:form id="dialogs">
+            <p:dialog header="New String" showEffect="fade" modal="true" widgetVar="newDayOfMenuDialog"
+                      responsive="true">
+                <p:outputPanel id="manage-dayofmenu-content" class="ui-fluid">
+                    <p:outputPanel>
+
+
+                        <div class="formgrid grid">
+
+                            <div class="field col">
+                                <div class="field">
+                                    <p:outputLabel for="tur">Yemek Tür Bilgisi</p:outputLabel>
+                                    <p:inputText requiredMessage="Yemek Tür Bilgisi Zorunludur" id="tur" value="#{dayOfMenuView.selectedDayOfMenuVW.categoryId}" required="true"/>
+                                </div>
+                                <div class="field">
+                                    <p:outputLabel for="foodname">Yemek Adı</p:outputLabel>
+                                    <p:inputText requiredMessage="Yemek Adı Zorunludur" id="foodname" value="#{dayOfMenuView.selectedDayOfMenuVW.menuDate}" required="true"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="formgrid grid">
+
+                            <div class="field col">
+                                <div class="field">
+                                    <p:outputLabel for="foodcalori">Yemek Kalori Miktarı</p:outputLabel>
+                                    <p:inputText requiredMessage="Yemek Kalori Miktarı Zorunludur" id="foodcalori" value="#{dayOfMenuView.selectedDayOfMenuVW.dayOfMenuId}" required="true"/>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+
+                    </p:outputPanel></p:outputPanel>
+                <f:facet name="footer">
+                    <p:commandButton value="Kaydet" icon="pi pi-check" action="#{dayOfMenuView.saveDayOfMenu()}"
+                                     update="manage-dayofmenu-content form" oncomplete="PF('newDayOfMenuDialog').hide()" process="manage-dayofmenu-content @this"/>
+                    <p:commandButton value="İptal" icon="pi pi-times" onclick="PF('newDayOfMenuDialog').hide()"
+                                     class="ui-button-secondary" type="button"/>
+                </f:facet></p:dialog>
+        </h:form>
+
+    </ui:define>
+</ui:composition>

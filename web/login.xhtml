@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="tr"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui" xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<h:head>
+
+    <meta charset="utf-8"/>
+    <meta http-equiv="content-language" content="tr"/>
+    <meta property="title" content="KeasTambar Giriş Yap | KeasTambar"/>
+
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+
+    <title>Giriş Yap - Keas Yemekhane Anketi</title>
+
+    <link rel="icon" href="#{request.contextPath}/resources/images/favicon.ico"/>
+
+    <link href="#{request.contextPath}/resources/css/tailwind/tailwind.min.css" rel="stylesheet"/>
+
+</h:head>
+
+<h:body styleClass="login-body">
+
+
+    <section class="py-6 py-10">
+
+        <form onkeypress="if( event.keyCode == 13){event.keyCode=0;}"
+              id="loginForm" name="loginForm" action="#{request.contextPath}/j_spring_security_check" method="post">
+
+            <div>
+                <div class="flex bg-white rounded-lg shadow-lg overflow-hidden mx-auto max-w-sm lg:max-w-4xl">
+                    <div class="hidden lg:block lg:w-1/2 bg-cover"
+                         style="background-image:url(resources/images/login/login2.png)">
+                    </div>
+                    <div class="w-full p-8 lg:w-1/2">
+                        <h2 class="text-2xl font-semibold text-gray-700 text-center">Keas Yemekhane Anketi
+                        </h2>
+                        <p class="text-xl text-gray-600 text-center">Hoşgeldiniz!</p>
+
+                        <div class="mt-4 flex items-center justify-between">
+                            <span class="border-b w-1/5 lg:w-1/4"> </span>
+                            <a href="#{request.contextPath}/giris-yap"
+                               class="text-xs text-center text-gray-500 uppercase">eposta adresi ile giriş
+                                yap</a>
+
+                            <span class="border-b w-1/5 lg:w-1/4"> </span>
+
+                        </div>
+                        <div class="mt-4">
+                            <h:outputLabel value="* Girdiğiniz bilgiler hatalıdır, lütfen tekrar deneyiniz."
+                                           rendered="#{!empty sessionScope['SPRING_SECURITY_LAST_EXCEPTION'].message}"
+                                           style="margin-left: 5px;margin-bottom: 5px;color: #ff0000"/>
+                            <label class="block text-gray-700 text-sm font-bold mb-2">E-posta Adresi</label>
+                            <input class="bg-gray-200 text-gray-700 focus:outline-none focus:shadow-outline border border-gray-300 rounded py-2 px-4 block w-full appearance-none"
+                                   type="email" id="usernameField" name="username"
+                                   placeholder="E-Posta adresinizi giriniz..."/>
+
+
+                        </div>
+                        <div class="mt-4">
+                            <div class="flex justify-between">
+                                <label class="block text-gray-700 text-sm font-bold mb-2">Şifre</label>
+                                <a href="#{request.contextPath}/sifremi-unuttum"
+                                   class="text-xs text-gray-500">Şifremi Unuttum?</a>
+                            </div>
+                            <input class="bg-gray-200 text-gray-700 focus:outline-none focus:shadow-outline border border-gray-300 rounded py-2 px-4 block w-full appearance-none"
+                                   type="password" id="passwordField" name="password"
+                                   placeholder="Şifrenizi giriniz..."/>
+                        </div>
+
+
+                        <div class="mt-8">
+                            <button type="submit"
+                                    class="bg-green-500 text-white font-bold py-2 px-4 w-full rounded hover:bg-geen-700">
+                                Giriş Yap
+                            </button>
+                        </div>
+                        <div class="mt-4 flex items-center justify-between">
+                            <span class="border-b w-1/5 md:w-1/4"></span>
+
+                            <a href="#{request.contextPath}/uye-ol" class="text-xs text-gray-500 uppercase"></a>
+
+                            <span class="border-b w-1/5 md:w-1/4"></span>
+                        </div>
+                        <br/><br/><br/><br/><br/><br/>
+                    </div>
+                </div>
+            </div>
+
+        </form>
+    </section>
+
+
+</h:body>
+
+</html>

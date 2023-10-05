@@ -1,0 +1,105 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/admin_template.xhtml">
+
+    <ui:define name="title">Haber Bülteni Alıcı Listesi</ui:define>
+
+    <ui:define name="content">
+
+        <div class="p-grid table-demo">
+            <div class="p-col-12">
+                <div class="card">
+                    <h4>Haber Bülteni Alıcı Listesi</h4>
+
+
+                    <h:form id="form">
+
+                        <p:growl id="msgs" showDetail="false"/>
+
+                        <p:dataTable var="newsletterVW" value="#{newsletterListView.lazyNewsletterDataModel}"
+                                     paginatorPosition="both" rowIndexVar="status"
+                                     styleClass="ui-datatable-borderless" id="newsletterVWTable"
+                                     paginator="true" rows="10" widgetVar="newsletterVWTable"
+                                     lazy="true" editable="true">
+
+                            <p:ajax event="rowEdit" listener="#{newsletterListView.onRowEdit}" update=":form:msgs"/>
+                            <p:ajax event="rowEditCancel" listener="#{newsletterListView.onRowCancel}"
+                                    update=":form:msgs"/>
+
+                            <f:facet name="header">
+                                <div class="customers-table-header">
+                                    <span style="font-weight: bold">Liste</span>
+
+                                    <span class="ui-input-icon-left filter-container">
+                                        <i class="pi pi-search"></i>
+                                        <p:inputText id="globalFilter" onkeypress="PF('newsletterVWTable').filter();if (event.keyCode == 13) { return false; }" placeholder="Arama" />
+                                    </span>
+                                </div>
+                            </f:facet>
+
+
+                            <p:column headerText="Id" styleClass="p-col-1">
+                                <h:outputText value="#{status + 1}"/>
+                            </p:column>
+
+                            <p:column headerText="Eposta" sortBy="#{newsletterVW.email}"
+                                      filterBy="#{newsletterVW.email}">
+                                <p:cellEditor>
+                                    <f:facet name="output"><h:outputText value="#{newsletterVW.email}"/></f:facet>
+                                    <f:facet name="input">
+                                        <p:inputText id="email" value="#{newsletterVW.email}"
+                                                     style="width:100%">
+                                            <f:validateRegex
+                                                    pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$"/>
+                                        </p:inputText>
+                                    </f:facet>
+                                </p:cellEditor>
+                            </p:column>
+
+                            <p:column headerText="Kayıt Tarihi" sortBy="#{newsletterVW.registeredDate}"
+                                      filterBy="#{newsletterVW.registeredDate}">
+                                <h:outputText value="#{newsletterVW.registeredDateStr}"/>
+                            </p:column>
+
+                            <p:column style="width:25px">
+                                <p:rowEditor/>
+                            </p:column>
+
+                            <p:column style="width: 8em" exportable="false">
+                                <div class="p-grid">
+                                    <div class="p-col-4">
+                                        <p:commandButton icon="pi pi-trash" styleClass="ui-button-warning"
+                                                         action="#{newsletterListView.deleteNewsletter(newsletterVW.newsletterId)}"
+                                                         update="form">
+
+                                            <p:confirm escape="false" header="Onay"
+                                                       message="&lt;br/&gt; Emin misiniz? &lt;br/&gt; &lt;br/&gt; #{newsletterVW.email}"
+                                                       icon="fa fa-warning"/>
+                                        </p:commandButton>
+                                    </div>
+                                </div>
+                            </p:column>
+
+                        </p:dataTable>
+
+                        <p:confirmDialog global="true" showEffect="fade" hideEffect="fade" width="300">
+                            <p:commandButton value="Evet" type="button" styleClass="ui-confirmdialog-yes"
+                                             icon="fa fa-check"/>
+                            <p:commandButton value="Hayır" type="button" styleClass="ui-confirmdialog-no"
+                                             icon="fa fa-close"/>
+                        </p:confirmDialog>
+
+
+                    </h:form>
+
+
+                </div>
+            </div>
+        </div>
+
+    </ui:define>
+
+</ui:composition>

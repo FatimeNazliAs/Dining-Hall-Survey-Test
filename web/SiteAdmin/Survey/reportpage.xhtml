@@ -1,0 +1,158 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/admin_template.xhtml">
+
+    <ui:define name="title">Sonuç Rapor Ekranı</ui:define>
+    <ui:define name="content">
+        <h:outputStylesheet>
+            .normalcolumnclass {
+                background: #efeeed;
+            }
+
+            .multinextcolumnclass {
+                box-shadow: inset -1px 0px 5px 0px #efe6e6;
+
+                border-bottom-left-radius: 15px;
+                border-top-left-radius: 15px;
+            }
+
+            .multiprevcolumnclass {
+                border-bottom-right-radius: 15px;
+                border-top-right-radius: 15px;
+                width: 25px;
+
+
+                box-shadow: inset -1px 0px 5px 0px #efe6e6;
+            }
+        </h:outputStylesheet>
+        <h:form id="form">
+            <p:growl id="msgs" showDetail="true"/>
+
+            <div class="card">
+                <h1>Sonuç Rapor Ekranı</h1>
+                <p:dataTable stripedRows="true" draggableColumns="false" resizableColumns="false"
+                             rowKey="#{feedBackAvg.dompId}"
+                             selection="#{feedbackListView.selectedMap}" selectionMode="single"
+                             paginator="true" rows="20" id="feedBackAvgListDT" widgetVar="feedBackAvgListDT"
+                             paginatorPosition="both" editable="true"
+                             paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown} {Exporters}"
+                             lazy="true"
+                             var="feedBackAvg" value="#{feedbackListView.mapkey}">
+                    <p:ajax event="rowSelect" listener="#{feedbackListView.onRowSelect()}" update="form"/>
+
+
+                    <f:facet name="header">
+                        <div class="card" style="display: flex;justify-content: space-around;">
+
+                        <div  >
+                            <span style="font-weight: bold">Yemek Ad:</span>
+                            <span class="filter-container ui-input-icon-left"> <i class="pi pi-search"></i>
+                       <p:inputText id="globalFilter"
+                                    onchange="handleInputChange()"
+                                    placeholder="Search"/>
+
+<p:commandButton onclick="PF('feedBackAvgListDT').filter()"
+                 update="form"
+                 id="autoara"
+                 value="Otomatik Aranıyor"/>     </span>
+
+                        </div>
+                            <div ><span style="font-weight: bold">Öğün:</span>
+                                <p:selectOneButton onchange="PF('feedBackAvgListDT').filter()"
+                                                   value="#{feedbackListView.selectedCategory}">
+                                    <p:ajax event="change" update="@form" process="@parent"/>
+                                    <f:selectItem itemLabel="Sabah" itemValue="1" noSelectionOption="true"/>
+                                    <f:selectItem itemLabel="Öğle" itemValue="2"/>
+                                    <f:selectItem itemLabel="Akşam" itemValue="3"/>
+                                </p:selectOneButton>
+                            </div>
+                        </div>
+
+                    </f:facet>
+                    <p:columns value="#{feedbackListView.columns}" var="column" headerText="#{column.header}"
+                               field="#{column.property}">
+                        <f:facet name="filter">
+                            <p:inputText onchange="PF('feedBackAvgListDT').filter()" value=""/>
+                        </f:facet>
+                    </p:columns>
+                    <p:column><p:commandButton update=":dialogs:manage-feedBackAvg-content form"
+                                               action="#{feedbackListView.openNew()}"
+                                               oncomplete="PF('newfeedBackAvgDialog').show()"
+                                               value="Detaylı Gör">
+                        <f:setPropertyActionListener value="#{feedBackAvg}"
+                                                     target="#{feedbackListView.selectedMap}"/>
+                    </p:commandButton></p:column>
+
+
+                </p:dataTable>
+            </div>
+            <div class="card">
+                <h5>3.14.2023 Günü Raporu</h5>
+                <p:outputPanel rendered="#{feedbackListView.nullControl}" id="chart">
+
+                    <p:barChart model="#{feedbackListView.surveyStacked.stackedGroupBarModel}"
+                                style="width: 100%; height: 500px;">
+                        <p:ajax event="itemSelect" listener="#{feedbackListView.openNew()}"
+                                oncomplete="PF('newfeedBackAvgDialog').show()"
+                                update=":dialogs:manage-feedBackAvg-content"
+                        />
+                    </p:barChart>
+                </p:outputPanel>
+            </div>
+        </h:form>
+        <h:form id="dialogs">
+            <p:dialog header="Oylamalar" showEffect="fade" modal="true" widgetVar="newfeedBackAvgDialog"
+                      responsive="true">
+                <p:outputPanel id="manage-feedBackAvg-content" class="ui-fluid">
+                    <p:outputPanel>
+
+                        <p:dataTable stripedRows="true" draggableColumns="false" resizableColumns="false"
+                                     paginator="true" rows="20" id="feedBackAvgListDT1" widgetVar="feedBackAvgListDT1"
+                                     paginatorPosition="both" editable="true"
+                                     paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown} {Exporters}"
+                                     lazy="true"
+                                     var="feedBackDetail" value="#{feedbackListView.mapkey2}">
+
+                            <f:facet name="header">
+
+                            </f:facet>
+
+                            <p:columns sortable="false" colspan="#{column.colspan}" filterable="false"
+                                       styleClass="#{column.style}"
+                                       value="#{feedbackListView.nestedcolumns}" var="column"
+                                       headerText="#{column.header}" field="#{column.property}">
+                                <f:facet name="filter">
+                                    <p:inputText onchange="PF('feedBackAvgListDT').filter()" value="asd"/>
+                                </f:facet>
+                            </p:columns>
+
+
+                        </p:dataTable>
+
+
+                    </p:outputPanel></p:outputPanel>
+                <f:facet name="footer">
+                    <p:commandButton value="Cancel" icon="pi pi-times" onclick="PF('newfeedBackAvgDialog').hide()"
+                                     class="ui-button-secondary" type="button"/>
+                </f:facet></p:dialog>
+        </h:form>
+        <script>
+            let inputTimeout;
+
+            function handleInputChange() {
+                clearTimeout(inputTimeout);
+                inputTimeout = setTimeout(function() {
+                    performAutoSearch();
+                }, 2000); // Son tuşa basıldıktan 1 saniye sonra arama yap
+            }
+
+            function performAutoSearch() {
+                document.getElementById('form:feedBackAvgListDT:autoara').click(); // Otomatik tıklama işlemi
+            }
+        </script>
+
+    </ui:define>
+</ui:composition>

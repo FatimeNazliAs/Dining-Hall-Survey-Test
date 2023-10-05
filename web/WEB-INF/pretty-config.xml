@@ -1,0 +1,195 @@
+<pretty-config xmlns="http://ocpsoft.org/schema/rewrite-config-prettyfaces"
+               xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+               xsi:schemaLocation="http://ocpsoft.org/schema/rewrite-config-prettyfaces
+                      http://ocpsoft.org/xml/ns/prettyfaces/rewrite-config-prettyfaces.xsd">
+
+    <url-mapping id="index">
+        <pattern value="/" />
+        <view-id value="/meal_survey.xhtml" />
+    </url-mapping>
+
+    <url-mapping id="contact">
+        <pattern value="/contact" />
+        <view-id value="/contact.xhtml" />
+    </url-mapping>
+
+    <url-mapping id="about">
+        <pattern value="/about" />
+        <view-id value="/about.xhtml" />
+    </url-mapping>
+
+    <url-mapping id="privacypolicy">
+        <pattern value="/privacy-policy" />
+        <view-id value="/privacypolicy.xhtml" />
+    </url-mapping>
+    <url-mapping id="securepayment">
+        <pattern value="/securepayment" />
+        <view-id value="/securepayment.xhtml" />
+    </url-mapping>
+    <url-mapping id="termsandconditions">
+        <pattern value="/termsandconditions" />
+        <view-id value="/termsandconditions.xhtml" />
+    </url-mapping>
+    <url-mapping id="legalnotice">
+        <pattern value="/legalnotice" />
+        <view-id value="/legalnotice.xhtml" />
+    </url-mapping>
+
+    <url-mapping id="termsandconditions">
+        <pattern value="/terms-and-conditions" />
+        <view-id value="/termsandconditions.xhtml" />
+    </url-mapping>
+
+
+    <url-mapping id="faq">
+        <pattern value="/faq" />
+        <view-id value="/faq.xhtml" />
+    </url-mapping>
+
+
+    <url-mapping id="/checkout">
+        <pattern value="/checkout" />
+        <view-id value="/checkout.xhtml" />
+    </url-mapping>
+
+    <url-mapping id="notfound">
+        <pattern value="/notfound" />
+        <view-id value="/notfound.xhtml" />
+    </url-mapping>
+
+    <url-mapping id="error">
+        <pattern value="/error" />
+        <view-id value="/error.xhtml" />
+    </url-mapping>
+
+    <url-mapping id="giris">
+        <pattern value="/giris" />
+        <view-id value="/login.xhtml" />
+    </url-mapping>
+
+    <url-mapping id="register">
+        <pattern value="/register" />
+        <view-id value="/register.xhtml" />
+    </url-mapping>
+
+    <url-mapping id="forgotpassword">
+        <pattern value="/forgot-password" />
+        <view-id value="/forgotpassword.xhtml" />
+    </url-mapping>
+
+    <url-mapping id="renewpassword">
+        <pattern value="/renewpassword/#{token}" />
+        <view-id value="/renewpassword.xhtml" />
+    </url-mapping>
+
+    <url-mapping id="renewpasswordlink">
+        <pattern value="/renew-password-request/#{message}" />
+        <view-id value="/renewpasswordlink.xhtml" />
+    </url-mapping>
+
+    <url-mapping id="renewpasswordresult">
+        <pattern value="/renewpasswordresult/#{message}" />
+        <view-id value="/renewpasswordresult.xhtml" />
+    </url-mapping>
+
+    <url-mapping id="emailverification">
+        <pattern value="/email-verification" />
+        <view-id value="/emailverification.xhtml" />
+    </url-mapping>
+
+    <url-mapping id="emailverification2">
+        <pattern value="/email-verification/#{accessToken}" />
+        <view-id value="/emailverification.xhtml" />
+    </url-mapping>
+
+    <url-mapping id="userprofile">
+        <pattern value="/user-profile" />
+        <view-id value="/User/userprofile.xhtml" />
+    </url-mapping>
+
+    <url-mapping id="userorder">
+        <pattern value="/user-order" />
+        <view-id value="/User/userorder.xhtml" />
+    </url-mapping>
+
+    <url-mapping id="useraddress">
+        <pattern value="/user-address" />
+        <view-id value="/User/useraddress.xhtml" />
+    </url-mapping>
+
+    <url-mapping id="userfavourite">
+        <pattern value="/user-favourite" />
+        <view-id value="/User/userfavourite.xhtml" />
+    </url-mapping>
+
+    <url-mapping id="userpackage">
+        <pattern value="/user-package" />
+        <view-id value="/User/userpackage.xhtml" />
+    </url-mapping>
+    <url-mapping id="userpackage">
+        <pattern value="/user-satellite" />
+        <view-id value="/User/usersatellite.xhtml" />
+    </url-mapping>
+
+    <url-mapping id="usercoupon">
+        <pattern value="/user-coupon" />
+        <view-id value="/User/usercoupon.xhtml" />
+    </url-mapping>
+
+    <url-mapping id="userresetpassword">
+        <pattern value="/user-reset-password" />
+        <view-id value="/User/userresetpassword.xhtml" />
+    </url-mapping>
+
+    <url-mapping id="usernotification">
+        <pattern value="/user-notification" />
+        <view-id value="/User/usernotification.xhtml" />
+    </url-mapping>
+
+
+    <url-mapping id="productlist">
+        <pattern value="/product-list/#{slug}" />
+        <view-id value="/productlist.xhtml" />
+    </url-mapping>
+
+    <url-mapping id="productdetail">
+        <pattern value="/product-detail/#{slug}" />
+        <view-id value="/productdetail.xhtml" />
+    </url-mapping>
+
+    <url-mapping id="productsearch">
+        <pattern value="/product-search/#{keyword}" />
+        <view-id value="/search.xhtml" />
+    </url-mapping>
+
+
+
+    <url-mapping id="blog">
+        <pattern value="/blog" />
+        <view-id value="/blog.xhtml" />
+    </url-mapping>
+
+    <url-mapping id="blogdetail">
+        <pattern value="/blog-detail/#{slug}" />
+        <view-id value="/blogdetail.xhtml" />
+    </url-mapping>
+
+    <url-mapping id="newsletterunregister">
+        <pattern value="/newsletter-unregister" />
+        <view-id value="/newsletter-unregister.xhtml" />
+    </url-mapping>
+
+    <url-mapping id="init">
+        <pattern value="/init" />
+        <view-id value="/init.xhtml" />
+    </url-mapping>
+
+
+
+    <url-mapping id="dashboard">
+        <pattern value="/dashboard" />
+        <view-id value="/SiteAdmin/dashboard.xhtml" />
+    </url-mapping>
+
+
+</pretty-config>

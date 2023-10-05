@@ -1,0 +1,119 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/admin_template.xhtml">
+
+    <ui:define name="title">HDeskCategory List</ui:define>
+
+    <ui:define name="content">
+        <h:form>
+            <div class="p-grid ui-fluid">
+                <div class="p-col-12">
+                    <div class="card">
+                        <p:breadCrumb>
+                            <p:menuitem value="Home" url="#{request.contextPath}/index"/>
+                            <p:menuitem value="Dashboard" url="#{request.contextPath}/AsstAdmin/dashboard.xhtml"/>
+                            <p:menuitem value="HDeskCategory List" styleClass="ui-selectonemenu" url="#{request.contextPath}/AsstAdmin/HelpDesk/hDeskCategoryList.xhtml"/>
+                            <p:menuitem value="HDeskCategory Insert" url="#{request.contextPath}/AsstAdmin/HelpDesk/hDeskCategoryInsert.xhtml"/>
+                        </p:breadCrumb>
+                    </div>
+                </div>
+            </div>
+        </h:form>
+
+        <div class="p-col-12 p-lg-12">
+            <div class="card inventory">
+                <h:form id="form">
+                    <p:growl id="msgs" showDetail="true"/>
+                    <p:dataTable var="hDeskCategoryVW" value="#{hDeskCategoryListView.HDeskCategoryVWList}" selectionMode="single" reflow="true" editable="true"
+                                 paginatorPosition="bottom" selection="#{hDeskCategoryListView.selectedHDeskCategoryVW}"
+                                 rowKey="#{hDeskCategoryVW.catName}" styleClass="ui-datatable-borderless" id="hDeskCategoryTable"
+                                 paginator="true" rows="10" widgetVar="hDeskCategoryTable" filteredValue="#{hDeskCategoryListView.filteredHDeskCategoryVWList}">
+
+                        <p:ajax event="rowEdit" listener="#{hDeskCategoryListView.onRowEdit}" update=":form:msgs" />
+                        <p:ajax event="rowEditCancel" listener="#{hDeskCategoryListView.onRowCancel}" update=":form:msgs" />
+
+                        <f:facet name="header">
+                            <h1>Inventory</h1>
+                            <p:outputPanel>
+                                <h:outputText value="Search all fields:" />
+
+                                <p:inputText id="globalFilter" onkeypress="PF('hDeskCategoryTable').filter();if (event.keyCode == 13) { return false; }" placeholder="Arama" />
+                            </p:outputPanel>
+                        </f:facet>
+
+
+                        <p:column headerText="Category Id" sortBy="#{hDeskCategoryVW.catId}" filterBy="#{hDeskCategoryVW.catId}">
+                            <h:outputText value="#{hDeskCategoryVW.catId}" />
+                        </p:column>
+
+                        <p:column headerText="Category Name" sortBy="#{hDeskCategoryVW.catName}" filterBy="#{hDeskCategoryVW.catName}">
+                            <p:cellEditor>
+                                <f:facet name="output"><h:outputText value="#{hDeskCategoryVW.catName}" /></f:facet>
+                                <f:facet name="input"><p:inputText id="catName" value="#{hDeskCategoryVW.catName}" style="width:100%"/></f:facet>
+                            </p:cellEditor>
+                        </p:column>
+
+                        <p:column headerText="Category Description" sortBy="#{hDeskCategoryVW.catDesc}" filterBy="#{hDeskCategoryVW.catDesc}">
+                            <p:cellEditor>
+                                <f:facet name="output"><h:outputText value="#{hDeskCategoryVW.catDesc}" /></f:facet>
+                                <f:facet name="input"><p:inputText id="catDesc" value="#{hDeskCategoryVW.catDesc}" style="width:100%"/></f:facet>
+                            </p:cellEditor>
+                        </p:column>
+
+                        <p:column headerText="Parent Category Id" sortBy="#{hDeskCategoryVW.parentCatId}"
+                                  filterBy="#{hDeskCategoryVW.parentCatId}">
+                            <h:outputText value="#{hDeskCategoryVW.parentCatId}"/>
+                        </p:column>
+
+                        <p:column headerText="Parent Category Name" sortBy="#{hDeskCategoryVW.parentCatName}" filterBy="#{hDeskCategoryVW.parentCatName}">
+                            <p:cellEditor>
+                                <f:facet name="output"><h:outputText value="#{hDeskCategoryVW.parentCatName}"/></f:facet>
+                                <f:facet name="input">
+                                    <p:selectOneMenu id="category" value="#{hDeskCategoryListView.catId}" required="true"
+                                                     requiredMessage="Parent Category required" >
+                                        <f:selectItems value="#{hDeskCategoryListView.categoryItemList}"/>
+                                    </p:selectOneMenu>
+                                </f:facet>
+                            </p:cellEditor>
+                        </p:column>
+
+                        <p:column headerText="Parent Category Description" sortBy="#{hDeskCategoryVW.parentCatDesc}" filterBy="#{hDeskCategoryVW.parentCatDesc}">
+                            <h:outputText value="#{hDeskCategoryVW.parentCatDesc}" />
+                        </p:column>
+
+                        <p:column style="width:5px">
+                            <p:rowEditor />
+                        </p:column>
+
+                        <p:column style="width: 8em">
+                            <div class="p-grid">
+                                <div class="p-col-4">
+                                    <p:commandButton icon="fa fa-trash" styleClass="ui-button-warning" action="#{hDeskCategoryListView.deleteHDeskCategory(hDeskCategoryVW.catId)}"
+                                                     update="form">
+                                        <p:confirm escape="false" header="Confirmation" message="&lt;br/&gt; Are you sure? &lt;br/&gt; &lt;br/&gt; #{hDeskCategoryVW.catName}"
+                                                   icon="fa fa-warning"  />
+                                    </p:commandButton>
+                                </div>
+                            </div>
+                        </p:column>
+
+
+                    </p:dataTable>
+
+                    <p:confirmDialog global="true" showEffect="fade" hideEffect="fade" width="300">
+                        <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="fa fa-check" />
+                        <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="fa fa-close" />
+                    </p:confirmDialog>
+
+                </h:form>
+
+
+            </div>
+        </div>
+
+    </ui:define>
+
+</ui:composition>

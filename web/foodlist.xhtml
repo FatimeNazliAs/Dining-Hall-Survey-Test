@@ -1,0 +1,197 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/admin_template.xhtml">
+
+    <ui:define name="title">Yemek Listesi</ui:define>
+    <ui:define name="content">
+        <h:form id="form">
+            <p:growl id="msgs" showDetail="true"/>
+            <div class="card">
+
+                <p:toolbar>
+
+
+                    <p:toolbarGroup align="left">
+                        <p:commandButton update=":dialogs:manage-food-content"
+                                         process="@this" action="#{foodListView.newFood()}"
+                                         oncomplete="PF('newFoodDialog').show()" value="Yeni Yemek Ekle"/>
+
+                        <p:commandButton id="restart-employee-shifts-button" value="Filtreleri Temizle"
+                                         icon="pi pi-trash"
+                                         update="form:foodListDT"
+                                         actionListener="#{foodListView.clearFilters()}"
+                                         styleClass="danger-button"
+                                         style="margin-left: .5rem">
+                            <p:resetInput target="form:foodListDT"/>
+                        </p:commandButton>
+
+
+                        <p:commandButton value="Dışarı Aktar" type="submit" ajax="false" onclick="form.target='_blank'"
+                                         action="#{foodListView.export}" style="margin-left: .5rem"
+                        >
+
+                        </p:commandButton>
+
+
+                        <p:commandButton value="Şablon'u İndir" style="margin-left: .5rem" submit="true" ajax="false"
+                                         onclick="form.target='_blank'" icon="pi pi-arrow-down"
+                                         action="#{foodListView.sablonExport}"></p:commandButton>
+
+
+                    </p:toolbarGroup>
+                    <p:toolbarGroup align="right">
+
+                        <p:fileUpload id="te" listener="#{foodListView.handleFileUpload}"
+                                      dragDropSupport="true"
+                                      cancelLabel="İptal"
+                                      uploadLabel="Yükle"
+                                      ode="simple" skinSimple="true" label="İçeri Aktar"
+                                      chooseIcon="pi pi-download" class="info-button"
+                                      update="msgs" sizeLimit="100000" allowTypes="/(\.|\/)(xlsx)$/"/>
+
+                        <p:outputPanel style="white-space: pre-wrap; word-wrap: break-word;" styleClass="mb-3;wr">
+                            <p:autoUpdate/>
+                            <p:outputLabel style="color: red">
+                                #{foodListView.outputs.outputError}
+                            </p:outputLabel>
+                            <p:outputLabel style="color: orange">
+                                #{foodListView.outputs.outputUpdate}
+                            </p:outputLabel>
+                            <p:outputLabel style="color: dodgerblue">
+                                #{foodListView.outputs.outputAdd}
+                            </p:outputLabel>
+                        </p:outputPanel>
+
+                    </p:toolbarGroup>
+
+                </p:toolbar>
+
+                <p:dataTable
+                        paginator="true" rows="20" id="foodListDT" widgetVar="foodListDT"
+                        paginatorPosition="both" editable="true"
+                        paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown} {Exporters}"
+                        lazy="true" sortMode="single"
+                        var="foodVW" value="#{foodListView.foodLazyDataModel}">
+
+
+                    <p:column filterBy="#{foodVW.foodId}" sortable="true" sortBy="#{foodVW.foodId}"
+                              filterMatchMode="contains" headerText="Yemek Id">
+                        <h:outputText value="#{foodVW.foodId}"/>
+                    </p:column>
+
+                    <p:column filterBy="#{foodVW.title}" sortable="true" sortBy="#{foodVW.title}"
+                              filterMatchMode="contains" headerText="Yemek Adı">
+                        <h:outputText value="#{foodVW.title}"/>
+                    </p:column>
+                    <p:column filterBy="#{foodVW.calori}" sortable="true" sortBy="#{foodVW.calori}"
+                              filterMatchMode="contains" headerText="Kalori Miktarı">
+                        <h:outputText value="#{foodVW.calori}"/>
+                    </p:column>
+                    <p:column filterBy="#{foodVW.foodCategoryName}" sortable="true" sortBy="#{foodVW.foodCategoryId}"
+                              filterMatchMode="contains" headerText="Yemek Tür Bilgisi">
+                        <h:outputText value="#{foodVW.foodCategoryName}"/>
+                    </p:column>
+                    <p:column headerText="#">
+                        <p:commandButton icon="pi pi-pencil" update=":dialogs:manage-food-content"
+                                         oncomplete="PF('newFoodDialog').show()" action="#{foodListView.updateImage}"
+                                         styleClass="edit-button rounded-button ui-button-success" process="@this">
+                            <f:setPropertyActionListener value="#{foodVW}" target="#{foodListView.selectedFood}"/>
+                            <p:resetInput target=":dialogs:manage-food-content"/>
+                        </p:commandButton>
+                    </p:column>
+
+                </p:dataTable>
+
+            </div>
+
+
+        </h:form>
+        <h:form id="dialogs" enctype="multipart/form-data">
+            <p:dialog header="Yemek Bilgisi" showEffect="fade" modal="true" widgetVar="newFoodDialog"
+                      responsive="true">
+                <p:outputPanel id="manage-food-content" class="ui-fluid">
+                    <p:outputPanel>
+
+
+                        <div class="formgrid grid">
+
+                            <div class="field col">
+                                <div class="field">
+                                    <p:outputLabel for="foodname">Yemek Adı</p:outputLabel>
+                                    <p:inputText requiredMessage="Yemek Adı Zorunludur" id="foodname"
+                                                 value="#{foodListView.selectedFood.title}" required="true"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="formgrid grid">
+
+                            <div class="field col">
+                                <div class="field">
+                                    <p:outputLabel for="foodcalori">Yemek Kalori Miktarı</p:outputLabel>
+                                    <p:inputText requiredMessage="Yemek Kalori Miktarı Zorunludur" id="foodcalori"
+                                                 value="#{foodListView.selectedFood.calori}" required="true"/>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="formgrid grid">
+
+                            <div class="field col">
+                                <div class="field">
+                                    <p:outputLabel for="foodcategory">Yemek Tür Bilgisi</p:outputLabel>
+                                    <br/>
+                                    <p:selectOneMenu required="true" requiredMessage="Kategori Girmediniz!"
+                                                     id="foodcategory"
+                                                     value="#{foodListView.selectedFood.foodCategoryId}"
+                                                     style="width:150px">
+                                        <f:selectItem itemLabel="Kategori Seç " itemValue="" noSelectionOption="true"/>
+                                        <f:selectItems value="#{foodListView.foodCategoryList}" var="item"
+                                                       itemValue="#{item.foodCategoryId}"
+                                                       itemLabel="#{item.foodCategoryName}"/>
+                                    </p:selectOneMenu>
+                                </div>
+                            </div>
+                        </div>
+
+                        <p:growl id="messages" showDetail="true"/>
+
+                        <div class="formgrid grid">
+                            <div class="field">
+                                <p:fileUpload mode="simple" skinSimple="true" auto="true"
+                                              process="@this" update="messages dialogs:showImage"
+                                              listener="#{foodListView.handleFileUpload2}"
+                                              fileLimit="1" fileLimitMessage="Yalnızca bir dosya yükleyebilirsiniz."
+                                           invalidFileMessage="Resim Seçiniz" invalidSizeMessage="Boyut Çok Fazla"   allowTypes="/(\.|\/)(gif|jpe?g|png)$/" />
+
+                            </div>
+
+                        </div>
+
+                        <div class="formgrid grid">
+                            <div class="field">
+
+
+                                <p:panel id="showImage">
+                                    <img src="#{foodListView.base64}"
+                                         alt="Resim Yok!" style="width: 300px"/>
+                                </p:panel></div>
+
+                        </div>
+
+
+                    </p:outputPanel></p:outputPanel>
+                <f:facet name="footer">
+                    <p:commandButton value="Kaydet" icon="pi pi-check" action="#{foodListView.saveFood()}"
+                                     update="manage-food-content form" oncomplete="PF('newFoodDialog').hide()"
+                                     process="manage-food-content @this"/>
+                    <p:commandButton value="İptal" icon="pi pi-times" onclick="PF('newFoodDialog').hide()"
+                                     class="ui-button-secondary" type="button"/>
+                </f:facet></p:dialog>
+        </h:form>
+
+
+    </ui:define>
+</ui:composition>

@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+
+
+<h:head>
+        <meta charset="utf-8" />
+        <title>#{d1.getTextDb('about.browsertitle')} - YEMEKHANE</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="description" content="Premium Tailwindcss Landing Page Template, Tailwindcss v3.0" />
+        <meta name="keywords" content="Tailwindcss v3.0, premium, marketing, multipurpose" />
+        <meta content="Themesdesign" name="author" />
+        <!-- App favicon -->
+        <link rel="shortcut icon" href="#{request.contextPath}/resources/images/favicon2.png"/>
+
+        <!-- Tailwind Css-->
+        <link href="#{request.contextPath}/resources/dorsin/assets/css/tailwind.css" rel="stylesheet" type="text/css" />
+
+        <!-- Icons Css -->
+        <link href="#{request.contextPath}/resources/dorsin/assets/css/icons.css" rel="stylesheet" type="text/css" />
+
+        <script src="#{request.contextPath}/resources/js/browser_tab_title_change.js"></script>
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+        <script async="async" src="https://www.googletagmanager.com/gtag/js?id=G-M74LESCS3T"></script>
+        <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-W5JHCTGPFC');
+        </script>
+
+</h:head>
+<h:body>
+    <ui:include src="WEB-INF/landing_topbar.xhtml"/>
+
+
+        <!-- Home Start -->
+        <section class="lg:pb-40 lg:pt-56 py-32" id="home">
+            <div class="overflow-hidden">
+                <img class="absolute inset-0 h-full w-full object-cover" src="#{request.contextPath}/resources/dorsin/assets/images/bg-home.jpg"
+                    alt="build your website image"/>
+                <div class="absolute inset-0 w-full h-full bg-gradient-to-r from-purple-900 to-purple-800 opacity-90"></div>
+            </div>
+            <div class="container">
+                <div class="flex justify-center">
+                    <div class="lg:w-2/3 text-center relative">
+                        <div class="space-y-6 mb-10">
+                            <!-- Home Page Title -->
+                            <h2 class="text-white md:text-[32px] lg:text-[46px] leading-[64px] capitalize">
+                                #{d1.getTextDb('about.aboutus')}
+                            </h2>
+                            <p class="text-gray-300">#{d1.getTextDb('about.aboutusdesc')}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="absolute bottom-0 left-0 right-0">
+                <img src="#{request.contextPath}/resources/dorsin/assets/images/bg-pattern.png" alt="bg-pattern"/>
+            </div>
+        </section>
+        <!-- Home Start -->
+
+        <!-- Service Start -->
+        <section id="services">
+            <div class="container">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-x-12 gap-y-16 mt-12 items-center">
+                    <div>
+                        <div>
+                            <img src="#{request.contextPath}/resources/images/about/digi1.png" class="shadow rounded" alt="blog img"/>
+                        </div>
+                    </div>
+
+                    <div>
+                        <div class="section-title ms-md-4">
+                            <h4 class="text-3xl mb-3">YEMEKHANE - #{d1.getTextDb('about.aboutus')}</h4>
+                            <p class="text-gray-500">#{d1.getTextDb('about.aboutusdesc1')}</p>
+                            <br/>
+                            <p class="text-gray-500">#{d1.getTextDb('about.aboutusdesc2')}</p>
+                            <a href="#{request.contextPath}/contact" class="btn border text-red-500 border-red-500 hover:bg-red-500 hover:text-white mt-4">
+                                <i class="mdi mdi-phone"></i>
+                                #{d1.getTextDb('contact.contactus')}</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- Service End -->
+
+    <!-- Contact us Start -->
+    <section class="bg-gray-100 py-6">
+        <div class="container">
+            <div class="grid lg:grid-cols-3 items-center gap-6">
+                <!-- Social Account Link -->
+                <div class="space-x-3">
+                    <a href="https://www.facebook.com/Digiturk.UK"
+                       class="border-2 border-gray-400 w-12 h-12 text-xl rounded-full inline-flex text-center items-center text-gray-400 hover:text-red-500">
+                        <i class="mdi mdi-facebook m-auto"></i>
+                    </a>
+                    <a href="https://www.facebook.com/Digiturk.UK"
+                       class="border-2 border-gray-400 w-12 h-12 text-xl rounded-full inline-flex text-center items-center text-gray-400 hover:text-red-500">
+                        <i class="mdi mdi-twitter m-auto"></i>
+                    </a>
+                    <a href="https://www.facebook.com/Digiturk.UK"
+                       class="border-2 border-gray-400 w-12 h-12 text-xl rounded-full inline-flex text-center items-center text-gray-400 hover:text-red-500">
+                        <i class="mdi mdi-linkedin m-auto"></i>
+                    </a>
+                    <a href="https://www.facebook.com/Digiturk.UK"
+                       class="border-2 border-gray-400 w-12 h-12 text-xl rounded-full inline-flex text-center items-center text-gray-400 hover:text-red-500">
+                        <i class="mdi mdi-google-plus m-auto"></i>
+                    </a>
+                </div>
+
+                <!-- Contect Number -->
+                <div class="lg:text-center">
+                    <h1 class="text-lg">
+                        <a href="tel:+44 207 923 4298 "><i
+                                class="pe-7s-call text-black align-middle text-[22px] mr-2"></i>+44 207 923 4298 </a>
+                    </h1>
+                </div>
+
+                <!-- Contect Mail -->
+                <div class="lg:text-right">
+                    <h1 class="text-lg">
+                        <a href="mailto:info@keas.com.tr"><i
+                                class="pe-7s-mail-open text-black align-middle text-[22px] mr-2"></i>info@keas.com.tr</a>
+                    </h1>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Contact us End -->
+
+
+        <!-- Footer Start -->
+    <ui:include src="WEB-INF/landing_footer.xhtml"/>
+        <!-- Footer Start -->
+
+        <!-- Smooth-Scroll Javascript -->
+    <!-- Smooth-Scroll Javascript -->
+    <script src="#{request.contextPath}/resources/dorsin/assets/js/smooth-scroll.polyfills.min.js"></script>
+
+    <script src="#{request.contextPath}/resources/dorsin/assets/js/gumshoe.polyfills.min.js"></script>
+
+    <!-- Custom Javascript -->
+    <script src="#{request.contextPath}/resources/dorsin/assets/js/app.js"></script>
+
+</h:body>
+
+</html>

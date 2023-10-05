@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:f="http://java.sun.com/jsf/core">
+
+
+<h:head>
+
+    <title>#{d1.getTextDb('user.account')} - YEMEKHANE </title>
+
+    <meta charset="utf-8"/>
+    <meta http-equiv="content-language" content="tr"/>
+    <meta property="title" content="YEMEKHANE | Home"/>
+    <meta name="Description"
+          content="YEMEKHANE Home Page"/>
+    <meta name="keywords"
+          content="YEMEKHANE Ana Sayfası,Ana Sayfa,YEMEKHANE,Ürün Kategorileri"/>
+    <meta name="robots" content="index,follow"/>
+    <meta name="author" content="YEMEKHANE, info@keas.com.tr"/>
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+
+    <!-- Icon -->
+    <link rel="stylesheet" type="text/css" href="#{request.contextPath}/resources/assets/css/LineIcons.2.0.css" />
+
+    <!-- Animate -->
+    <link rel="stylesheet" type="text/css" href="#{request.contextPath}/resources/assets/css/animate.css" />
+
+    <!-- Tiny Slider  -->
+    <link rel="stylesheet" type="text/css" href="#{request.contextPath}/resources/assets/css/tiny-slider.css" />
+
+    <!-- Tailwind css -->
+    <link rel="stylesheet" type="text/css" href="#{request.contextPath}/resources/assets/css/tailwind.css" />
+
+
+    <link rel="icon" href="#{request.contextPath}/resources/images/favicon2.png"/>
+
+    <link rel="canonical" href="https://www.keas.com.tr"/>
+
+    <!-- google font -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@400;500;700&amp;display=swap"
+          rel="stylesheet"/>
+
+</h:head>
+<h:body >
+
+    <ui:include src="/WEB-INF/landing_topbar.xhtml"/>
+
+    <!-- Hero Area Start -->
+    <section id="hero-area" class="py-10 bg-gradient-to-r from-purple-900 to-purple-800 opacity-90 " style="height: 10px" >
+        <div >
+            <div class="flex justify-between">
+            </div>
+        </div>
+    </section>
+    <!-- Hero Area End -->
+
+
+    <!-- Subscribe Section Start -->
+    <section id="Subscribes" class="py-2 bg-white-100 items-center">
+        <div style="alignment-baseline: auto">
+            <div >
+                <h:form id="orderForm" >
+                    <p:growl id="msgs" showDetail="true"/>
+
+                    <div class="card bg-purple-100"
+                         style="padding: 21px;margin: auto; width: 75%; ">
+                        <div class="card" style="margin: auto; width: 95%; padding: 10px;">
+                            <h:form>
+                                <p:growl id="messages"/>
+
+                                <p:menubar >
+                                    <p:submenu label="#{d1.getTextDb('user.profile')}" icon="pi pi-fw pi-user"  >
+                                        <p:menuitem value="#{d1.getTextDb('user.notifications')}" icon="pi pi-fw pi-inbox"
+                                                    onclick=' window.location.href="#{request.contextPath}/user-notification";'/>
+                                        <p:divider />
+                                        <p:menuitem value="#{d1.getTextDb('user.sifredegisikligi')}" icon="pi pi-fw pi-pencil"
+                                                    onclick=' window.location.href="#{request.contextPath}/user-reset-password";'/>
+                                        <p:divider />
+                                        <p:menuitem value="#{d1.getTextDb('user.address')}" icon="pi pi-fw pi-home"
+                                                    onclick=' window.location.href="#{request.contextPath}/user-address";'/>
+                                    </p:submenu>
+                                    <p:menuitem value="#{d1.getTextDb('user.account')}" icon="pi pi-fw pi-list"
+                                                onclick=' window.location.href="#{request.contextPath}/user-profile";'/>
+
+                                    <p:menuitem value="#{d1.getTextDb('user.packages')}" icon="pi pi-fw pi-list "
+                                                onclick=' window.location.href="#{request.contextPath}/user-package";'/>
+                                    <p:menuitem value="#{userSatelliteView.lng.getTextDb('user.satellitedesc')}"
+                                                icon="pi pi-fw pi-list "
+                                                onclick=' window.location.href="#{request.contextPath}/user-satellite";'/>
+
+                                    <p:menuitem value="#{d1.getTextDb('user.user-order')}" icon="pi pi-table"
+                                                onclick=' window.location.href="#{request.contextPath}/user-order";'/>
+
+
+
+                                    <p:menuitem value="#{d1.getTextDb('user.favorite')}" icon="pi pi-thumbs-up"
+                                                onclick=' window.location.href="#{request.contextPath}/user-favourite";'/>
+
+
+                                    <p:menuitem value="#{d1.getTextDb('user.coupon')}" icon="pi pi-fw pi-money-bill"
+                                                onclick=' window.location.href="#{request.contextPath}/user-coupon";'/>
+
+
+
+                                    <f:facet name="options">
+                                        <!-- <div class="ui-input-icon-left mr-2">
+                                             <i class="pi pi-fw pi-search" />
+                                             <p:inputText placeholder="Search"/>
+                                         </div>-->
+                                        <p:button value="#{d1.getTextDb('user.logout')}" icon="pi pi-fw pi-sign-out" styleClass="ui-button-info bg-purple-500 hover:opacity-75"
+                                                  href="#{request.contextPath}/j_spring_security_logout"/>
+                                    </f:facet>
+                                </p:menubar>
+                                <script type="text/javascript">
+                                    $(function(){
+                                        $(".profil a:first").attr('href', "#{request.contextPath}/");
+                                        $(".user-favourite a:first").attr('href', "#{request.contextPath}/cats");
+                                        $(".cat1Link").click(function(){
+                                            window.location.href="#{request.contextPath}/cats/cat1";
+                                        }).css('cursor','pointer');
+                                    });
+                                </script>
+                            </h:form>
+                        </div>
+                        <br/>
+                        <p:divider layout="horizontal"/>
+                        <h1 class="sm:text-3xl text-2xl font-medium title-font mb-4 text-gray-900">#{d1.getTextDb('user.account')}</h1>
+                        <p class="lg:w-2/3 mx-auto leading-relaxed text-base">#{d1.getTextDb('user.accountdesc')}</p>
+                        <p class="lg:w-2/3 mx-auto leading-relaxed text-base">
+                            #{d1.getTextDb('user.accountdesc2')}
+                        </p>
+                        <div class="min-h-screen flex flex-row bg-white">
+
+                            <h:form id="userInfoForm" class="container mx-auto bg-white">
+
+                                <div class="card">
+                                    <p:growl id="growlMessage" showDetail="false" life="5000"/>
+                                </div>
+
+                                <div class="flex lg:w-2/3 w-full sm:flex-row flex-col mx-auto px-8 sm:space-x-4 sm:space-y-0 space-y-4 sm:px-0 items-end">
+                                    <div class="relative flex-grow w-full">
+                                        <br/>
+                                        <label for="name" class="leading-7 text-sm text-gray-600">#{d1.getTextDb('user.yourname')}</label>
+                                        <p:inputText id="name" name="name"  required="true" requiredMessage="#{d1.getTextDb('user.pleasewriteyourname')}."  type="text"
+                                                     value="#{userView.digiturkcoukUser.firstName}"
+                                                     class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-transparent focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"/>
+                                    </div>
+                                    <div class="relative flex-grow w-full">
+                                        <label for="lastName" class="leading-7 text-sm text-gray-600">#{d1.getTextDb('user.yourlastname')}</label>
+                                        <p:inputText id="lastName" name="lastName"  required="true" requiredMessage="#{d1.getTextDb('user.pleasewriteyourlastname')}" type="text"
+                                                     value="#{userView.digiturkcoukUser.lastName}"
+                                                     class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-transparent focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"/>
+                                    </div>
+                                    <div class="relative flex-grow w-full">
+                                        <label for="email" class="leading-7 text-sm text-gray-600">#{d1.getTextDb('user.youremailaddress')}</label>
+                                        <p:inputText id="email" name="email" required="true" requiredMessage="#{d1.getTextDb('user.pleasewriteyouremailaddress')}" type="text"
+                                                     value="#{userView.digiturkcoukUser.email}" validatorMessage="#{d1.getTextDb('user.pleasecheckyouremailaddress')}"
+                                                     class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-transparent focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
+                                            <f:validateRegex
+                                                    pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$"/>
+                                        </p:inputText>
+                                    </div>
+                                    <br/>
+                                    <p:commandButton value="#{d1.getTextDb('user.update')}" process="@form"
+                                                     class="text-white bg-purple-500 border-0 px-4 py-1 focus:outline-none hover:bg-indigo-600 rounded text-lg"
+                                                     icon="fa" action="#{userView.updateKeasUserInfo}"
+                                                     update="growlMessage userInfoForm"/>
+
+
+                                </div>
+
+                            </h:form>
+
+                        </div>
+                    </div>
+                </h:form>
+            </div>
+        </div>
+    </section>
+    <!-- Subscribe Section End -->
+
+
+    <!-- Footer Section Start -->
+    <ui:include src="/WEB-INF/landing_footer.xhtml"/>
+    <!-- Footer Section End -->
+
+
+    <!-- All js Here -->
+    <script src="#{request.contextPath}/resources/assets/js/wow.js"></script>
+    <script src="#{request.contextPath}/resources/assets/js/tiny-slider.js"></script>
+    <script src="#{request.contextPath}/resources/assets/js/contact-form.js"></script>
+    <script src="#{request.contextPath}/resources/assets/js/main.js"></script>
+
+    <script src="#{request.contextPath}/resources/src/vendors/typed.js/lib/typed.min.js"></script>
+    <script src="#{request.contextPath}/resources/src/js/theme.js"></script>
+    <!--Banner-->
+    <!--Banner Ayarları Nasıl Kullanılır : https://github.com/dobarkod/cookie-banner-->
+    <script type="text/javascript" id="cookiebanner"
+            data-moreInfo="#{request.contextPath}/privacy-policy"
+            data-message="#{d1.getTextDb('cookie.desc1')} "
+            data-height="100px"
+            data-effect="fade"
+            data-mask-opacity="0"
+            data-linkmsg="#{d1.getTextDb('cookie.learnmore')}"
+            data-bg="#27272A"
+            data-close-text="#{d1.getTextDb('cookie.iagree')}"
+            data-close-style="color:#32CD32;float:right;padding-left:20px;"
+            src="https://cdn.jsdelivr.net/gh/dobarkod/cookie-banner@1.2.2/dist/cookiebanner.min.js"></script>
+
+</h:body>
+
+
+</html>

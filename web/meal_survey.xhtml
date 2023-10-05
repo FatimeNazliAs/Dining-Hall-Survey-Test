@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:f="http://java.sun.com/jsf/core">
+<h:head>
+    <title>Meal Survey</title>
+    <style>
+        body {
+            background-color:transparent;
+        }
+
+        .logo {
+            width: 250px;
+            height: auto;
+            display: block;
+            margin: 10px auto;
+        }
+
+        .card-container {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .card-wrapper {
+            margin: 10px;
+        }
+
+        .meal-image {
+            width: 120px;
+            height: 120px;
+            object-fit: cover;
+            border-radius: 5%;
+            margin-bottom: 10px;
+        }
+
+
+    </style>
+</h:head>
+
+
+
+    <h:form>
+        <p:panel >
+            <p:messages autoUpdate="true" closable="true" />
+
+            <img src="https://kastamonuentegre.com/uploads/2023/02/logo-1-1.svg" alt="Logo" class="logo" />
+
+
+
+
+            <div class="card-container">
+                <h:outputText value="#{surveyView.menuText} Yemeğini Oyluyorsunuz" style="margin-bottom: 10px;padding: 3px" />
+            </div>
+            <div class="card-container">
+                <h:outputText value="(#{surveyView.menuText} Menüsünü (#{surveyView.betweenMenuRate}) Saat Aralığında Oylayabilirsiniz.!.)" style="margin-bottom: 10px;padding: 3px" />
+            </div>
+            <div class="card-container">
+                <h:outputText value="Lütfen Menüdeki Yemekler İçin Oy Verin Ve Yorum Yazın." style="margin-bottom: 10px" />
+            </div>
+
+            <div class="card-container">
+                <p:selectOneButton value="#{surveyView.userType}" unselectable="false" >
+                    <f:selectItem itemLabel="Personel" itemValue="1"/>
+                    <f:selectItem itemLabel="Misafir" itemValue="2"/>
+                </p:selectOneButton>
+            </div>
+
+            <div class="card-container">
+
+
+
+                <ui:repeat value="#{surveyView.modelList}" var="meal">
+                    <div class="card-wrapper">
+                        <p:card style="padding: 20px">
+                            <p>
+                                <img src="#{surveyView.convertToBase64(meal.model.imageUrl)}"  alt="Resim Yok" class="meal-image" style="width: 200px;height: 150px" />
+                            </p>
+                            <p>
+                            <h:outputText value="#{meal.model.title}" style="font-weight: bold;" />
+                            </p>
+                            <p>
+                            <p:rating value="#{meal.rate}" stars="5" cancel="false" />
+                            </p>
+                            <p>
+                                <p:outputLabel for="default" />
+
+                                <p:keyboard clearLabel="Sil"   closeLabel="Kapat"  maxlength="10" backspaceLabel="Geri"  id="default"  value="#{meal.answer}"   showMode="both"
+                                            placeholder="Yorumu Buraya Yazın"/>
+
+                            </p>
+                        </p:card>
+                    </div>
+                </ui:repeat>
+            </div>
+
+
+            <div class="card-container">
+            <p:commandButton icon="pi pi-check" value="Anketi Gönder" action="#{surveyView.save}"  oncomplete="window.location.href = 'succesPage.xhtml';" update="@form" />
+            </div>
+        </p:panel>
+
+        <!-- Add an image with instructions on how to vote -->
+        <p:card class="card-container">
+            <f:facet name="header">
+                <img alt="user header" src="https://www.primefaces.org/showcase/resources/demo/images/usercard.png"/>
+            </f:facet>
+
+        </p:card>
+
+
+    </h:form>
+
+
+
+</html>

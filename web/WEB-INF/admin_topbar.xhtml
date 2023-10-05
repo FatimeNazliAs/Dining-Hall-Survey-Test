@@ -1,0 +1,83 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form prependId="false">
+        <div class="layout-topbar">
+            <div class="layout-topbar-wrapper">
+                <div class="layout-topbar-left">
+                    <a href="#" class="menu-button">
+                        <i class="pi pi-bars"></i>
+                    </a>
+                    <h:link  outcome="/SiteAdmin/dashboard.xhtml" styleClass="layout-topbar-logo">
+                        <img src="#{request.contextPath}/resources/images/favicon2.png" alt="logo" />
+                    </h:link> <span style="margin-left: 3px;font-weight: bold"> YEMEKHANE</span>
+
+                </div>
+
+                <ui:include src="./menu.xhtml"/>
+
+                <div class="layout-topbar-right">
+                    <ul class="layout-topbar-actions">
+                        <li class="topbar-item search-item ">
+                            <a href="#">
+                                <i class="topbar-icon pi pi-search"></i>
+                            </a>
+                            <h:panelGroup styleClass="md-inputfield search-input-wrapper">
+                                <p:inputText placeholder="Search..."/>
+                                <i class="pi pi-search"></i>
+                            </h:panelGroup>
+                            <ul>
+                                <h:form onsubmit="return false;">
+                                    <h:panelGroup styleClass="md-inputfield search-input-wrapper">
+                                        <p:inputText placeholder="Arama..."/>
+                                        <i class="pi pi-search"></i>
+                                    </h:panelGroup>
+                                </h:form>
+                            </ul>
+                        </li>
+                        <li class="topbar-item user-profile">
+                            <a href="#">
+                                <p:graphicImage name="images/avatar-profilemenu.png" library="freya-layout"/>
+                            </a>
+                            <ul>
+                                <li>
+                                    <a href="#">
+                                        <span>Profil</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                        <span>Ayarlar</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                        <span>Mesajlar</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                        <span>Bildirimler</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+
+                    </ul>
+
+
+                    <h:outputLink value="#{request.contextPath}/j_spring_security_logout"
+                                  rendered="#{menuUtil.localUserSession != null}" style="width: 20px; margin-left: 25px"
+                                  class="block text-sm px-2 py-4 hover:bg-blue-500 transition duration-300 ">
+                        <i class="pi pi-sign-out"></i>
+                    </h:outputLink>
+
+
+                </div>
+            </div>
+
+        </div>
+    </h:form>
+
+</ui:composition>

@@ -1,0 +1,141 @@
+
+
+
+
+.container {
+    margin-left: auto;
+    margin-right: auto
+}
+
+
+
+@media (min-width: 1231px) {
+    .container {
+        max-width: 1200px
+    }
+}
+
+.collapse {
+    display: none
+}
+
+
+
+
+#tmcms2_block {
+    /* float: left; */
+    width: 100%;
+    position: relative;
+    text-align: center;
+    padding: 92px 0 0;
+    background: rgb(235 248 255) url(../img/megnor/Service-bg.jpg) no-repeat scroll center center;
+    height: 823px;
+    margin-bottom: 171px;
+}
+
+#tmcms2_block::before {
+    content: ' ';
+    position: absolute;
+    left: 0;
+    right: 0;
+    text-align: center;
+    background: rgba(0, 0, 0, 0) url('https://keas.com.tr/themes/PRSADD35/assets/img/megnor/banner.png') no-repeat scroll center center;
+    width: 100%;
+    height: 608px;
+    margin: 0 auto;
+    bottom: -282px;
+    background-size: contain
+}
+
+.shortcode-title.center {
+    margin-bottom: 40px
+}
+
+#tmcms2_block .content {
+    float: left;
+    width: 33.33%;
+    text-align: center
+}
+
+.cms-title a {
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: .3px;
+    text-transform: capitalize;
+    padding: 14px 0 13px;
+    display: block;
+    color: #000
+}
+
+.cms-desc {
+    font-size: 13px;
+    color: #626262;
+    font-weight: 400;
+    letter-spacing: .3px;
+    width: 75%;
+    margin: 0 auto
+}
+
+
+.products-section-title::before {
+    content: ' ';
+    position: absolute;
+    left: 0;
+    right: 0;
+    text-align: center;
+    background: rgba(0, 0, 0, 0) url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIwAAAANCAYAAAB7LIZDAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyFpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuNS1jMDE0IDc5LjE1MTQ4MSwgMjAxMy8wMy8xMy0xMjowOToxNSAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENDIChXaW5kb3dzKSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDpCRjFBNzI5QTQzM0ExMUVBQjFCNkExQzExNzc2MkVDNCIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDpCRjFBNzI5QjQzM0ExMUVBQjFCNkExQzExNzc2MkVDNCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkJGMUE3Mjk4NDMzQTExRUFCMUI2QTFDMTE3NzYyRUM0IiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOkJGMUE3Mjk5NDMzQTExRUFCMUI2QTFDMTE3NzYyRUM0Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+8rlOmAAAASNJREFUeNrsmb0NgzAQhU0UiTorJBsgRqCkhRHwCDACjAAjkBK6sELYIIwQaipy/Emg2ApBKIp896SzwOcCSx/HPaO1bcvQqtQtGEOIhBlNIsj7MDoQLuQrRmIaWmAGWFKI0zgTABTRLN+B5I93NYRJ0OAG5jmDhS2gWcIy6Q45EzswB8R7vwrmQoDlJoBFth5fhcmyTJnN2Lb9bZVJxx7lkyKoLsGWZ8rznCqMMjIad0Xl2AyLijpCxIrshW+GptQfcHUWZIsdYYlVAYajfmWGBvcsyVq9tZ67p18DTS7p72DxV6wMdoKGgFEQlkpScbjwcI9sNRp5kgb3ImmEPaovuIHhUjf07p7q/rNEQt/DOKN7SYRuqNS73PQvqSBcGHsJMABKfmOubLcKUgAAAABJRU5ErkJggg==) no-repeat scroll center center;
+    width: 140px;
+    height: 13px;
+    margin: 0 auto;
+    top: 59px
+}
+.products-section-title {
+    clear: both;
+    font-size: 32px;
+    line-height: 40px;
+    letter-spacing: .3px;
+    font-weight: 600;
+    color: #000;
+    text-transform: uppercase;
+    text-align: center;
+    position: relative;
+    display: inline-block;
+    width: auto;
+    margin-bottom: 61px;
+    font-family: 'Oswald',sans-serif;
+    position: relative;
+}
+#left-column .products .product-item a, #right-column .products .product-item a {
+    text-align: left;
+    white-space: normal;
+    font-size: 13px
+}
+
+element.style {
+}
+#tmcms2_block .content {
+    float: left;
+    width: 33.33%;
+    text-align: center;
+}
+@media (max-width: 767px){
+    #tmcms2_block .content {
+        width: 100%!important;
+        display: block;
+
+    }
+.fl{
+    width: 100%;
+}}
+@media (max-width: 991px){
+    .hidden-md-down {
+
+
+    }}@media (max-width: 767px){
+    #tmcms2_block{
+        height: 1170px;
+    }
+
+    #tmcms2_block::before {
+        bottom: -192px;
+    }}

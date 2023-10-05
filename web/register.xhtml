@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:f="http://java.sun.com/jsf/core">
+
+
+<h:head>
+
+    <meta charset="utf-8"/>
+    <title>#{d1.getTextDb('register.browsertitle')} - YEMEKHANE</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="description" content="Premium Tailwindcss Landing Page Template, Tailwindcss v3.0"/>
+    <meta name="keywords" content="Tailwindcss v3.0, premium, marketing, multipurpose"/>
+    <meta content="Themesdesign" name="author"/>
+    <!-- App favicon -->
+    <link rel="shortcut icon" href="#{request.contextPath}/resources/images/favicon2.png"/>
+
+    <!-- Tailwind Css-->
+    <link href="#{request.contextPath}/resources/dorsin/assets/css/tailwind.css" rel="stylesheet" type="text/css"/>
+
+    <!-- Icons Css -->
+    <link href="#{request.contextPath}/resources/dorsin/assets/css/icons.css" rel="stylesheet" type="text/css"/>
+
+    <!-- Google tag (gtag.js) -->
+    <script async="async" src="https://www.googletagmanager.com/gtag/js?id=G-W5JHCTGPFC"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+
+        gtag('js', new Date());
+
+        gtag('config', 'G-W5JHCTGPFC');
+    </script>
+
+</h:head>
+<h:body>
+
+    <ui:include src="WEB-INF/landing_topbar.xhtml"/>
+
+    <section class=" justify-center items-center">
+        <div class="overflow-hidden">
+            <div class="absolute inset-0 w-full h-full bg-gradient-to-r from-purple-900 to-purple-800 opacity-90"></div>
+        </div>
+        <div class="table w-full h-full">
+            <div class="table-cell align-middle">
+                <div class="container">
+                    <div class="lg:flex justify-center">
+                        <div class="lg:w-5/12 relative">
+                            <div class="card bg-white">
+                                <div class="p-7">
+                                    <div class="text-center mt-3">
+                                        <h3 class="font-bold mb-2"><a href="index.html"
+                                                                      class="text-black tracking-widest">YEMEKHANE</a>
+                                        </h3>
+                                        <p class="text-gray-400 mb-4">#{d1.getTextDb('register.signup')}</p>
+                                    </div>
+                                    <div>
+                                        <h:form id="registerForm">
+
+                                            <div class="card">
+                                                <p:growl id="growlContact" showDetail="false" life="5000"/>
+                                            </div>
+
+                                            <div class="wow fadeInDown" data-wow-delay="0.3s">
+                                                <div class="mb-6">
+                                                    <label for="name"
+                                                           class="block mb-2 text-sm font-medium text-gray-900">#{d1.getTextDb('register.firstname')}</label>
+                                                    <p:inputText id="name" name="name" type="text"
+                                                                 requiredMessage="* #{d1.getTextDb('register.pleaseenteryourfirstname')}."
+                                                                 required="true"
+                                                                 value="#{registerView.localUser.firstName}"
+                                                                 class="border border-gray-300 text-gray-900 text-sm rounded focus:ring-0 focus:border-gray-400 block w-full p-3"
+                                                                 placeholder="#{d1.getTextDb('register.enteryourfirstname')}"/>
+                                                </div>
+
+                                                <div class="mb-6">
+                                                    <label for="surname"
+                                                           class="block mb-2 text-sm font-medium text-gray-900">#{d1.getTextDb('register.surname')}</label>
+                                                    <p:inputText required="true"
+                                                                 class="border border-gray-300 text-gray-900 text-sm rounded focus:ring-0 focus:border-gray-400 block w-full p-3"
+                                                                 requiredMessage="* #{d1.getTextDb('register.pleaseenteryoursurname')}."
+                                                                 value="#{registerView.localUser.lastName}"
+                                                                 id="surname" name="surname" type="text"
+
+                                                                 placeholder="#{d1.getTextDb('register.enteryoursurname')}..."/>
+                                                </div>
+                                                <div class="mb-6">
+                                                    <label for="email"
+                                                           class="block mb-2 text-sm font-medium text-gray-900">Email</label>
+                                                    <p:inputText required="true"
+                                                                 requiredMessage="* #{d1.getTextDb('register.pleaseenteryouremailaddress')}."
+                                                                 value="#{registerView.localUser.email}"
+                                                                 type="email" id="email" name="email"
+                                                                 validatorMessage="#{d1.getTextDb('register.pleasecheckyouremailaddress')}."
+                                                                 placeholder="#{d1.getTextDb('register.enteryouremailaddress')}..."
+                                                                 class="border border-gray-300 text-gray-900 text-sm rounded focus:ring-0 focus:border-gray-400 block w-full p-3">
+                                                        <f:validateRegex
+                                                                pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$"/>
+                                                    </p:inputText></div>
+
+                                                <div class="mb-6">
+                                                    <label for="password"
+                                                           class="block mb-2 text-sm font-medium text-gray-900">#{d1.getTextDb('login.placeholderpassword')}</label>
+                                                    <p:inputText required="true"
+                                                                 requiredMessage="* #{d1.getTextDb('register.pleaseenteryourpassword')}."
+                                                                 type="password"
+                                                                 id="password1" name="password"
+                                                                 value="#{registerView.localUser.password}"
+                                                                 class="border border-gray-300 text-gray-900 text-sm rounded focus:ring-0 focus:border-gray-400 block w-full p-3"
+                                                                 placeholder="#{d1.getTextDb('register.enteryourpassword')}..."/>
+                                                </div>
+
+
+
+                                                 <p:captcha language="#{userLanguage.getUniqueSeoCode()}" required="true"
+                                                               requiredMessage="* #{d1.getTextDb('contact.captchareqiredmessagetext')}"/>
+
+
+                                                <br/>
+                                                <div class="w-full">
+
+
+                                                    <p:commandButton style="border:none;    transition: 500ms;"
+                                                                     value="#{d1.getTextDb('index.register')}"
+                                                                     process="@form" type="submit"
+                                                                     class="btn bg-red-500 text-white w-full"
+
+                                                                     id="form-submit" update="growlContact registerForm"
+                                                                     icon="pi pi-user-plus"
+                                                                     action="#{registerView.register()}"/>
+
+                                                </div>
+
+                                                <br/>
+
+                                            </div>
+
+                                        </h:form>
+                                        <div class="mt-4 mb-0 text-center">
+                                            <p class="mb-0 text-gray-800">#{d1.getTextDb('register.already')}<a
+                                                    href="#{request.contextPath}/login"
+                                                    class="text-red-500"> #{d1.getTextDb('register.login')}</a>
+                                            </p>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- end card -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </section>
+    <ui:include src="WEB-INF/landing_footer.xhtml"/>
+
+</h:body>
+
+</html>

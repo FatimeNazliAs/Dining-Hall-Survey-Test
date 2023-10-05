@@ -1,0 +1,65 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:fr="http://primefaces.org/freya">
+
+    <div class="menu-wrapper">
+
+        <div class="sidebar-logo">
+            <a href="#{request.contextPath}/SiteAdmin/dashboard.xhtml">
+                <img src="#{request.contextPath}/resources/images/favicon2.png" alt="dashboard_logo"/>
+            </a>
+            <a href="#" class="sidebar-pin" title="Toggle Menu">
+                <span class="pin"></span>
+            </a>
+
+        </div>
+
+        <div class="layout-menu-container">
+            <h:form id="menuform">
+                <fr:menu widgetVar="FreyaMenuWidget">
+                    <p:menuitem id="om_dashboard" value="Gösterge Paneli" icon="pi pi-home"
+                                outcome="/SiteAdmin/dashboard"/>
+                    <p:submenu id="om_survey" label="Anket" icon="pi pi-user">
+                        <p:menuitem id="om_survey_schedule" value="Aylık Menü" icon="pi pi-star-o"
+                                    outcome="/SiteAdmin/Survey/surveyschedule"/>
+                        <p:menuitem id="om_survey_foodlist" value="Yemek Listesi" icon="pi pi-star-o"
+                                    outcome="/SiteAdmin/Survey/foodlist"/>
+                        <p:menuitem id="om_survey_report_one" value="Sonuç Rapor Ekranı" icon="pi pi-star-o"
+                                    outcome="/SiteAdmin/Survey/reportpage"/>
+                    </p:submenu>
+                    <p:submenu id="om_user" label="Kullanıcı" icon="pi pi-user">
+                        <p:menuitem id="om_user_list" value="Kullanıcı Listesi" icon="pi pi-star-o"
+                                    outcome="/SiteAdmin/User/localUserList"/>
+                    </p:submenu>
+
+                    <ui:remove> <p:submenu id="om_language" label="Dil Desteği" icon="pi pi-user">
+                        <p:menuitem id="om_language_insert" value="Dil Listesi" icon="pi pi-star-o"
+                                    outcome="/SiteAdmin/Language/languagelist"/>
+                        <p:menuitem id="om_language_insert_item" value="Paket Dil Listesi" icon="pi pi-star-o"
+                                    outcome="/SiteAdmin/Language/languageitem"/>
+                    </p:submenu>
+                    </ui:remove>
+                    <p:submenu id="om_common" label="Diğer" icon="pi pi-briefcase">
+                        <p:menuitem id="om_common_contact_message" value="Mesaj Listesi" icon="pi pi-star-o"
+                                    outcome="/SiteAdmin/Common/contactMessageList"/>
+                        <p:menuitem id="om_common_newsletter_insert" value="Abone Ekle" icon="pi pi-star-o"
+                                    outcome="/SiteAdmin/Common/newsletterInsert"/>
+                        <p:menuitem id="om_common_newsletter_list" value="Abone Listesi" icon="pi pi-search"
+                                    outcome="/SiteAdmin/Common/newsletterList"/>
+                        <p:menuitem id="om_common_sss_list" value="SSS Listesi" icon="pi pi-question"
+                                    outcome="/SiteAdmin/Common/faqList"/>
+                        <p:menuitem id="om_common_sss_insert" value="SSS Ekle" icon="pi pi-question"
+                                    outcome="/SiteAdmin/Common/faqInsert"/>
+                        <p:menuitem id="om_common_params" value="Parametre Listesi" icon="pi pi-star-o"
+                                    outcome="/SiteAdmin/Common/paramsList"/>
+                    </p:submenu>
+
+
+                </fr:menu>
+            </h:form>
+        </div>
+    </div>
+
+</ui:composition>

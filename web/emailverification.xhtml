@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui" xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+<h:head>
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta name="Description" content="Digiturk - Eposta Doğrulama"/>
+    <meta name="Keywords" content="Keas, eposta, doğrulama, eposta doğrulama, hesap doğrulama"/>
+    <meta name="author" content="Keas, info@keas.com.tr"/>
+    <meta name="robots" content="noindex, nofollow"/>
+
+    <link rel="icon" href="#{request.contextPath}/resources/images/favicon2.png"/>
+
+    <link rel="canonical" href="#{rs.getTemplateData('websiteadress')}" />
+
+    <title>#{d1.getTextDb('emailvertification.browsertitle')}- YEMEKHANE</title>
+
+    <link href="#{request.contextPath}/resources/css/tailwind/tailwind.min.css" rel="stylesheet"/>
+
+
+    <script src="#{request.contextPath}/resources/js/browser_tab_title_change.js"></script>
+
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async="async" src="https://www.googletagmanager.com/gtag/js?id=G-M74LESCS3T"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-W5JHCTGPFC');
+    </script>
+
+</h:head>
+
+<h:body styleClass="login-body">
+
+    <ui:include src="/WEB-INF/landing_topbar.xhtml"/>
+
+    <f:metadata>
+        <f:event type="preRenderView"  listener="#{registerView.verifyEmail}"/>
+    </f:metadata>
+
+    <h:form>
+
+        <!-- component -->
+        <div class="overflow-hidden">
+            <div class="absolute inset-0 w-full h-full bg-gradient-to-r from-purple-900 to-purple-800 opacity-90"></div>
+        </div>
+        <div class="flex items-center justify-center " style="height: 500px" >
+            <div class="containter mx-auto px-20 min-w-screen">
+                <div class="p-8 rounded-lg shadow-lg relative hover:shadow-2xl transition duration-500">
+                    <h1 class="text-2xl text-gray-800 font-semibold mb-3"> Digiturk - #{d1.getTextDb('emailverification.emailverification')}</h1>
+                    <p class="text-gray-600 leading-6 tracking-normal">
+                        <h:outputText value="#{registerView.verifyMessage}" />
+                    </p>
+
+                    <br/>
+                    <a href="#{request.contextPath}/"
+                       class="py-2 px-4 mt-8 bg-indigo-600 text-white rounded-md shadow-xl">
+                        #{d1.getTextDb('renewpasswordlink.mainpage')}
+                    </a>
+
+                    <br/>
+
+                    <br/>
+
+                    <div>
+                        <span class="absolute py-2 px-8 text-sm text-white top-0 right-0 bg-red-600 rounded-md transform translate-x-2 -translate-y-3 shadow-xl">
+                            #{d1.getTextDb('renewpasswordlink.info')}
+                        </span>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+
+    </h:form>
+
+    <ui:include src="/WEB-INF/landing_footer.xhtml"/>
+
+</h:body>
+
+</html>

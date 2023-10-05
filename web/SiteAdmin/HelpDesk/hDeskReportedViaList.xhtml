@@ -1,0 +1,98 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/admin_template.xhtml">
+
+    <ui:define name="title">HDeskReportedVia List</ui:define>
+
+    <ui:define name="content">
+        <h:form>
+            <div class="p-grid ui-fluid">
+                <div class="p-col-12">
+                    <div class="card">
+                      <p:breadCrumb>
+                            <p:menuitem value="Home" url="#{request.contextPath}/index"/>
+                            <p:menuitem value="Dashboard" url="#{request.contextPath}/AsstAdmin/dashboard.xhtml"/>
+                            <p:menuitem value="Reported Via List" styleClass="ui-selectonemenu"
+                                        url="#{request.contextPath}/AsstAdmin/HelpDesk/hDeskReportedViaList.xhtml"/>
+                            <p:menuitem value="Reported Via Insert"
+                                        url="#{request.contextPath}/AsstAdmin/HelpDesk/hDeskReportedViaInsert.xhtml"/>
+                        </p:breadCrumb>
+                    </div>
+                </div>
+            </div>
+        </h:form>
+
+        <div class="p-col-12 p-lg-12">
+            <div class="card inventory">
+                <h:form id="form">
+                    <p:growl id="msgs" showDetail="true"/>
+                    <p:dataTable var="hDeskReportedVia" value="#{hDeskReportedViaListView.HDeskReportedViaList}" selectionMode="single" reflow="true" editable="true"
+                                 paginatorPosition="bottom" selection="#{hDeskReportedViaListView.selectedHDeskReportedVia}"
+                                 rowKey="#{hDeskReportedVia.reportedVia}" styleClass="ui-datatable-borderless"
+                                 paginator="true" rows="5" widgetVar="hDeskReportedViaTable" filteredValue="#{hDeskReportedViaListView.filteredHDeskReportedViaList}">
+
+                        <p:ajax event="rowEdit" listener="#{hDeskReportedViaListView.onRowEdit}" update=":form:msgs" />
+                        <p:ajax event="rowEditCancel" listener="#{hDeskReportedViaListView.onRowCancel}" update=":form:msgs" />
+
+                        <f:facet name="header">
+                            <h1>Inventory</h1>
+                            <p:outputPanel>
+                                <h:outputText value="Search all fields:" />
+                                <p:inputText id="globalFilter" onkeypress="PF('hDeskReportedViaTable').filter();if (event.keyCode == 13) { return false; }" placeholder="Arama" />
+                            </p:outputPanel>
+                        </f:facet>
+
+
+                        <p:column headerText="ReportedVia Id" sortBy="#{hDeskReportedVia.reportedViaId}" filterBy="#{hDeskReportedVia.reportedViaId}">
+                            <h:outputText value="#{hDeskReportedVia.reportedViaId}" />
+                        </p:column>
+
+                        <p:column headerText="ReportedVia" sortBy="#{hDeskReportedVia.reportedVia}" filterBy="#{hDeskReportedVia.reportedVia}">
+                            <p:cellEditor>
+                                <f:facet name="output"><h:outputText value="#{hDeskReportedVia.reportedVia}" /></f:facet>
+                                <f:facet name="input"><p:inputText id="reportedVia" value="#{hDeskReportedVia.reportedVia}" style="width:100%"/></f:facet>
+                            </p:cellEditor>
+                        </p:column>
+
+                        <p:column headerText="Description" sortBy="#{hDeskReportedVia.description}" filterBy="#{hDeskReportedVia.description}">
+                            <p:cellEditor>
+                                <f:facet name="output"><h:outputText value="#{hDeskReportedVia.description}" /></f:facet>
+                                <f:facet name="input"><p:inputText id="description" value="#{hDeskReportedVia.description}" style="width:100%"/></f:facet>
+                            </p:cellEditor>
+                        </p:column>
+
+                        <p:column style="width:5px">
+                            <p:rowEditor />
+                        </p:column>
+
+                        <p:column style="width: 8em">
+                            <div class="p-grid">
+                                <div class="p-col-4">
+                                    <p:commandButton icon="pi pi-trash" styleClass="ui-button-warning" action="#{hDeskReportedViaListView.deleteHDeskReportedVia(hDeskReportedVia.reportedVia)}" update="form">
+                                        <p:confirm escape="false" header="Confirmation" message="&lt;br/&gt; Are you sure? &lt;br/&gt; &lt;br/&gt; #{hDeskReportedVia.reportedVia}"
+                                                   icon="fa fa-warning"  />
+                                    </p:commandButton>
+                                </div>
+                            </div>
+                        </p:column>
+
+
+                    </p:dataTable>
+
+                    <p:confirmDialog global="true" showEffect="fade" hideEffect="fade" width="300">
+                        <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="fa fa-check" />
+                        <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="fa fa-close" />
+                    </p:confirmDialog>
+
+                </h:form>
+
+
+            </div>
+        </div>
+
+    </ui:define>
+
+</ui:composition>

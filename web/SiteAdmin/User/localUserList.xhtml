@@ -1,0 +1,306 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/admin_template.xhtml">
+
+    <ui:define name="title">Kullanıcı Listesi</ui:define>
+
+    <ui:define name="content">
+
+        <h:form id="form">
+            <div class="p-grid">
+                <div class="p-col-12">
+                    <div class="card">
+
+                        <p:growl id="messages" showDetail="false"/>
+
+                        <div class="products-buttonbar">
+                            <div>
+                                <p:commandButton value="Yeni Kullanıcı" icon="pi pi-plus"
+                                                 actionListener="#{localUserListView.openNew}"
+                                                 update="manage-localUser-content"
+                                                 oncomplete="PF('manageLocalUserDialog').show()" process="@this"
+                                                 styleClass="success-button" style="margin-right: .5rem"/>
+
+                                <p:commandButton id="delete-localUsers-button"
+                                                 value="#{localUserListView.deleteButtonMessage}" icon="pi pi-trash"
+                                                 actionListener="#{localUserListView.deleteSelectedLocalUsers}"
+                                                 styleClass="danger-button"
+                                                 disabled="#{!localUserListView.hasSelectedLocalUsers()}"
+                                                 update="@this"
+                                                 style="margin-right: .5rem">
+                                    <p:confirm header="Onay" message="Seçili Kullancıyı Sil!"
+                                               icon="pi pi-exclamation-triangle"/>
+                                </p:commandButton>
+
+                            </div>
+                            <div style="float: right">
+                                <p:commandButton value="Dışarı Aktar" icon="pi pi-upload" styleClass="help-button"
+                                                 ajax="false">
+                                    <p:dataExporter type="xlsx" target="localUserList"
+                                                    fileName="kullanici_listesi"/>
+                                </p:commandButton>
+                            </div>
+                        </div>
+
+                        <p:blockUI block="localUserList" trigger="localUserList">
+                            <i class="pi pi-spin pi-spinner" style="font-size: 3rem"></i>
+                        </p:blockUI>
+
+                        <p:dataTable id="localUserList" widgetVar="localUserList" var="localUserVW"
+                                     value="#{localUserListView.lazyLocalUserDataModel}" reflow="true"
+                                     styleClass="products-table"
+                                     selection="#{localUserListView.selectedLocalUsers}"
+                                     rowKey="#{localUserVW.localUserId}" lazy="true"
+                                     rowIndexVar="rowIndexVar"
+                                     rowSelectMode="add" paginatorPosition="both" emptyMessage="Kayıt bulunamadı."
+                                     rows="10"
+                                     paginator="true"
+                                     paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                     currentPageReportTemplate="(Toplam {totalRecords} kaydın {startRecord}-{endRecord} aralığı)"
+                                     rowsPerPageTemplate="10,20,50" >
+
+                            <f:facet name="header">
+                                <div class="products-table-header">
+                                    <span style="font-weight: bold">Kullanıcı Listesi</span>
+
+                                    <span class="filter-container ui-input-icon-left">
+                                        <i class="pi pi-search"></i>
+                                        <p:inputText id="globalFilter" onkeyup="PF('localUserList').filter()"
+                                                     placeholder="Arama"/>
+                                    </span>
+                                </div>
+                            </f:facet>
+
+                            <p:ajax event="rowToggle" listener="#{localUserListView.onRowToggle}"/>
+
+                            <p:ajax event="rowSelect" update=":form:delete-localUsers-button"/>
+
+                            <p:ajax event="rowUnselect" update=":form:delete-localUsers-button"/>
+
+                            <p:ajax event="rowSelectCheckbox" update=":form:delete-localUsers-button"/>
+
+                            <p:ajax event="rowUnselectCheckbox" update=":form:delete-localUsers-button"/>
+
+                            <p:ajax event="toggleSelect" update=":form:delete-localUsers-button"/>
+
+                            <p:column selectionMode="multiple" exportable="false" style="width: 30px"></p:column>
+
+                            <p:column headerText="#" style="width: 50px">
+                                <h:outputText value="#{rowIndexVar + 1}"/>
+                            </p:column>
+
+
+                            <p:column headerText="Ad" sortable="false" field="first_name" exportValue="#{localUserVW.firstName}"
+                                      filterBy="#{localUserVW.firstName}">
+                                <h:outputText value="#{localUserVW.firstName}"/>
+                            </p:column>
+
+                            <p:column headerText="Soyad" sortable="false" field="last_name" exportValue="#{localUserVW.lastName}"
+                                      filterBy="#{localUserVW.lastName}">
+                                <h:outputText value="#{localUserVW.lastName}"/>
+                            </p:column>
+
+                            <p:column headerText="Cinsiyet" sortable="false" style="width: 75px" exportValue="#{localUserVW.gender}" >
+                                <h:outputText value="#{localUserVW.gender}" />
+                            </p:column>
+
+                            <p:column headerText="Kullanıcı Adı" sortable="false"  exportValue="#{localUserVW.username}"
+                                      filterBy="#{localUserVW.username}">
+                                <h:outputText value="#{localUserVW.username}"/>
+                            </p:column>
+
+                            <p:column headerText="Eposta" sortable="false" exportValue="#{localUserVW.email}"
+                                      filterBy="#{localUserVW.email}">
+                                <h:outputText value="#{localUserVW.email}"/>
+                            </p:column>
+
+                            <p:column headerText="Telefon" field="phone_number" sortable="false" exportValue="#{localUserVW.phoneNumber}"
+                                      filterBy="#{localUserVW.phoneNumber}">
+                                <h:outputText value="#{localUserVW.phoneNumber}"/>
+                            </p:column>
+
+                            <p:column headerText="Kullanıcı Rolü"  sortable="false" exportValue="#{localUserVW.role}">
+                                <h:outputText value="#{localUserVW.role}"/>
+                            </p:column>
+
+
+                            <p:column exportable="false">
+                                <p:commandButton icon="pi pi-pencil" update=":form:manage-localUser-content"
+                                                 oncomplete="PF('manageLocalUserDialog').show()"
+                                                 styleClass="edit-button rounded-button success-button" process="@this">
+                                    <f:setPropertyActionListener value="#{localUserVW}"
+                                                                 target="#{localUserListView.selectedLocalUserVW}"/>
+                                </p:commandButton>
+
+                                <p:commandButton class="danger-button rounded-button" icon="pi pi-trash" process="@this" style="margin-left: 5px"
+                                                 oncomplete="PF('deleteLocalUserDialog').show()">
+                                    <f:setPropertyActionListener value="#{localUserVW}"
+                                                                 target="#{localUserListView.selectedLocalUserVW}"/>
+                                </p:commandButton>
+
+                                <p:commandButton icon="pi pi-lock-open" update=":form:manage-password-content"
+                                                 oncomplete="PF('managePasswordDialog').show()"
+                                                 styleClass="edit-button rounded-button info-button" style="margin-left: 5px" process="@this">
+                                    <f:setPropertyActionListener value="#{localUserVW}"
+                                                                 target="#{localUserListView.selectedLocalUserVW}"/>
+                                </p:commandButton>
+
+                            </p:column>
+
+                        </p:dataTable>
+
+                        <!-- Personel Edit Dialog -->
+                        <p:dialog header="Kullanıcı Detayları" width="700" showEffect="fade" modal="true"
+                                  widgetVar="manageLocalUserDialog" responsive="true">
+                            <p:outputPanel id="manage-localUser-content" class="ui-fluid">
+                                <p:outputPanel rendered="#{not empty localUserListView.selectedLocalUserVW}">
+
+
+                                    <p:growl id="msg" showDetail="false" />
+
+                                    <div class="p-formgrid p-grid">
+                                        <div class="p-field p-col">
+                                            <p:outputLabel for="localUsername">Kullanıcı Adı</p:outputLabel>
+                                            <p:inputText id="localUsername" requiredMessage="Kullanıcı adı gereklidir." immediate="true"
+                                                         value="#{localUserListView.selectedLocalUserVW.username}"
+                                                         required="true"/>
+                                        </div>
+                                        <div class="p-field p-col">
+                                            <p:outputLabel for="firstName">Ad</p:outputLabel>
+                                            <p:inputText id="firstName" requiredMessage="Ad gereklidir." immediate="true"
+                                                         value="#{localUserListView.selectedLocalUserVW.firstName}"
+                                                         required="true"/>
+                                        </div>
+
+                                        <div class="p-field p-col">
+                                            <p:outputLabel for="lastName">Soyad</p:outputLabel>
+                                            <p:inputText id="lastName" requiredMessage="Soyad gereklidir." immediate="true"
+                                                         value="#{localUserListView.selectedLocalUserVW.lastName}"
+                                                         required="true"/>
+                                        </div>
+                                    </div>
+
+                                    <div class="p-formgrid p-grid">
+                                        <div class="p-field p-col">
+                                            <p:outputLabel for="genderId">Cinsiyet</p:outputLabel>
+                                            <p:selectOneButton id="genderId" value="#{localUserListView.selectedLocalUserVW.genderId}" >
+                                                <f:selectItem itemLabel="ERKEK" itemValue="1"  />
+                                                <f:selectItem itemLabel="KADIN" itemValue="2" />
+                                            </p:selectOneButton>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="p-formgrid p-grid">
+                                        <h:panelGroup class="p-field p-col">
+                                            <p:outputLabel for="localRoleId">Kullanıcı Rolü</p:outputLabel>
+
+                                            <p:selectOneButton id="localRoleId" value="#{localUserListView.selectedLocalUserVW.localRoleId}"
+                                                               required="true" requiredMessage="Kullanıcı Rolü gereklidir."  immediate="true">
+                                                <f:selectItem  itemLabel="ROLE_SUPER" itemValue="1"   />
+                                                <f:selectItem itemLabel="ROLE_ADMIN" itemValue="2" />
+                                                <f:selectItem itemLabel="ROLE_USER" itemValue="3"   />
+                                            </p:selectOneButton>
+                                        </h:panelGroup>
+
+                                    </div>
+
+                                    <div class="p-formgrid p-grid">
+                                        <div class="p-field p-col">
+                                            <p:outputLabel for="email">Eposta</p:outputLabel>
+                                            <p:inputText id="email"
+                                                         value="#{localUserListView.selectedLocalUserVW.email}" immediate="true"
+                                                         required="true" requiredMessage="Eposta gereklidir."/>
+                                        </div>
+
+                                        <div class="p-field p-col">
+                                            <p:outputLabel for="phoneNumber">Telefon</p:outputLabel>
+                                            <p:inputText id="phoneNumber" requiredMessage="Telefon gereklidir." immediate="true"
+                                                         value="#{localUserListView.selectedLocalUserVW.phoneNumber}"
+                                                         required="true"/>
+                                        </div>
+                                    </div>
+
+                                    <div class="p-formgrid p-grid">
+
+                                        <h:panelGroup class="p-field p-col" rendered="#{localUserListView.selectedLocalUserVW.localUserId == 0}">
+                                            <p:outputLabel  for="password">Şifre</p:outputLabel>
+                                            <p:password id="password" value="#{localUserListView.selectedLocalUserVW.password}" immediate="true" autocomplete="new-password"
+                                                        toggleMask="true" redisplay="true" requiredMessage="Şifre gereklidir."/>
+                                        </h:panelGroup>
+
+                                    </div>
+
+                                </p:outputPanel>
+                            </p:outputPanel>
+
+                            <f:facet name="footer">
+                                <p:commandButton value="Kaydet" icon="pi pi-check"
+                                                 actionListener="#{localUserListView.insertLocalUser()}"
+                                                 update="manage-localUser-content"
+                                                 process="manage-localUser-content @this"/>
+                                <p:commandButton value="İptal et" icon="pi pi-times"
+                                                 onclick="PF('manageLocalUserDialog').hide()"
+                                                 class="secondary-button"/>
+                            </f:facet>
+                        </p:dialog>
+
+
+                        <!-- Password Edit Dialog -->
+                        <p:dialog header="Kullanıcı Şifre Yenileme" width="450" showEffect="fade" modal="true" widgetVar="managePasswordDialog" responsive="true">
+                            <p:outputPanel id="manage-password-content" class="ui-fluid">
+                                <p:outputPanel rendered="#{not empty localUserListView.selectedLocalUserVW}">
+
+                                    <div class="p-formgrid p-grid">
+                                        <div class="p-field p-col">
+                                            <h:outputText value="#{localUserListView.selectedLocalUserVW.firstName} #{localUserListView.selectedLocalUserVW.lastName}" />
+                                        </div>
+                                    </div>
+
+                                    <div class="p-formgrid p-grid">
+                                        <div class="p-field p-col">
+                                            <p:outputLabel for="toggle">Şifre</p:outputLabel>
+                                            <p:inputText type="password" id="toggle"  toggleMask="true"
+                                                         redisplay="true" value="#{localUserListView.selectedLocalUserVW.newPassword}" />
+                                        </div>
+                                    </div>
+
+                                </p:outputPanel>
+                            </p:outputPanel>
+
+                            <f:facet name="footer">
+                                <p:commandButton value="Kaydet" icon="pi pi-check" actionListener="#{localUserListView.updateLocalUserPassword()}" update="manage-password-content"
+                                                 process="manage-password-content @this" />
+                                <p:commandButton value="İptal et" icon="pi pi-times" onclick="PF('managePasswordDialog').hide()" class="secondary-button" />
+                            </f:facet>
+                        </p:dialog>
+
+
+
+                        <p:confirmDialog widgetVar="deleteLocalUserDialog" showEffect="fade" width="300"
+                                         message="Seçili Kullanıcıyı sil?" header="Onay" severity="warn">
+                            <p:commandButton value="Evet" icon="pi pi-check"
+                                             actionListener="#{localUserListView.deleteSelectedLocalUsers}"
+                                             process="@this" oncomplete="PF('deleteLocalUserDialog').hide()"/>
+                            <p:commandButton value="Hayır" type="button" styleClass="secondary-button"
+                                             icon="pi pi-times" onclick="PF('deleteLocalUserDialog').hide()"/>
+                        </p:confirmDialog>
+
+                        <p:confirmDialog global="true" showEffect="fade" width="300">
+                            <p:commandButton value="Evet" type="button" styleClass="ui-confirmdialog-yes"
+                                             icon="pi pi-check"/>
+                            <p:commandButton value="Hayır" type="button"
+                                             styleClass="ui-confirmdialog-no secondary-button" icon="pi pi-times"/>
+                        </p:confirmDialog>
+                    </div>
+                </div>
+            </div>
+        </h:form>
+
+
+    </ui:define>
+
+</ui:composition>

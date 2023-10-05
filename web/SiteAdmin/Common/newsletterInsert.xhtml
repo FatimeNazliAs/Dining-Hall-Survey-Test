@@ -1,0 +1,58 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/admin_template.xhtml">
+
+    <ui:define name="head">
+
+    </ui:define>
+
+    <ui:define name="title">Haber Bülteni Alıcı Ekleme</ui:define>
+
+    <ui:define name="content">
+
+
+        <h:form id="form">
+
+            <p:growl id="msgs" showDetail="false"/>
+
+
+            <div class="p-grid">
+                <div class="p-col-12">
+                    <div class="card">
+                        <h5>Haber Bülteni Alıcı Ekleme</h5>
+                        <div class="ui-fluid p-formgrid p-grid">
+                            <div class="p-field p-col-12 p-md-6">
+                                <p:outputLabel value="Eposta"/>
+
+                                <p:inputText placeholder="Eposta Adresiniz giriniz..."
+                                             value="#{newsletterInsertView.email}"
+                                             required="true" requiredMessage="Eposta adresi boş bırakılamaz.">
+                                    <f:validateRegex
+                                            pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$"/>
+                                </p:inputText>
+                            </div>
+
+                            <div class="p-field p-col-12 p-md-6"></div>
+                            <div class="p-field p-col-12 p-md-6">
+                                <p:commandButton value="Kaydet" action="#{newsletterInsertView.insertNewsletter}"
+                                                 update="msgs"/>
+                            </div>
+
+                            <div class="p-field p-col-12 p-md-6">
+                                <p:commandButton type="reset" value="Temizle" styleClass="info-btn"/>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </h:form>
+
+
+    </ui:define>
+
+</ui:composition>

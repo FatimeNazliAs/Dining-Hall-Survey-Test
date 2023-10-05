@@ -1,0 +1,98 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/admin_template.xhtml">
+
+    <ui:define name="title">HDeskImpact List</ui:define>
+
+    <ui:define name="content">
+        <h:form>
+            <div class="p-grid ui-fluid">
+                <div class="p-col-12">
+                    <div class="card">
+                        <p:breadCrumb>
+                            <p:menuitem value="Home" url="#{request.contextPath}/index"/>
+                            <p:menuitem value="Dashboard" url="#{request.contextPath}/AsstAdmin/dashboard.xhtml"/>
+                            <p:menuitem value="Impact List" styleClass="ui-selectonemenu"
+                                        url="#{request.contextPath}/AsstAdmin/HelpDesk/hDeskImpactList.xhtml"/>
+                            <p:menuitem value="Impact Insert"
+                                        url="#{request.contextPath}/AsstAdmin/HelpDesk/hDeskImpactInsert.xhtml"/>
+                        </p:breadCrumb>
+                    </div>
+                </div>
+            </div>
+        </h:form>
+
+        <div class="p-col-12 p-lg-12">
+            <div class="card inventory">
+                <h:form id="form">
+                    <p:growl id="msgs" showDetail="true"/>
+                    <p:dataTable var="hDeskImpact" value="#{hDeskImpactListView.HDeskImpactList}" selectionMode="single" reflow="true" editable="true"
+                                 paginatorPosition="bottom" selection="#{hDeskImpactListView.selectedHDeskImpact}"
+                                 rowKey="#{hDeskImpact.impact}" styleClass="ui-datatable-borderless"
+                                 paginator="true" rows="5" widgetVar="hDeskImpactTable" filteredValue="#{hDeskImpactListView.filteredHDeskImpactList}">
+
+                        <p:ajax event="rowEdit" listener="#{hDeskImpactListView.onRowEdit}" update=":form:msgs" />
+                        <p:ajax event="rowEditCancel" listener="#{hDeskImpactListView.onRowCancel}" update=":form:msgs" />
+
+                        <f:facet name="header">
+                            <h1>Inventory</h1>
+                            <p:outputPanel>
+                                <h:outputText value="Search all fields:" />
+                                <p:inputText id="globalFilter" onkeypress="PF('hDeskImpactTable').filter();if (event.keyCode == 13) { return false; }" placeholder="Arama" />
+                            </p:outputPanel>
+                        </f:facet>
+
+
+                        <p:column headerText="Impact Id" sortBy="#{hDeskImpact.impactId}" filterBy="#{hDeskImpact.impactId}">
+                            <h:outputText value="#{hDeskImpact.impactId}" />
+                        </p:column>
+
+                        <p:column headerText="Impact" sortBy="#{hDeskImpact.impact}" filterBy="#{hDeskImpact.impact}">
+                            <p:cellEditor>
+                                <f:facet name="output"><h:outputText value="#{hDeskImpact.impact}" /></f:facet>
+                                <f:facet name="input"><p:inputText id="impact" value="#{hDeskImpact.impact}" style="width:100%"/></f:facet>
+                            </p:cellEditor>
+                        </p:column>
+
+                        <p:column headerText="Description" sortBy="#{hDeskImpact.description}" filterBy="#{hDeskImpact.description}">
+                            <p:cellEditor>
+                                <f:facet name="output"><h:outputText value="#{hDeskImpact.description}" /></f:facet>
+                                <f:facet name="input"><p:inputText id="description" value="#{hDeskImpact.description}" style="width:100%"/></f:facet>
+                            </p:cellEditor>
+                        </p:column>
+
+                        <p:column style="width:5px">
+                            <p:rowEditor />
+                        </p:column>
+
+                        <p:column style="width: 8em">
+                            <div class="p-grid">
+                                <div class="p-col-4">
+                                    <p:commandButton icon="pi pi-trash" styleClass="ui-button-warning" action="#{hDeskImpactListView.deleteHDeskImpact(hDeskImpact.impactId)}" update="form">
+                                        <p:confirm escape="false" header="Confirmation" message="&lt;br/&gt; Are you sure? &lt;br/&gt; &lt;br/&gt; #{hDeskImpact.impact}"
+                                                   icon="fa fa-warning"  />
+                                    </p:commandButton>
+                                </div>
+                            </div>
+                        </p:column>
+
+
+                    </p:dataTable>
+
+                    <p:confirmDialog global="true" showEffect="fade" hideEffect="fade" width="300">
+                        <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="fa fa-check" />
+                        <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="fa fa-close" />
+                    </p:confirmDialog>
+
+                </h:form>
+
+
+            </div>
+        </div>
+
+    </ui:define>
+
+</ui:composition>

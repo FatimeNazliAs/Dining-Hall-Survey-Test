@@ -17,7 +17,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class FoodListViewTest {
 
 
-
     @Nested
     @TestInstance(TestInstance.Lifecycle.PER_CLASS)
     class DownloadAndImportExcelFile {
@@ -32,6 +31,12 @@ public class FoodListViewTest {
         void setUp() {
 
             this.desktopPath = System.getProperty("user.home") + "\\Desktop\\";
+            this.excelFilePath = excelFilePath;
+        }
+
+        public void setExcelFilePathAndCreateFile(String fileName) {
+            this.excelFilePath = desktopPath + fileName;
+            this.file = new File(excelFilePath);
         }
 
         @Test
@@ -54,57 +59,19 @@ public class FoodListViewTest {
 
             }
 
-            this.excelFilePath = desktopPath + "sample.xlsx";
-            this.file = new File(excelFilePath);
+            setExcelFilePathAndCreateFile("sample.xlsx");
             assertTrue(this.file.exists());
-
-
-//            FileInputStream stream = new FileInputStream(this.file);
-//            Workbook workbook = WorkbookFactory.create(stream);
-//            Sheet sheet = workbook.getSheetAt(0);
-//
-//            int startRow =5;
-//
-//            boolean isEmpty = true;
-//
-//            for (int i = startRow; i <= sheet.getLastRowNum(); i++) {
-//                Row row = sheet.getRow(i);
-//                if (row != null) {
-//                    for (Cell cell : row) {
-//                        if (cell.getCellType() != CellType.BLANK) {
-//                            System.out.println(String.valueOf(cell.getRowIndex()) +" "+
-//                                    cell.getStringCellValue());
-//                            isEmpty = false;
-//                            break;
-//                        }
-//                    }
-//                }
-//                if (!isEmpty) {
-//                    break;
-//                }
-//            }
-//
-//            if (isEmpty) {
-//                System.out.println("3. satırdan itibaren tüm satırlar boş.");
-//            } else {
-//                System.out.println("3. satırdan itibaren en az bir satır dolu.");
-//            }
-//
-//            workbook.close();
-//            stream.close();
-
 
         }
 
 
         @Test
-        @Tag("handleFileUpload")
         @DisplayName("excel is correct, " +
                 "yemekler_template will be imported")
+        @Tag("handleFileUpload")
         void whenPushIceriAktarButtonTemplateWillBeImported() throws FileNotFoundException {
 
-            this.excelFilePath = desktopPath + "correctSample.xlsx";
-            this.file = new File(excelFilePath);
+            setExcelFilePathAndCreateFile("correctSample.xlsx");
             InputStream stream = new FileInputStream(this.file);
 
 
@@ -124,13 +91,12 @@ public class FoodListViewTest {
         }
 
         @Test
-        @Tag("handleFileUpload")
         @DisplayName("excel is empty," +
                 " yemekler_template wont be imported")
+        @Tag("handleFileUpload")
         void whenPushIceriAktarButtonTemplateWontBeImported() throws FileNotFoundException {
 
-            this.excelFilePath = desktopPath + "emptySample.xlsx";
-            this.file = new File(excelFilePath);
+            setExcelFilePathAndCreateFile("emptySample.xlsx");
 
             InputStream stream = new FileInputStream(this.file);
             System.out.println(this.file.getName());
@@ -151,21 +117,28 @@ public class FoodListViewTest {
     class ExportExcelFile {
 
         private String desktopPath;
+        private File file;
+
+        private String excelFilePath;
+
+        private String fileName;
 
 
         Map<String, SortMeta> sortMap;
         Map<String, FilterMeta> filterMetaMap;
 
+
         @BeforeAll
         void setUp() {
 
             this.desktopPath = System.getProperty("user.home") + "\\Desktop\\";
+            this.excelFilePath = excelFilePath;
         }
 
         @Test
-        void whenPushDisariAktarButtonYemeklerTemplateWillBeExported() {
+        void whenPushDisariAktarButtonYemeklerTemplateWillBeExported() throws FileNotFoundException {
 
-            List<FoodVW>  list = new LazyService().
+            List<FoodVW> list = new LazyService().
                     FilterOperation
                             (null, new FoodVW(), 0,
                                     1000, sortMap, filterMetaMap,
@@ -197,7 +170,24 @@ public class FoodListViewTest {
             File file = new File(excelFilePath);
             System.out.println(file);
             assertTrue(file.exists());
-            assertTrue(file.length()>=0);
+            readExcelFile(file);
+
+
+        }
+
+        private void readExcelFile(File file) throws FileNotFoundException {
+           InputStream stream = new FileInputStream(file);
+
+
+            var excelList = new ExcelFood().importExcel(stream, "FoodTemplate");
+            assertTrue(!excelList.getDataList().isEmpty());
+
+            for (var out : excelList.getDataList()) {
+                System.out.println("Calori Value: " + out.get("calori").getValue());
+                System.out.println("Category Value: " + out.get("category").getValue());
+                System.out.println("Title Value: " + out.get("title").getValue());
+            }
+
 
 
         }

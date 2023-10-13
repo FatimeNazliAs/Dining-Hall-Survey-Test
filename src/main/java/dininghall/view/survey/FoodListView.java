@@ -160,23 +160,49 @@ public class FoodListView implements Serializable {
         Locale.setDefault(turkishLocale);
 
         Food food = new Food();
+
         food.setFoodId(selectedFood.getFoodId());
         food.setFoodCategoryId(selectedFood.getFoodCategoryId());
         food.setTitle(selectedFood.getTitle());
         food.setCalori(selectedFood.getCalori());
         food.setDesription(selectedFood.getDesription());
+
         if (this.inputStream != null) {
             String imageUrl = uploadImage(food.getTitle().toLowerCase(turkishLocale) + ".png");
             if (imageUrl.length() > 0)
                 food.setImageUrl(imageUrl);
         }
-        food.setTitle(food.getTitle().toUpperCase(turkishLocale));
 
-        if (food.getCalori() < 1) {
-            addMessage("Kalori Geçersiz Girildi!", food.getCalori() + " Girdiniz(Geçersiz)" + "", FacesMessage.SEVERITY_ERROR);
+    //boşluk silme
+        String title = food.getTitle().trim();
+        food.setTitle(title);
 
+
+        if (food.getTitle().length() < 2 || food.getTitle().length()>100) {
+            addMessage("Yemek Adı 2 karakterden daha az, 100 karakterden daha fazla olamaz!",
+                    food.getTitle() +
+                    " Girdiniz(Geçersiz)" + "", FacesMessage.SEVERITY_ERROR);
+
+
+        }
+
+        if (!food.getTitle().matches("^[a-zA-Z0-9çğıiıöşüÇĞİIÖŞÜ ]*$")) {
+            addMessage("Yemek Adı özel karakterler içeremez!", food.getTitle() +
+                    " Girdiniz(Geçersiz)" + "", FacesMessage.SEVERITY_ERROR);
             return;
         }
+
+
+
+        food.setTitle(food.getTitle().toUpperCase(turkishLocale));
+
+        if (food.getCalori() < 10 || food.getCalori() > 1000) {
+            addMessage("Kalori Geçersiz Girildi!", food.getCalori() +
+                    " Girdiniz(Geçersiz)" + "", FacesMessage.SEVERITY_ERROR);
+            return;
+        }
+
+
         if (food.getFoodId() > 0) {
             if (new DbManager(food).Update()) {
                 addMessage("Güncelleme Başarılı", food.getFoodId() + "", FacesMessage.SEVERITY_INFO);
@@ -198,6 +224,13 @@ public class FoodListView implements Serializable {
             }
         }
     }
+
+    //Yapıldı
+    // TODO: 10.10.2023 Kalem simgesine basılıp yemek bilgisi güncellenmek
+    //  istendiğinde yemek adı 100 harften az olmalı ya da kalori 1000 kaloriden fazla olmamalı gibi bir kısıtlama olmalı
+
+//Yapıldı
+    // TODO: 13.10.2023 Kalem ile düzenleme yaparken herhangi bir inputa özel karakter girilememeli!
 
     public void deleteFood() {
         new DbManager(selectedFood).Delete();

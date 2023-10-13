@@ -106,7 +106,7 @@ public class ExcelLanguageReader implements Serializable {
                     if (clazz == null)
                         continue;
                     if (!className.equalsIgnoreCase(clazz_name)) {
-                        errorModels.add(new ExcelReadOut("Farklı bir excel verisi girdiniz girdiğiniz veri " + clazz.getSimpleName() + "\'e ait", -1));
+                        errorModels.add(new ExcelReadOut("\n Farklı bir excel verisi girdiniz girdiğiniz veri " + clazz.getSimpleName() + "\'e ait", -1));
                         ExcelOutData data = new ExcelOutData();
                         data.setErrors(errorModels);
                         data.setUpdate(new ArrayList<>());
@@ -187,7 +187,7 @@ public class ExcelLanguageReader implements Serializable {
                                 continue;
 
                             } else {
-                                errorModels.add(new ExcelReadOut("uyumsuz veri Satır:" + cell.getRowIndex() + " Sütun: " + cell.getColumnIndex(), model.getRowNumber()));
+                                errorModels.add(new ExcelReadOut("Uyumsuz Veri Satır:" + cell.getRowIndex() + " Sütun: " + cell.getColumnIndex(), model.getRowNumber()));
                                 error = true;
                                 continue;
                             }
@@ -267,7 +267,13 @@ public class ExcelLanguageReader implements Serializable {
             throw new RuntimeException(e);
         }
         if (!succes) {
-            errorModels.add(new ExcelReadOut("Uyumsuz Şablon Lütfen Excel Şablon Adını Kontrol Ediniz ! Yada Tekrar Bir Şablon Dışarı Aktarıp İşlem Yapınız!" + clazz_name + "\'e ait", -1));
+            if(clazz_name=="Breakfast")
+                clazz_name="Kahvaltı";
+            else
+                clazz_name="Öğlen";
+
+            errorModels.add(new ExcelReadOut("Uyumsuz Şablon Lütfen Excel Şablonun Hangi Öğüne Ait Olduğunu Kontrol Ediniz! " +
+                    "Bir Daha Şablon Dışarı Aktarıp İşlem Yapınız! " + clazz_name + " \'e ait", -1));
             ExcelOutData data = new ExcelOutData();
             data.setErrors(errorModels);
             data.setUpdate(new ArrayList<>());

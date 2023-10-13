@@ -1,9 +1,7 @@
 import dininghall.asstpackages.ExcelPackage.ExcelFood;
-import dininghall.domain.survey.Food;
 import dininghall.domain.survey.FoodVW;
 import dininghall.domain.survey.exceltemplate.FoodTemplate;
 import dininghall.generic.LazyPack.LazyService;
-import dininghall.generic.Manager.DbManager;
 import org.junit.jupiter.api.*;
 import org.primefaces.model.FilterMeta;
 import org.primefaces.model.SortMeta;
@@ -48,6 +46,8 @@ public class FoodListTest {
             System.out.println("Category Value: " + out.get("category").getValue());
             System.out.println("Title Value: " + out.get("title").getValue());
         }
+
+
     }
 
     @Nested
@@ -96,6 +96,7 @@ public class FoodListTest {
         Map<String, FilterMeta> filterMetaMap;
 
         @Test
+        @DisplayName("when push dışarı aktar button, yemekler_template will be exported")
         void whenPushDisariAktarButtonYemeklerTemplateWillBeExported() throws FileNotFoundException {
             List<FoodVW> list = new LazyService().FilterOperation(
                     null, new FoodVW(), 0, 1000, sortMap, filterMetaMap, "");
@@ -127,27 +128,21 @@ public class FoodListTest {
     }
 
 
-    @Nested
-    class EditExistingFood{
-        @Test
-        @Disabled
-        void whenInfoIsNotEnteredShouldNotSave(){
 
-            Food food = new Food();
 
-            food.setFoodId(1112);
-            food.setFoodCategoryId(3);
-            food.setTitle("naz");
-            food.setCalori(0);
-            food.setDesription("");
-            assertTrue(new DbManager(food).Update());
+
+
+
+
+
+
+
+
+
 
 
 
     }
-        // TODO: 10.10.2023 Kalem simgesine basılıp yemek bilgisi güncellenmek istendiğinde yemek adı 100 harften az olmalı ya da kalori 1000 kaloriden fazla olmamalı
-
-    }
 
 
-}
+

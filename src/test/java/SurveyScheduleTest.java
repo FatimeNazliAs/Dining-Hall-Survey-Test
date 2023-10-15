@@ -3,36 +3,13 @@ import dininghall.asstpackages.ExcelPackage.Models.ExcelOutData;
 import dininghall.domain.survey.SurveyExcel.SurveyExcelManager;
 import dininghall.domain.survey.exceltemplate.Lunch;
 import org.junit.jupiter.api.*;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.text.ParseException;
 import java.util.*;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-public class SurveyScheduleTest {
-
-    private static final String DESKTOP_PATH = System.getProperty("user.home") + "\\Desktop\\";
-    private static final String EXCEL_FILE_PATH = DESKTOP_PATH + "sample.xlsx";
-
-    private File file;
-
-    @BeforeEach
-    void setUp() {
-        file = new File(EXCEL_FILE_PATH);
-    }
-
-    private void setExcelFilePathAndCreateFile(String fileName) {
-
-        file = new File(DESKTOP_PATH + fileName);}
-
-import dininghall.domain.survey.exceltemplate.Lunch;
-import org.junit.jupiter.api.*;
-
-import java.io.File;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -50,7 +27,8 @@ public class SurveyScheduleTest {
 
     private void setExcelFilePathAndCreateFile(String fileName) {
 
-        file = new File(DESKTOP_PATH + fileName);}
+        file = new File(DESKTOP_PATH + fileName);
+    }
 
     private void exportExcel(List<Lunch> exportList) {
         try {
@@ -63,7 +41,7 @@ public class SurveyScheduleTest {
 
     private void importAndPrintExcel(InputStream stream) throws ParseException {
         Map<Integer, ExcelOutData> excelOutDataMap = new HashMap<>();
-        excelOutDataMap = new SurveyExcelManager().Import(stream, "Lunch",2);
+        excelOutDataMap = new SurveyExcelManager().Import(stream, "Lunch", 2);
 
         System.out.println(excelOutDataMap.get(2).getDataList());
         for (var out : excelOutDataMap.get(2).getDataList()) {
@@ -78,38 +56,37 @@ public class SurveyScheduleTest {
         }
 
 
-
-
     }
 
 
     @Nested
-    class DownloadAndImportExcelFile{
-       @Test
+    class DownloadAndImportExcelFile {
+        @Test
         @DisplayName("When you push şablonu indir button, yemekler template will be downloaded")
-        @Tag("export")
-        void whenPushSablonuIndirButtonTemplateWillBeDownloaded()  {
+        @Tag("sabloneExport")
+        void whenPushSablonuIndirButtonTemplateWillBeDownloaded() {
 
             List<Lunch> lunchTemplate = new ArrayList<>();
 
-            if (lunchTemplate.isEmpty()){
-               lunchTemplate.add(new Lunch(new Date(),
-                        "YAYLA ÇORBA", "KABAK",
-                       "PEYNİRLİ KUSKUS", "REVANİ ",
-                        "MEVSİM SALATA", "KOLA",
-                       "YAYLA ÇORBA", "MEVSİM SALATA",
-                      2));
+            if (lunchTemplate.isEmpty()) {
+                lunchTemplate.add(new Lunch(new Date(),
+                        "YAYLA ÇORBA", "KABAK SANDAL SEFASI",
+                        "PEYNİRLİ TEPSİ BÖREĞİ", "AŞURE",
+                        "YOĞURTLU SEMİZOTU", "YOĞURT",
+                        "YAYLA ÇORBA", "YOĞURTLU SEMİZOTU",
+                        2));
             }
 
             exportExcel(lunchTemplate);
             assertTrue(file.exists());
-      }
+        }
 
 
         @Test
         @DisplayName("excel is correct, yemekler_template will be imported")
         @Tag("handleFileUpload")
-        void whenPushIceriAktarButtonTemplateWillBeImported() throws FileNotFoundException, ParseException {
+        void whenPushIceriAktarButtonTemplateWillBeImported() throws
+                FileNotFoundException, ParseException {
             setExcelFilePathAndCreateFile("sample.xlsx");
             InputStream stream = new FileInputStream(file);
             importAndPrintExcel(stream);
@@ -118,68 +95,36 @@ public class SurveyScheduleTest {
     }
 
 
-@Nested
-    class DownloadAndImportExcelFile{
-
-
-
-    @Test
-    @DisplayName("When you push şablonu indir button, yemekler template will be downloaded")
-    @Tag("export")
-    void whenPushSablonuIndirButtonTemplateWillBeDownloaded()  {
-
-        List<Lunch> lunchTemplate = new ArrayList<>();
-
     @Nested
-    class ExportExcelFile{
-        private List<Date> range;
-
-        if (lunchTemplate.isEmpty()){
-            lunchTemplate.add(new Lunch(new Date(),
-                    "EZOGELİN ÇORBA", "KARNIYARIK",
-                    "PİLAV", "AŞURE",
-                    "YOGURT", "AYRAN",
-                    "EZOGELİN ÇORBA", "KARNIYARIK",
-                    1));
-        }
-        exportExcel(lunchTemplate);
-        assertTrue(file.exists());
-
+    class ExportExcelFile {
 
         @Test
         @DisplayName("when push dışarı aktar button, menu_template will be exported")
-        void whenPushDisariAktarButtonMenuTemplateWillBeExported(){
+        void whenPushDisariAktarButtonMenuTemplateWillBeExported() {
 
             Calendar calendar = Calendar.getInstance();
 
-            calendar.set(Calendar.YEAR, 2023); // Specify the year (e.g., 2023)
-            calendar.set(Calendar.MONTH, Calendar.OCTOBER); // October (0-indexed)
-            calendar.set(Calendar.DAY_OF_MONTH, 4);
+            calendar.set(Calendar.YEAR, 2023);
+            calendar.set(Calendar.MONTH, Calendar.OCTOBER);
+            calendar.set(Calendar.DAY_OF_MONTH, 15);
             Date startDate = calendar.getTime();
 
-            calendar.set(Calendar.DAY_OF_MONTH, 8);
+            calendar.set(Calendar.DAY_OF_MONTH,30);
             Date endDate = calendar.getTime();
+            List<Lunch> templates = new ArrayList<>();
 
-
-
-            new SurveyExcelManager().Export(startDate,endDate,2);
-
-    }
-
-
-
-}
+            new SurveyExcelManager().
+                    Export(startDate, endDate, 2);
 
 
 
         }
 
+
     }
 
 
-
-
-
-
-
 }
+
+
+

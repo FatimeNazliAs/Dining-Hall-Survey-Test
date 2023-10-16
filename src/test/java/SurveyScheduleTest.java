@@ -48,11 +48,12 @@ public class SurveyScheduleTest {
             System.out.println("Corba: " + out.get("corba").getValue());
             System.out.println("ANA Kategori: " + out.get("ana").getValue());
             System.out.println("ARA Kategori: " + out.get("ara").getValue());
-            System.out.println("TATLI Kategori: " + out.get("tatli").getValue());
+           System.out.println("TATLI Kategori: " + out.get("tatli").getValue());
             System.out.println("ICECEK Kategori: " + out.get("icecek").getValue());
-            System.out.println("MEZE Kategori: " + out.get("salata").getValue());
-            System.out.println("EK-1 Kategori: " + out.get("plus").getValue());
-            System.out.println("EK-2 Kategori: " + out.get("plustwo").getValue());
+            System.out.println("-------------------------------------");
+//            System.out.println("MEZE Kategori: " + out.get("salata").getValue());
+//            System.out.println("EK-1 Kategori: " + out.get("plus").getValue());
+//            System.out.println("EK-2 Kategori: " + out.get("plustwo").getValue());
         }
 
 
@@ -100,21 +101,34 @@ public class SurveyScheduleTest {
 
         @Test
         @DisplayName("when push dışarı aktar button, menu_template will be exported")
-        void whenPushDisariAktarButtonMenuTemplateWillBeExported() {
+        @Tag("export")
+        void whenPushDisariAktarButtonMenuTemplateWillBeExported() throws
+                FileNotFoundException, ParseException {
 
             Calendar calendar = Calendar.getInstance();
 
             calendar.set(Calendar.YEAR, 2023);
             calendar.set(Calendar.MONTH, Calendar.OCTOBER);
-            calendar.set(Calendar.DAY_OF_MONTH, 15);
+            calendar.set(Calendar.DAY_OF_MONTH, 1);
             Date startDate = calendar.getTime();
 
-            calendar.set(Calendar.DAY_OF_MONTH,30);
+            calendar.set(Calendar.DAY_OF_MONTH,3);
             Date endDate = calendar.getTime();
             List<Lunch> templates = new ArrayList<>();
 
-            new SurveyExcelManager().
-                    Export(startDate, endDate, 2);
+
+            try{
+                new SurveyExcelManager().
+                        Export(startDate, endDate, 2);
+            }
+            catch (Exception e){
+
+            }
+            assertTrue(file.exists());
+            InputStream stream = new FileInputStream(file);
+            importAndPrintExcel(stream);
+
+
 
 
 

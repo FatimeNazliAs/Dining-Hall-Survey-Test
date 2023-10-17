@@ -9,7 +9,8 @@ On the administrative front, HR personnel have access to tools for uploading mea
 Our system is committed to continuous development and improvement, contributing to elevated dining experiences and efficient meal management.
 
 
-There are methods that need to be tested on each page. An Excel file has been prepared to show how these methods react after testing.
-[If you want to review it, you can download it.]
+There are methods that need to be tested on each page. An Excel file has been prepared to show how these methods react after testing. If you want to review it, you can download it.
+
+
 (https://github.com/FatimeNazliAs/Dining-Hall-Survey-Test/blob/main/DiningHallSurveyTestScenarios.xlsx)
  

@@ -73,9 +73,9 @@ public class MealSurveyTest {
 
         for (var item : modelList) {
             SurveyItem surveyItem = new SurveyItem();
-            surveyItem.setRating(3);
+            surveyItem.setRating(5);
             surveyItem.setSurveyId(id);
-            surveyItem.setAnswer("güzel");
+            surveyItem.setAnswer("harika");
             surveyItem.setDayOfMenuId(item.getModel().getDayOfMenuId());
             items.add(surveyItem);
         }
@@ -86,6 +86,7 @@ public class MealSurveyTest {
             System.out.println(res);
 
         }
+
 
 
     }

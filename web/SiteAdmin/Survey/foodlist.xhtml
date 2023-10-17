@@ -164,7 +164,8 @@
                                               process="@this" update="messages dialogs:showImage"
                                               listener="#{foodListView.handleFileUpload2}"
                                               fileLimit="1" fileLimitMessage="Yalnızca bir dosya yükleyebilirsiniz."
-                                           invalidFileMessage="Resim Seçiniz" invalidSizeMessage="Boyut Çok Fazla"   allowTypes="/(\.|\/)(gif|jpe?g|png)$/" />
+                                           invalidFileMessage="Resim Seçiniz" invalidSizeMessage="Boyut Çok Fazla"
+                                              allowTypes="/(\.|\/)(gif|jpe?g|png)$/" />
 
                             </div>
 
@@ -187,6 +188,7 @@
                     <p:commandButton value="Kaydet" icon="pi pi-check" action="#{foodListView.saveFood()}"
                                      update="manage-food-content form" oncomplete="PF('newFoodDialog').hide()"
                                      process="manage-food-content @this"/>
+
                     <p:commandButton value="İptal" icon="pi pi-times" onclick="PF('newFoodDialog').hide()"
                                      class="ui-button-secondary" type="button"/>
                 </f:facet></p:dialog>
